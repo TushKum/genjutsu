@@ -1,5 +1,15 @@
-# GENJUTSU
-An interactive spatial pitch deck about Japanese pop culture in India.
+# OTSUKAI · GENJUTSU prototype
+Indian fandom. Japanese creators. A direct revenue connection.
+
+A live prototype for JETRO-PS-02 (converting Japanese pop-culture fandom in India into sustainable revenue). Four 3D artifacts open the four stages of the brief; each chapter is a working demo, and all of them write to one shared royalty ledger:
+
+1. **Audience discovery:** AI Demand Radar ranks title × city demand (search interest, community size, fan requests) with confidence levels. Simulated fan requests re-rank cities live.
+2. **Localization & distribution:** official manga reader in English, Hindi, Tamil and Telugu with a ₹20 UPI sandbox unlock (order → collect request → settlement → unlock; 80% studio / 20% platform).
+3. **Monetization & merch:** product passport scanner. OT-001/OT-002 verify with the 55/30/15 split of a ₹699 sale, OT-013 is flagged as a cloned tag, unknown serials can be reported as counterfeit.
+4. **Community retention:** studio dashboard (royalties, units, unlocks, registration rate, counterfeit reports, ledger by city) and fan loyalty tiers. Inner-circle votes feed back into the Demand Radar.
+5. **Pilot & the ask:** 18-month roadmap, pilot metrics and the three introductions needed.
+
+Titles are fictional and all data is labelled sample data. Payments are a sandbox; nothing is charged. Market figures (40M+ fans, ₹3K–₹15K imports, 92% bootleg share) are brief-supplied estimates pending validation.
 
 ## Run
 npm install
@@ -9,12 +19,12 @@ npm run dev
 npm run build
 
 ## Deploy (Vercel)
-Import the repo at vercel.com/new — `vercel.json` sets the Vite preset, `dist` output and long-lived caching for hashed assets. Or from a terminal: `npx vercel` (preview) / `npx vercel --prod`.
+Import the repo at vercel.com/new. `vercel.json` sets the Vite preset, `dist` output and long-lived caching for hashed assets. Or from a terminal: `npx vercel` (preview) / `npx vercel --prod`.
 
-The 3D scene (`src/Stage.jsx`) is lazy-loaded so the hero, chapters and navigation are usable while it streams in. Shared state and chapter copy live in `src/store.js`.
+## Navigate
+Click an artifact or a chapter number. ← → move between chapters, Esc closes. Chapters deep-link as `#01`–`#05`. The ledger total in the footer opens the dashboard. Drag the kunai to a screen edge for the glitch.
 
-React 19, React Three Fiber, Drei, Rapier, React Three Postprocessing, Framer Motion and Zustand. All 3D models are procedural; no paid assets or API keys are required. Google Fonts require network access and fall back to system fonts.
+## Structure
+`src/main.jsx` app shell and chapters · `src/demos.jsx` the five working demos · `src/store.js` shared state and chapter copy · `src/data.js` sample data and the scoring/split logic · `src/Stage.jsx` the lazy-loaded React Three Fiber scene (rendering pauses while a chapter is open; resolution adapts to frame rate).
 
-The business model is a pitch concept. Collectible drops are local simulations and do not process payments. Audio is synthesized and opt-in.
-
-Click artifacts or use the chapter buttons. Drag and release the kunai near a screen edge to trigger distortion. Drag on the fabric to erase it, or use the accessible reveal button. Escape closes chapters and the guide. Reset restores object positions.
+React 19, React Three Fiber, Drei, Rapier, React Three Postprocessing, Framer Motion and Zustand. All 3D models are procedural; no paid assets or API keys are required. Audio is synthesized and opt-in.
