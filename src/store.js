@@ -2,9 +2,14 @@ import{create}from'zustand';
 import{seedSignals,seedLedger,titleName}from'./data.js';
 const demo=()=>({signals:seedSignals(),ledger:seedLedger(),points:0,home:'del',unlocked:{},registered:[],voted:false});
 let uid=0;
-// Deep links (#01–#05) open a chapter directly, e.g. when a judge follows a link from the deck.
-const linked=(()=>{const m=typeof location!=='undefined'&&location.hash.match(/^#0?([1-5])$/);return m?+m[1]-1:null})();
-export const useStore=create(set=>({active:linked,ready:false,setReady:()=>set({ready:true}),visited:linked===null?[]:[linked],fire:false,glitch:false,open:i=>set(s=>({active:i,visited:[...new Set([...s.visited,i])]})),close:()=>set({active:null}),setFire:fire=>set({fire}),flash:()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;set({glitch:true});setTimeout(()=>set({glitch:false}),650)},
+// Each chapter is its own page (/discover … /pilot). The path is the source of truth; older #01–#05 links still resolve.
+export const slugs=['discover','localize','monetize','retain','pilot'];
+export const pathFor=i=>i===null?'/':'/'+slugs[i];
+const fromLocation=()=>{const h=location.hash.match(/^#0?([1-5])$/);if(h)return +h[1]-1;const i=slugs.indexOf(location.pathname.replace(/^\/+|\/+$/g,''));return i<0?null:i};
+const linked=fromLocation();
+if(location.hash&&linked!==null)history.replaceState(null,'',pathFor(linked));
+const go=i=>{if(location.pathname!==pathFor(i))history.pushState(null,'',pathFor(i))};
+export const useStore=create(set=>({active:linked,ready:false,setReady:()=>set({ready:true}),visited:linked===null?[]:[linked],fire:false,glitch:false,open:i=>{go(i);set(s=>({active:i,visited:[...new Set([...s.visited,i])]}))},close:()=>{go(null);set({active:null})},sync:()=>{const i=fromLocation();set(s=>({active:i,visited:i===null?s.visited:[...new Set([...s.visited,i])]}))},setFire:fire=>set({fire}),flash:()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;set({glitch:true});setTimeout(()=>set({glitch:false}),650)},
 ...demo(),
 setHome:home=>set({home}),
 record:e=>set(s=>({ledger:[{id:'e'+uid++,t:Date.now(),gross:0,creator:0,...e},...s.ledger]})),
