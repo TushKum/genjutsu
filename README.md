@@ -8,6 +8,9 @@ npm run dev
 ## Build
 npm run build
 
+## Deploy (Vercel)
+Import the repo at vercel.com/new — `vercel.json` sets the Vite preset, `dist` output and long-lived caching for hashed assets. Or from a terminal: `npx vercel` (preview) / `npx vercel --prod`.
+
 The 3D scene (`src/Stage.jsx`) is lazy-loaded so the hero, chapters and navigation are usable while it streams in. Shared state and chapter copy live in `src/store.js`.
 
 React 19, React Three Fiber, Drei, Rapier, React Three Postprocessing, Framer Motion and Zustand. All 3D models are procedural; no paid assets or API keys are required. Google Fonts require network access and fall back to system fonts.
