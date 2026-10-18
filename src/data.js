@@ -1,0 +1,24 @@
+// Sample data for the prototype. Titles are fictional; every number here is illustrative, not market research.
+export const titles=[{id:'crow',name:'Crimson Crow',genre:'Action'},{id:'moon',name:'Moon Reader',genre:'Fantasy'},{id:'flame',name:'Black Flame Academy',genre:'School life'}];
+export const cities=[{id:'del',name:'Delhi NCR',region:'North',lang:'Hindi'},{id:'mum',name:'Mumbai',region:'West',lang:'Hindi'},{id:'blr',name:'Bengaluru',region:'South',lang:'English'},{id:'maa',name:'Chennai',region:'South',lang:'Tamil'},{id:'hyd',name:'Hyderabad',region:'South',lang:'Telugu'},{id:'ccu',name:'Kolkata',region:'East',lang:'Bengali'},{id:'pnq',name:'Pune',region:'West',lang:'Hindi'},{id:'gau',name:'Guwahati',region:'Northeast',lang:'English'}];
+export const cityName=id=>cities.find(c=>c.id===id)?.name||id;
+export const titleName=id=>titles.find(t=>t.id===id)?.name||id;
+function rng(seed){return()=>{seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const bias={crow:{del:22,mum:18},moon:{maa:24,hyd:20},flame:{blr:20,pnq:14,gau:16}};
+export function seedSignals(){const r=rng(77),out={};for(const t of titles){out[t.id]={};for(const c of cities){const b=bias[t.id][c.id]||0;out[t.id][c.id]={search:Math.round(30+r()*35+b),community:Math.round(25+r()*40+b),requests:Math.round(40+r()*200+b*8)}}}return out}
+// Demand score: public search interest, community size and direct fan requests (capped so one loud city can't dominate).
+export const weights={search:.45,community:.35,requests:.2};
+export const score=s=>Math.round(weights.search*s.search+weights.community*s.community+weights.requests*Math.min(100,s.requests/5));
+export const confidence=s=>s.requests>=300?'High':s.requests>=150?'Medium':'Low';
+export function ranking(signals,title,lang='All'){return cities.filter(c=>lang==='All'||c.lang===lang).map(c=>({...c,s:signals[title][c.id],score:score(signals[title][c.id])})).sort((a,b)=>b.score-a.score)}
+// Physical sale: 55% production & operations, 30% Japanese rights holder, 15% platform. Digital micro-pass: 80% studio, 20% platform.
+export const split=p=>({ops:+(p*.55).toFixed(2),creator:+(p*.30).toFixed(2),platform:+(p*.15).toFixed(2)});
+export const passSplit=p=>({creator:+(p*.8).toFixed(2),platform:+(p*.2).toFixed(2)});
+export const products={'OT-001':{item:'Oversized tee',title:'crow',price:699,maker:'Vetted licensed-goods partner · Tiruppur',batch:'Drop 01 · 1 of 1,000'},'OT-002':{item:'Drop-shoulder hoodie',title:'moon',price:999,maker:'Vetted licensed-goods partner · Ludhiana',batch:'Drop 01 · 1 of 400'},'OT-013':{item:'Oversized tee',title:'flame',price:699,maker:'Vetted licensed-goods partner · Tiruppur',batch:'Drop 01 · 1 of 1,000',clone:{a:'Delhi NCR',b:'Chennai',mins:6}}};
+export const tiers=[{name:'Initiate',min:0,perk:'Digital art from every registered item'},{name:'Insider',min:150,perk:'48-hour early access to limited drops'},{name:'Inner circle',min:300,perk:'Comic Con India pop-up fast lane + vote on the next title × city'}];
+export const tierFor=p=>[...tiers].reverse().find(t=>p>=t.min);
+export const inr=n=>'₹'+(Math.round(n*100)/100).toLocaleString('en-IN',{minimumFractionDigits:Math.round(n*100)%100?2:0,maximumFractionDigits:2});
+// Ten ₹699 sales at 30% = ₹2,097 royalties, matching the pitch deck's sample dashboard.
+export function seedLedger(){const now=Date.now(),seq=['del','mum','del','blr','maa','hyd','del','pnq','mum','gau'];const sales=seq.map((c,i)=>({id:'s'+i,t:now-(i+1)*47*60000,kind:'sale',label:'Crimson Crow tee · OT-'+String(101+i).padStart(3,'0'),city:c,gross:699,creator:209.7}));return[...sales.slice(0,4),{id:'r0',t:now-3*47*60000+60000,kind:'register',label:'Passport registered · OT-102',city:'mum',gross:0,creator:0},...sales.slice(4,7),{id:'r1',t:now-6*47*60000+90000,kind:'register',label:'Passport registered · OT-104',city:'blr',gross:0,creator:0},{id:'r2',t:now-7*47*60000+30000,kind:'register',label:'Passport registered · OT-101',city:'del',gross:0,creator:0},...sales.slice(7)]}
+export const langs={English:{label:'EN',chapter:'Chapter 01',line:'The moon remembers every promise.',sfx:'SHHH'},Hindi:{label:'हिन्दी',chapter:'अध्याय 01',line:'चाँद हर वादा याद रखता है।',sfx:'श्श्श'},Tamil:{label:'தமிழ்',chapter:'அத்தியாயம் 01',line:'நிலா ஒவ்வொரு வாக்குறுதியையும் நினைவில் வைக்கிறது.',sfx:'ஷ்ஷ்'},Telugu:{label:'తెలుగు',chapter:'అధ్యాయం 01',line:'చంద్రుడు ప్రతి వాగ్దానాన్ని గుర్తుంచుకుంటాడు.',sfx:'ష్ష్'}};
+export const qrBits=serial=>{let h=0;for(const ch of serial)h=Math.imul(h^ch.charCodeAt(0),16777619);const r=rng(h),n=21,finder=(x,y)=>[[0,0],[n-7,0],[0,n-7]].some(([a,b])=>x>=a&&x<a+7&&y>=b&&y<b+7);const cells=[];for(let y=0;y<n;y++)for(let x=0;x<n;x++){if(finder(x,y)){const fx=x<7?x:x-(n-7),fy=y<7?y:y-(n-7);if(fx===0||fx===6||fy===0||fy===6||(fx>1&&fx<5&&fy>1&&fy<5))cells.push([x,y])}else if(r()>.52)cells.push([x,y])}return cells};
