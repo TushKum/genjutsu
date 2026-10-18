@@ -15,7 +15,7 @@ export function ranking(signals,title,lang='All'){return cities.filter(c=>lang==
 export const split=p=>({ops:+(p*.55).toFixed(2),creator:+(p*.30).toFixed(2),platform:+(p*.15).toFixed(2)});
 export const passSplit=p=>({creator:+(p*.8).toFixed(2),platform:+(p*.2).toFixed(2)});
 export const products={'OT-001':{item:'Oversized tee',title:'crow',price:699,maker:'Vetted licensed-goods partner · Tiruppur',batch:'Drop 01 · 1 of 1,000'},'OT-002':{item:'Drop-shoulder hoodie',title:'moon',price:999,maker:'Vetted licensed-goods partner · Ludhiana',batch:'Drop 01 · 1 of 400'},'OT-013':{item:'Oversized tee',title:'flame',price:699,maker:'Vetted licensed-goods partner · Tiruppur',batch:'Drop 01 · 1 of 1,000',clone:{a:'Delhi NCR',b:'Chennai',mins:6}}};
-export const tiers=[{name:'Initiate',min:0,perk:'Digital art from every registered item'},{name:'Insider',min:20,perk:'48-hour early access to limited drops'},{name:'Inner circle',min:150,perk:'Comic Con India pop-up fast lane + vote on the next title × city'}];
+export const tiers=[{name:'Initiate',min:0,perk:'Digital art from every registered item'},{name:'Insider',min:20,perk:'48-hour early access to limited releases'},{name:'Inner circle',min:150,perk:'Comic Con India fast lane and a vote on the next release'}];
 export const tierFor=p=>[...tiers].reverse().find(t=>p>=t.min);
 export const inr=n=>'₹'+(Math.round(n*100)/100).toLocaleString('en-IN',{minimumFractionDigits:Math.round(n*100)%100?2:0,maximumFractionDigits:2});
 // Ten ₹699 sales at 30% = ₹2,097 royalties, matching the pitch deck's sample dashboard.
