@@ -19,12 +19,12 @@ npm run dev
 npm run build
 
 ## Deploy (Vercel)
-Import the repo at vercel.com/new. `vercel.json` sets the Vite preset, `dist` output and long-lived caching for hashed assets. Or from a terminal: `npx vercel` (preview) / `npx vercel --prod`.
+Import the repo at vercel.com/new. `vercel.json` sets the Vite preset, rewrites the chapter paths to the app, `dist` output and long-lived caching for hashed assets. Or from a terminal: `npx vercel` (preview) / `npx vercel --prod`.
 
 ## Navigate
-Click an artifact or a chapter number. ← → move between chapters, Esc closes. Chapters deep-link as `#01`–`#05`. The ledger total in the footer opens the dashboard. Drag the kunai to a screen edge for the glitch.
+The home screen is the 3D scene; each chapter is its own page: `/discover`, `/localize`, `/monetize`, `/retain`, `/pilot` (old `#01`–`#05` links redirect). Browser back/forward work, ← → move between chapters, Esc returns home, and the ledger total opens the dashboard. The 3D scene stops rendering while a chapter page is open. Drag the kunai to a screen edge for the glitch.
 
 ## Structure
-`src/main.jsx` app shell and chapters · `src/demos.jsx` the five working demos · `src/store.js` shared state and chapter copy · `src/data.js` sample data and the scoring/split logic · `src/Stage.jsx` the lazy-loaded React Three Fiber scene (rendering pauses while a chapter is open; resolution adapts to frame rate).
+`src/main.jsx` app shell and chapter pages · `src/demos.jsx` the five working demos · `src/store.js` shared state and chapter copy · `src/data.js` sample data and the scoring/split logic · `src/Stage.jsx` the lazy-loaded React Three Fiber scene (rendering stops while a chapter page is open; resolution adapts to frame rate).
 
 React 19, React Three Fiber, Drei, Rapier, React Three Postprocessing, Framer Motion and Zustand. All 3D models are procedural; no paid assets or API keys are required. Audio is synthesized and opt-in.
