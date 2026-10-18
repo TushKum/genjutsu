@@ -22,7 +22,7 @@ npm run build
 Import the repo at vercel.com/new. `vercel.json` sets the Vite preset, rewrites the chapter paths to the app, `dist` output and long-lived caching for hashed assets. Or from a terminal: `npx vercel` (preview) / `npx vercel --prod`.
 
 ## Navigate
-The home screen is the 3D scene; each chapter is its own page: `/discover`, `/localize`, `/monetize`, `/retain`, `/pilot` (old `#01`–`#05` links redirect). Browser back/forward work, ← → move between chapters, Esc returns home, and the ledger total opens the dashboard. The 3D scene stops rendering while a chapter page is open. Drag the kunai to a screen edge for the glitch.
+Press **Start the demo** on the home screen. Each step is its own page (`/discover`, `/localize`, `/monetize`, `/retain`, `/pilot`) with a one-line *Try it* instruction, and a **Next** button appears once you've done it. You can also jump with the numbered steps at the bottom of home or the top of each page, use ← →, or press Esc to return home. Old `#01`–`#05` links redirect.
 
 ## Structure
 `src/main.jsx` app shell and chapter pages · `src/demos.jsx` the five working demos · `src/store.js` shared state and chapter copy · `src/data.js` sample data and the scoring/split logic · `src/Stage.jsx` the lazy-loaded React Three Fiber scene (rendering stops while a chapter page is open; resolution adapts to frame rate).
