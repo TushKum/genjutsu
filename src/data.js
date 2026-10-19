@@ -1,16 +1,20 @@
-// Sample data for the prototype. Titles are fictional; every number here is illustrative, not market research.
+// Sample data for the prototype. Demo products use fictional titles; every number here is illustrative, not market research.
 export const titles=[{id:'crow',name:'Crimson Crow',genre:'Action'},{id:'moon',name:'Moon Reader',genre:'Fantasy'},{id:'flame',name:'Black Flame Academy',genre:'School life'}];
 export const cities=[{id:'del',name:'Delhi NCR',region:'North',lang:'Hindi'},{id:'mum',name:'Mumbai',region:'West',lang:'Hindi'},{id:'blr',name:'Bengaluru',region:'South',lang:'English'},{id:'maa',name:'Chennai',region:'South',lang:'Tamil'},{id:'hyd',name:'Hyderabad',region:'South',lang:'Telugu'},{id:'ccu',name:'Kolkata',region:'East',lang:'Bengali'},{id:'pnq',name:'Pune',region:'West',lang:'Hindi'},{id:'gau',name:'Guwahati',region:'Northeast',lang:'English'}];
 export const cityName=id=>cities.find(c=>c.id===id)?.name||id;
 export const titleName=id=>titles.find(t=>t.id===id)?.name||id;
 function rng(seed){return()=>{seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
-const bias={crow:{del:22,mum:18},moon:{maa:24,hyd:20},flame:{blr:20,pnq:14,gau:16}};
-export function seedSignals(){const r=rng(77),out={};for(const t of titles){out[t.id]={};for(const c of cities){const b=bias[t.id][c.id]||0;out[t.id][c.id]={search:Math.round(30+r()*35+b),community:Math.round(25+r()*40+b),requests:Math.round(40+r()*200+b*8)}}}return out}
+// Real titles come from the team's MyAnimeList catalog (src/catalog.json: studio, genre, score, global members).
+// Their per-city signals are simulated until partner data is connected: seeded by title id, nudged by global popularity.
+export const featured=[{"id":40748,"n":"Jujutsu Kaisen","k":"Jujutsu Kaisen","s":"MAPPA","g":"Action","r":8.63,"m":2304046},{"id":38000,"n":"Demon Slayer: Kimetsu no Yaiba","k":"Demon Slayer","s":"ufotable","g":"Action","r":8.5,"m":2853413},{"id":44511,"n":"Chainsaw Man","k":"Chainsaw Man","s":"MAPPA","g":"Action","r":8.57,"m":1323404}];
+export function baseSignals(t){const r=rng(t.id*7919+13),pop=Math.min(1,Math.log10(t.m)/6.6),out={};for(const c of cities)out[c.id]={search:Math.round(22+r()*40+pop*16),community:Math.round(18+r()*44+pop*12),requests:Math.round(30+r()*220)};return out}
+export function signalsFor(t,extra={}){const b=baseSignals(t),x=extra[t.id]||{};for(const c of cities)if(x[c.id])b[c.id]={...b[c.id],requests:b[c.id].requests+x[c.id]};return b}
 // Demand score: public search interest, community size and direct fan requests (capped so one loud city can't dominate).
 export const weights={search:.45,community:.35,requests:.2};
 export const score=s=>Math.round(weights.search*s.search+weights.community*s.community+weights.requests*Math.min(100,s.requests/5));
 export const confidence=s=>s.requests>=300?'High':s.requests>=150?'Medium':'Low';
-export function ranking(signals,title,lang='All'){return cities.filter(c=>lang==='All'||c.lang===lang).map(c=>({...c,s:signals[title][c.id],score:score(signals[title][c.id])})).sort((a,b)=>b.score-a.score)}
+export function ranking(t,extra){const sig=signalsFor(t,extra);return cities.map(c=>({...c,s:sig[c.id],score:score(sig[c.id])})).sort((a,b)=>b.score-a.score)}
+export const fans=m=>{const k=Math.round(m/1e3);return k>=1000?(m/1e6).toFixed(1).replace(/\.0$/,'')+'M':k+'k'};
 // Physical sale: 55% production & operations, 30% Japanese rights holder, 15% platform. Digital micro-pass: 80% studio, 20% platform.
 export const split=p=>({ops:+(p*.55).toFixed(2),creator:+(p*.30).toFixed(2),platform:+(p*.15).toFixed(2)});
 export const passSplit=p=>({creator:+(p*.8).toFixed(2),platform:+(p*.2).toFixed(2)});
