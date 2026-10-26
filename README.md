@@ -13,6 +13,11 @@ Demo products (Moon Reader, Crimson Crow) are fictional; city signals, ledger en
 
 The title catalog (`src/catalog.json`) is adapted from the Kizuna prototype by @kkoena (MyAnimeList data via Kaggle). Only its factual fields are used; its India streaming labels were not carried over because most were placeholders.
 
+## Pehla Kadam (CDSL Reimagine Ideathon 2026 prototype)
+`public/pehla-kadam/index.html` is a separate, single-file prototype: a learn-by-doing investing sandbox for first-time investors (Hindi/English, retro Y2K look). Open the file directly in a browser; there is no build step, backend or API key. When the Vite site is deployed it is also served at `/pehla-kadam/`.
+
+It is not a trading game. It teaches what happens at the depository layer: account opening with a mock 16-digit BO ID, T+1 settlement with mock CDSL SMS alerts, CDSL OTP (e-DIS) on sales, holdings and a monthly CAS, a simulated dividend, 1:1 bonus and 1:5 split, pledging with a risk check, nomination, e-voting on a mock AGM resolution, and a 5-message WhatsApp scam game. Prices are a seeded random walk for 10 large Indian companies over 60 trading days and are labelled as simulated; the corporate actions, brokers and resolutions are fictional. Progress persists in `localStorage` (the app still works if storage is blocked) and can be cleared from Desk → My account → Reset demo.
+
 ## Run
 npm install
 npm run dev
