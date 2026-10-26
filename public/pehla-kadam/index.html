@@ -1,0 +1,1351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#6d4dff">
+<meta name="description" content="Pehla Kadam: a learn-by-doing investing sandbox. Practice demat account with ₹1,00,000 virtual money that teaches what happens at the depository: settlement, CAS, corporate actions, pledge, nomination, e-voting and scam protection. Hindi and English.">
+<title>Pehla Kadam · Investing Sandbox</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='6' y='6' width='88' height='88' rx='22' fill='%236d4dff' stroke='%231d1147' stroke-width='6'/%3E%3Cpath d='M50 18l8 22 22 8-22 8-8 22-8-22-22-8 22-8z' fill='%239dff2f' stroke='%231d1147' stroke-width='4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=VT323&display=swap">
+<style>
+:root{
+  --ink:#1d1147;--ink2:#54487f;--paper:#fffaff;--bg:#e8e1ff;
+  --pink:#ff3d9a;--pink2:#ffd3ea;--cyan:#14c8e6;--cyan2:#cdf7ff;--lime:#9dff2f;--lime2:#ecffd4;
+  --sun:#ffd23f;--sun2:#fff3c4;--vio:#6d4dff;--vio2:#e6deff;
+  --up:#067a41;--down:#c8174f;
+  --title:linear-gradient(90deg,#3418c9 0%,#8f35ff 55%,#ff3d9a 100%);
+  --chrome:linear-gradient(180deg,#ffffff 0%,#eeeafc 45%,#cdc6ee 52%,#f6f3ff 100%);
+  --holo:linear-gradient(115deg,#ffd3ea 0%,#cdf7ff 30%,#ecffd4 55%,#fff3c4 75%,#e6deff 100%);
+  --sh:4px 4px 0 var(--ink);--sh2:2px 2px 0 var(--ink);
+  --px:'VT323',ui-monospace,'Baloo 2',monospace;
+  --font:'Baloo 2','Noto Sans Devanagari','Nirmala UI','Mangal',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:120px}
+body{margin:0;font-family:var(--font);font-size:16px;line-height:1.45;color:var(--ink);background-color:var(--bg);
+  background-image:radial-gradient(circle at 12% 8%,rgba(255,61,154,.22) 0,transparent 32%),radial-gradient(circle at 88% 28%,rgba(20,200,230,.22) 0,transparent 34%),radial-gradient(circle at 30% 90%,rgba(157,255,47,.22) 0,transparent 30%),linear-gradient(rgba(109,77,255,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(109,77,255,.13) 1px,transparent 1px);
+  background-size:auto,auto,auto,26px 26px,26px 26px;background-attachment:fixed}
+body.lock{overflow:hidden}
+h1,h2,h3,h4{margin:0;line-height:1.2}
+p{margin:.45em 0}
+button{font:inherit;color:inherit}
+a{color:var(--vio);font-weight:700}
+#app{max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:96px;position:relative}
+@media(min-width:520px){#app{border-left:3px solid var(--ink);border-right:3px solid var(--ink);background:rgba(255,250,255,.45);box-shadow:8px 0 0 rgba(29,17,71,.12)}}
+main{padding:2px 12px 12px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* header */
+#hdr{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,#ffffff 0%,#f1ecff 100%);border-bottom:3px solid var(--ink)}
+#hdrIn{padding:8px 12px}
+.hrow{display:flex;align-items:center;gap:8px}
+.hrow.r2{margin-top:8px}
+.logo{font-weight:800;font-size:23px;line-height:1;letter-spacing:-.3px;background:linear-gradient(180deg,#3418c9 0%,#8f35ff 48%,#ff3d9a 52%,#ff8a3d 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(1.5px 1.5px 0 #fff) drop-shadow(1.5px 1.5px 0 rgba(29,17,71,.35));white-space:nowrap;padding-top:3px}
+.spark{display:inline-block;color:var(--pink);-webkit-text-fill-color:var(--pink);margin-left:3px;font-size:18px;animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.simchip{font-family:var(--px);font-size:15px;line-height:1;background:var(--sun);border:2px solid var(--ink);border-radius:6px;padding:3px 5px 2px;transform:rotate(-4deg);white-space:nowrap}
+.lang{margin-left:auto;display:flex;border:2.5px solid var(--ink);border-radius:999px;overflow:hidden;box-shadow:var(--sh2);background:#fff;flex-shrink:0}
+.lang button{min-width:48px;min-height:44px;border:0;background:transparent;font-weight:800;cursor:pointer;padding:0 8px}
+.lang button.on{background:var(--ink);color:var(--lime)}
+.datechip{flex:1;min-width:0;background:var(--ink);color:#fff;border-radius:12px;padding:5px 10px;font-size:14px;line-height:1.2;border:2.5px solid var(--ink)}
+.datechip b{color:var(--lime);font-family:var(--px);font-size:21px;font-weight:400;margin-right:2px}
+.btn.next{min-height:48px;padding:4px 14px;flex-shrink:0}
+#tick{background:var(--ink);color:var(--lime);font-family:var(--px);font-size:19px;overflow:hidden;white-space:nowrap;border-top:2px solid #000}
+#tick:empty{display:none}
+.tk{display:inline-flex;animation:tk 45s linear infinite;padding:3px 0}
+.tk>span{padding-right:26px}
+.tk i{font-style:normal;color:#fff}
+.tk .u{color:var(--lime)}.tk .d{color:#ff8fc2}
+@keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* nav */
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:center;pointer-events:none;padding:0 8px calc(8px + env(safe-area-inset-bottom))}
+#nav:empty{display:none}
+.navin{pointer-events:auto;display:flex;width:100%;max-width:464px;background:var(--holo);border:2.5px solid var(--ink);border-radius:20px;box-shadow:var(--sh);padding:4px;gap:2px}
+.nb{flex:1;min-width:0;min-height:58px;border:0;background:transparent;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;line-height:1.1;padding:4px 2px;position:relative;text-align:center}
+.nb .ic{font-size:22px;line-height:1.1}
+.nb.on{background:var(--ink);color:#fff}
+.nb .cnt{position:absolute;top:2px;right:8px;background:var(--pink);color:#fff;border:2px solid var(--ink);border-radius:999px;font-size:11px;min-width:20px;height:20px;line-height:16px;padding:0 4px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:6px 18px;border:2.5px solid var(--ink);border-radius:999px;background:var(--chrome);box-shadow:var(--sh2);font-weight:700;font-size:16px;cursor:pointer;text-align:center;line-height:1.15;transition:transform .06s,box-shadow .06s;text-decoration:none;color:var(--ink)}
+.btn:active:not([disabled]){transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+.btn:focus-visible,.nb:focus-visible,.stk:focus-visible,.tile:focus-visible,.pick:focus-visible,.lang button:focus-visible,.seg button:focus-visible,.nokia:focus-visible{outline:3px dashed var(--pink);outline-offset:3px}
+.btn.pri{background:linear-gradient(180deg,#ff9ccd 0%,#ff3d9a 55%,#e0167c 100%);color:#fff;text-shadow:1px 1px 0 rgba(29,17,71,.45)}
+.btn.lime{background:linear-gradient(180deg,#eaffc9 0%,#b8ff66 45%,#8ae81c 100%)}
+.btn.cy{background:linear-gradient(180deg,#e2fcff 0%,#7be9fa 50%,#14c8e6 100%)}
+.btn.vio{background:linear-gradient(180deg,#c3b3ff 0%,#7d5fff 50%,#5534f0 100%);color:#fff;text-shadow:1px 1px 0 rgba(29,17,71,.45)}
+.btn.ghost{background:#fff}
+.btn.block{width:100%}
+.btn.sm{min-height:44px;padding:4px 14px;font-size:15px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:grayscale(.7)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btns>.btn{flex:1 1 140px}
+.link{background:none;border:0;padding:6px 0;min-height:44px;color:var(--vio);font-weight:800;text-decoration:underline;text-underline-offset:3px;cursor:pointer;text-align:left}
+
+/* windows */
+.win{background:var(--paper);border:2.5px solid var(--ink);border-radius:16px;box-shadow:var(--sh);margin:16px 0;overflow:hidden}
+.tb{display:flex;align-items:center;gap:8px;background:var(--title);color:#fff;padding:7px 12px;font-weight:700;font-size:15px;border-bottom:2.5px solid var(--ink);text-shadow:1px 1px 0 rgba(0,0,0,.25);min-height:40px}
+.tb .tt{flex:1;min-width:0}
+.tb .spk{letter-spacing:2px;font-size:12px;opacity:.9;flex-shrink:0}
+.wb{padding:14px}
+.win.holo .wb{background:var(--holo)}
+.win.lime .tb{background:linear-gradient(90deg,#067a41,#3fb94a 60%,#9dff2f);color:#fff}
+.win.warm .tb{background:linear-gradient(90deg,#c8174f,#ff3d9a 55%,#ff8a3d)}
+.win.cyan .tb{background:linear-gradient(90deg,#0b6f93,#14c8e6 60%,#7be9fa)}
+
+/* misc */
+.sub{color:var(--ink2);font-size:15px;margin:10px 2px}
+.small,.note{font-size:13.5px;color:var(--ink2)}
+.note{margin:10px 0 0}
+.banner{margin:12px 0 4px;background:var(--sun);border:2.5px solid var(--ink);border-radius:12px;padding:8px 12px;font-weight:700;font-size:14px;box-shadow:var(--sh2)}
+.warn{margin:12px 0;background:var(--pink2);border:2.5px solid var(--ink);border-radius:12px;padding:8px 12px;font-weight:700;font-size:14px}
+.tag{display:inline-block;padding:0 8px;border:2px solid var(--ink);border-radius:999px;font-size:12.5px;font-weight:700;background:var(--sun2);line-height:20px;margin:3px 4px 0 0;white-space:nowrap}
+.tag.hot{background:var(--pink);color:#fff}
+.tag.ok{background:var(--lime)}
+.tag.lock{background:var(--vio2)}
+.px{font-family:var(--px);font-size:24px;line-height:1;font-weight:400}
+.px.big{font-size:40px}
+.chg{display:inline-block;font-family:var(--px);font-size:18px;line-height:20px;padding:0 6px;border-radius:6px;border:2px solid var(--ink);white-space:nowrap}
+.chg.up{background:var(--lime2);color:var(--up)}.chg.dn{background:var(--pink2);color:var(--down)}
+.up{color:var(--up)}.dn{color:var(--down)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:8px 10px;min-width:0}
+.stat small{display:block;font-size:12.5px;color:var(--ink2);font-weight:600;line-height:1.2}
+.stat .px{font-size:23px;display:block;margin-top:3px;overflow-wrap:anywhere}
+.stat.wide{grid-column:1/-1}
+.hl{background:var(--lime2);border:2.5px solid var(--ink);border-radius:12px;padding:10px 12px;font-weight:700;margin:10px 0}
+.lt{font-size:21px;margin:2px 0 8px}
+.lb h4{margin:14px 0 2px;font-size:16px;color:var(--vio)}
+.lb p{margin:.5em 0}
+.burst{display:inline-flex;align-items:center;justify-content:center;background:var(--sun);clip-path:polygon(50% 0%,61% 18%,82% 9%,79% 31%,100% 38%,84% 54%,96% 74%,73% 75%,68% 97%,50% 84%,32% 97%,27% 75%,4% 74%,16% 54%,0% 38%,21% 31%,18% 9%,39% 18%);font-weight:800}
+.empty{text-align:center;padding:18px 8px;color:var(--ink2)}
+.empty .em{font-size:40px;display:block}
+.row{display:flex;align-items:center;gap:10px}
+.grow{flex:1;min-width:0}
+.right{text-align:right}
+.mt{margin-top:12px}
+
+/* level */
+.lvb{width:62px;height:62px;font-size:26px;flex-shrink:0;font-family:var(--px)}
+.lvname{font-weight:800;font-size:17px;line-height:1.15}
+.bar{height:14px;border:2px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;margin:4px 0 2px}
+.bar i{display:block;height:100%;background:repeating-linear-gradient(90deg,var(--pink) 0 10px,#ff7cbd 10px 20px);border-right:2px solid var(--ink)}
+.xpbig{text-align:center;flex-shrink:0}
+.xpbig .px{font-size:34px;display:block;color:var(--vio)}
+.xpbig small{font-weight:800;font-size:12px}
+
+/* missions */
+.mi{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:2px dashed var(--vio2)}
+.mi:last-child{border-bottom:0}
+.ck{width:28px;height:28px;border:2.5px solid var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;font-weight:800}
+.mi.done .ck{background:var(--lime)}
+.mi .mn{flex:1;min-width:0;font-weight:700;line-height:1.2}
+.mi.done .mn{color:var(--ink2)}
+.mi .xp{font-family:var(--px);font-size:18px;color:var(--vio);flex-shrink:0}
+.nextcard .wb{background:var(--holo)}
+.nextcard h3{font-size:19px}
+
+/* events */
+.evr{display:flex;gap:10px;padding:10px 0;border-bottom:2px dashed var(--vio2)}
+.evr:last-child{border-bottom:0}
+.evd{flex-shrink:0;align-self:flex-start;width:56px;text-align:center;background:var(--ink);color:#fff;border-radius:10px;padding:4px 2px;border:2px solid var(--ink)}
+.evd .px{font-size:26px;color:var(--lime);display:block}
+.evd small{font-size:11px;font-weight:700;display:block;line-height:1.1}
+
+/* market */
+.stk{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;background:#fff;border:2.5px solid var(--ink);border-radius:14px;box-shadow:var(--sh2);margin:10px 0;cursor:pointer;min-height:72px}
+.stk:active{transform:translate(2px,2px);box-shadow:none}
+.av{width:38px;height:38px;border-radius:12px;border:2.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--px);font-size:24px;flex-shrink:0;color:var(--ink)}
+.stk .nm{flex:1;min-width:0}
+.stk .nm b{display:block;font-size:15.5px;line-height:1.2}
+.stk .nm small{display:block;color:var(--ink2);font-size:12.5px;line-height:1.3}
+.stk .pc{text-align:right;flex-shrink:0}
+.stk .pc .px{display:block;font-size:23px;margin-bottom:3px}
+.spl{display:block;margin-top:3px}
+
+/* forms */
+.fld{display:block;margin:12px 0}
+.fld>span{display:block;font-weight:700;font-size:14.5px;margin-bottom:4px}
+.fld small{display:block;color:var(--ink2);font-size:12.5px;margin-top:3px}
+.inp{width:100%;min-height:48px;border:2.5px solid var(--ink);border-radius:12px;padding:8px 12px;font:inherit;font-size:17px;background:#fff;color:var(--ink);box-shadow:inset 2px 2px 0 rgba(29,17,71,.12)}
+select.inp{appearance:auto}
+.inp:focus{outline:3px solid var(--cyan);outline-offset:1px}
+.err{color:var(--down);font-weight:700;font-size:14px;margin-top:4px}
+.step{display:flex;align-items:center;gap:8px}
+.step .inp{text-align:center;font-family:var(--px);font-size:28px;padding:4px 6px;min-width:0;flex:1}
+.step .btn.sq{width:52px;padding:0;font-size:26px;flex-shrink:0}
+.seg{display:flex;border:2.5px solid var(--ink);border-radius:999px;background:#fff;padding:3px;gap:3px;box-shadow:var(--sh2);margin:12px 0}
+.seg button{flex:1;min-height:44px;border:0;border-radius:999px;background:transparent;font-weight:800;cursor:pointer;padding:0 6px;line-height:1.1}
+.seg button.on{background:var(--title);color:#fff}
+.seg .c{display:inline-block;background:var(--pink);color:#fff;border-radius:999px;font-size:11px;min-width:18px;padding:0 4px;margin-left:3px;line-height:18px}
+.sumt{width:100%;border-collapse:collapse;font-size:15px;margin:10px 0}
+.sumt td{padding:5px 0;border-bottom:2px dotted var(--vio2)}
+.sumt td:last-child{text-align:right;font-family:var(--px);font-size:21px}
+.sumt tr.tot td{font-weight:800;border-bottom:0}
+
+/* chart */
+.chart{display:block;width:100%;height:auto;background:#fff;border:2.5px solid var(--ink);border-radius:12px;margin:10px 0}
+
+/* holdings */
+.hcard{background:#fff;border:2.5px solid var(--ink);border-radius:14px;box-shadow:var(--sh2);padding:12px;margin:12px 0}
+.hcard .hd{display:flex;align-items:flex-start;gap:10px}
+.hcard .hd b{font-size:16px;line-height:1.2;display:block}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.kv div{background:var(--vio2);border-radius:8px;padding:5px 7px;min-width:0}
+.kv small{display:block;font-size:11.5px;font-weight:700;color:var(--ink2);line-height:1.15}
+.kv span{font-family:var(--px);font-size:19px;display:block;line-height:1.1;overflow-wrap:anywhere}
+.hcard .btns{margin-top:10px}
+.prow{background:#fff;border:2px dashed var(--ink);border-radius:12px;padding:10px 12px;margin:10px 0}
+.prow b{display:block}
+.act{font-size:14px;padding:7px 0;border-bottom:1px dashed var(--vio2);display:flex;gap:8px}
+.act .d{font-family:var(--px);font-size:16px;color:var(--ink2);flex-shrink:0;width:58px}
+
+/* CAS */
+.cas{background:#fffef4;border:2.5px solid var(--ink);border-radius:6px;padding:14px 12px;font-size:13.5px;box-shadow:var(--sh);background-image:repeating-linear-gradient(transparent 0 25px,rgba(109,77,255,.07) 25px 26px);margin:12px 0}
+.cas h3{font-size:16px;text-align:center;letter-spacing:.3px;text-transform:uppercase}
+.cas .stamp{display:block;width:max-content;margin:6px auto 10px;font-family:var(--px);font-size:16px;color:var(--down);border:2px solid var(--down);border-radius:6px;padding:0 8px;transform:rotate(-2deg)}
+.cas h4{font-size:13.5px;background:var(--ink);color:#fff;padding:3px 8px;margin:14px 0 6px;border-radius:4px;letter-spacing:.3px}
+.cas dl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:0}
+.cas dt{font-weight:700;color:var(--ink2)}
+.cas dd{margin:0;overflow-wrap:anywhere}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cas table{width:100%;border-collapse:collapse;font-size:12.5px}
+.cas th,.cas td{border:1px solid rgba(29,17,71,.35);padding:4px 5px;text-align:left;vertical-align:top}
+.cas th{background:var(--vio2);font-size:11.5px}
+.cas td.n{text-align:right;font-family:var(--px);font-size:15px;white-space:nowrap}
+.cas .mono{font-family:var(--px);font-size:15px}
+.cas .ft{margin-top:12px;font-size:12.5px;border-top:2px dashed var(--ink);padding-top:8px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chipb{min-height:44px;border:2.5px solid var(--ink);border-radius:999px;background:#fff;padding:4px 14px;font-weight:700;cursor:pointer;box-shadow:var(--sh2)}
+.chipb.on{background:var(--ink);color:var(--lime)}
+
+/* desk tiles */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-height:112px;padding:12px;border:2.5px solid var(--ink);border-radius:16px;background:#fff;box-shadow:var(--sh);cursor:pointer}
+.tile:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.tile .ic{font-size:30px;line-height:1.1}
+.tile b{font-size:16px;line-height:1.2}
+.tile small{color:var(--ink2);font-size:12.5px;font-weight:600;line-height:1.2}
+.tile:nth-child(6n+1){background:linear-gradient(160deg,#fff 50%,var(--pink2))}
+.tile:nth-child(6n+2){background:linear-gradient(160deg,#fff 50%,var(--cyan2))}
+.tile:nth-child(6n+3){background:linear-gradient(160deg,#fff 50%,var(--lime2))}
+.tile:nth-child(6n+4){background:linear-gradient(160deg,#fff 50%,var(--sun2))}
+.tile:nth-child(6n+5){background:linear-gradient(160deg,#fff 50%,var(--vio2))}
+.tile:nth-child(6n+6){background:linear-gradient(160deg,#fff 50%,var(--pink2))}
+.backb{margin-top:12px}
+
+/* onboarding */
+.hero{text-align:center;padding:10px 4px 4px}
+.hero .logo{font-size:44px;display:inline-block;margin:6px 0}
+.hero .tagl{font-weight:700;font-size:18px}
+.chk{list-style:none;padding:0;margin:12px 0;text-align:left}
+.chk li{padding:6px 0 6px 34px;position:relative;font-weight:600}
+.chk li:before{content:'✦';position:absolute;left:4px;top:3px;font-size:20px;color:var(--pink)}
+.langpick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.pick{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;width:100%;padding:12px;border:2.5px solid var(--ink);border-radius:14px;background:#fff;box-shadow:var(--sh2);cursor:pointer;min-height:60px}
+.pick.on{background:var(--lime2);box-shadow:var(--sh);outline:3px solid var(--vio);outline-offset:-6px}
+.pick b{font-size:17px}
+.pick small{color:var(--ink2);font-size:13px;line-height:1.3}
+.pick .em{font-size:26px}
+.dots{display:flex;gap:6px;justify-content:center;margin:12px 0 0}
+.dots i{width:34px;height:10px;border-radius:999px;border:2px solid var(--ink);background:#fff}
+.dots i.on{background:var(--pink)}
+.flow{display:flex;flex-direction:column;align-items:stretch;gap:0;margin:8px 0}
+.flow span{background:#fff;border:2.5px solid var(--ink);border-radius:10px;padding:6px 10px;font-weight:700;font-size:14.5px;text-align:center}
+.flow span:last-child{background:var(--ink);color:var(--lime)}
+.flow em{font-style:normal;text-align:center;font-size:18px;line-height:1.1;color:var(--vio)}
+.bocard{position:relative;overflow:hidden;background:linear-gradient(135deg,#3418c9 0%,#8f35ff 45%,#ff3d9a 100%);color:#fff;border-radius:18px;padding:16px;border:2.5px solid var(--ink);box-shadow:var(--sh);margin:12px 0}
+.bocard:after{content:'';position:absolute;top:-60%;left:-30%;width:60%;height:220%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:rotate(25deg)}
+.bocard small{display:block;font-size:12.5px;opacity:.9;font-weight:700}
+.bocard .boid{font-family:var(--px);font-size:30px;letter-spacing:1px;line-height:1.1;margin:4px 0 10px;word-spacing:6px}
+.bocard .r{display:flex;gap:14px;flex-wrap:wrap}
+.bocard .chipi{width:42px;height:32px;border-radius:7px;background:linear-gradient(135deg,#ffe58a,#d9a400);border:2px solid var(--ink);margin-bottom:8px}
+.c4{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.c4 div{background:#fff;border:2.5px solid var(--ink);border-radius:12px;padding:10px;font-size:13.5px;line-height:1.35}
+.c4 b{display:block;font-size:15px;margin:2px 0}
+.c4 .em{font-size:24px}
+
+/* modal */
+.ov{position:fixed;inset:0;z-index:50;background:rgba(29,17,71,.55);display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:480px;max-height:92vh;overflow:auto;background:var(--paper);border:2.5px solid var(--ink);border-bottom:0;border-radius:20px 20px 0 0;box-shadow:0 -4px 0 var(--ink);animation:up .22s ease-out;outline:none;overscroll-behavior:contain}
+.sheet.still{animation:none}
+.sheet>.tb{position:sticky;top:0;z-index:2}
+.sheet .wb{padding:16px 16px calc(20px + env(safe-area-inset-bottom))}
+.x{margin-left:auto;width:44px;height:44px;flex-shrink:0;border:2px solid #fff;border-radius:12px;background:rgba(255,255,255,.18);color:#fff;font-size:22px;font-weight:800;cursor:pointer;line-height:1}
+.x:focus-visible{outline:3px dashed var(--lime);outline-offset:2px}
+@keyframes up{from{transform:translateY(40px)}to{transform:none}}
+@media(min-width:560px){.ov{align-items:center;padding:20px}.sheet{border-radius:18px;border-bottom:2.5px solid var(--ink);box-shadow:6px 6px 0 var(--ink);max-height:88vh}}
+
+/* toasts */
+#toasts{position:fixed;top:8px;left:0;right:0;z-index:80;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 10px}
+.toast{pointer-events:auto;animation:drop .28s ease-out}
+@keyframes drop{from{transform:translateY(-24px);opacity:0}to{transform:none;opacity:1}}
+.nokia{display:block;width:100%;max-width:360px;background:linear-gradient(180deg,#3a3d5c,#24263b);border:2.5px solid var(--ink);border-radius:22px 22px 28px 28px;padding:9px 11px 13px;box-shadow:var(--sh);cursor:pointer;text-align:left}
+.lcd{background:#b5d68a;background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.045) 0 2px,transparent 2px 4px);border-radius:8px;padding:7px 10px 8px;font-family:var(--px);color:#1b290c;font-size:19px;line-height:1.15;box-shadow:inset 0 0 0 2px #7f9b5a,inset 3px 3px 0 rgba(0,0,0,.08);overflow-wrap:anywhere}
+.lcd .hd{display:flex;justify-content:space-between;gap:8px;border-bottom:2px dashed #1b290c;margin-bottom:4px;padding-bottom:1px}
+.xpt{background:var(--sun);border:2.5px solid var(--ink);border-radius:999px;padding:6px 16px;font-weight:800;box-shadow:var(--sh2);max-width:360px;text-align:center}
+.xpt.info{background:#fff}
+.inbox .nokia{max-width:none;margin:12px 0;cursor:default}
+.inbox .lcd{font-size:19px}
+
+/* e-voting */
+.vcard{background:#fff;border:2.5px solid var(--ink);border-radius:14px;box-shadow:var(--sh2);padding:12px;margin:12px 0}
+.vcard h4{font-size:16.5px;margin:8px 0 4px}
+.plain{background:var(--cyan2);border:2px solid var(--ink);border-radius:10px;padding:8px 10px;margin:8px 0}
+.plain ol{margin:4px 0 0;padding-left:22px}
+.plain li{margin:3px 0}
+.vbtns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.vbtns .btn{padding:4px 6px;font-size:15px}
+.tally{margin-top:8px}
+.tally div{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;margin:4px 0}
+.tally span.l{width:74px;flex-shrink:0}
+.tally span.b{flex:1;height:14px;border:2px solid var(--ink);border-radius:999px;overflow:hidden;background:#fff}
+.tally span.b i{display:block;height:100%}
+.tally span.p{width:44px;text-align:right;font-family:var(--px);font-size:17px}
+
+/* scam / whatsapp */
+.wa{border:2.5px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:var(--sh);margin:16px 0;background:#efe6ff;background-image:radial-gradient(rgba(109,77,255,.18) 1.5px,transparent 1.5px);background-size:16px 16px}
+.wah{display:flex;align-items:center;gap:10px;background:linear-gradient(90deg,#075e54,#128c7e 60%,#25d366);color:#fff;padding:8px 12px;border-bottom:2.5px solid var(--ink)}
+.wah .av{background:#fff;font-size:20px;width:38px;height:38px;border-radius:50%}
+.wah b{display:block;line-height:1.1}
+.wah small{font-size:12px;opacity:.9}
+.wab{padding:12px}
+.bub{background:#fff;border:2px solid var(--ink);border-radius:4px 16px 16px 16px;padding:8px 12px 6px;margin:0 0 12px;max-width:92%;box-shadow:2px 2px 0 rgba(29,17,71,.25);position:relative}
+.bub .fr{font-weight:800;font-size:13.5px;color:#128c7e;display:block}
+.bub .tm{display:block;text-align:right;font-size:11.5px;color:var(--ink2)}
+.bub.old{opacity:.8}
+.bub .stampv{position:absolute;right:-6px;top:-10px;font-size:12px;font-weight:800;border:2px solid var(--ink);border-radius:999px;padding:0 7px;background:var(--lime);transform:rotate(6deg)}
+.bub .stampv.s{background:var(--pink);color:#fff}
+.fb{background:#fff;border:2.5px solid var(--ink);border-radius:14px;padding:12px;margin:4px 0 0}
+.fb.good{background:var(--lime2)}.fb.bad{background:var(--pink2)}
+.fb ul{margin:6px 0;padding-left:20px}
+.fb li{margin:4px 0}
+.scorebig{width:140px;height:140px;margin:6px auto;font-size:40px;font-family:var(--px)}
+
+/* certificate */
+.cert{text-align:center;background:var(--holo);border:3px double var(--ink);border-radius:14px;padding:18px 12px;position:relative}
+.cert .seal{width:96px;height:96px;font-size:40px;margin:0 auto 6px}
+.cert h3{font-size:26px;background:var(--title);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cert .nm{font-size:24px;font-weight:800;border-bottom:2px dashed var(--ink);display:inline-block;padding:0 12px;margin:6px 0}
+
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+@media(max-width:350px){.logo{font-size:20px}.nb{font-size:11px}.simchip{display:none}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="hdr"><div id="hdrIn"></div><div id="tick" aria-hidden="true"></div></header>
+  <main id="main" tabindex="-1"></main>
+  <nav id="nav"></nav>
+</div>
+<div id="modal"></div>
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+'use strict';
+/* =========================================================
+   Pehla Kadam · learn-by-doing investing sandbox (simulated)
+   ========================================================= */
+
+/* ---------- 1. Translations: every UI string lives here ---------- */
+const T={
+en:{
+  app:"Pehla Kadam",simChip:"SIMULATED",
+  storage:"Storage is unavailable, so progress will not be saved after you close this page.",
+  nav:{home:"Home",market:"Market",demat:"My Demat",desk:"Desk",shield:"Scam Shield"},
+  next:"Next day ⏭",day:"Day {n}",close:"Close",cancel:"Cancel",back:"← Back",got:"Got it ✓",go:"Go →",
+  dayToast:"📅 New trading day: {date}",lastDayToast:"This is the last simulated day.",
+  xpToast:"✦ +{n} XP · {m}",lsLabel:"Samjho · Understand",
+  ob:{
+    s0t:"Your first step into investing",
+    s0p:"Get a practice demat account with ₹1,00,000 of virtual money. Every tap shows what really happens to your shares behind the broker app.",
+    pts:["No real money, no risk","See how the depository (CDSL) keeps your shares safe","Hindi or English, switch any time"],
+    lang:"Choose your language",start:"Open my practice account →",
+    simNote:"Everything here is simulated for learning: prices, companies' events, brokers and accounts. Not investment advice.",
+    step:"Step {n} of 3",
+    s1t:"KYC: who are you?",s1p:"Use sample details only. Never type your real PAN or Aadhaar into a practice app.",
+    name:"Full name",pan:"PAN",aad:"Aadhaar number",mob:"Mobile number",dob:"Date of birth",
+    panHint:"Format ABCPV1234K. The 4th letter “P” means an individual person.",
+    aadHint:"12 digits. Only the last 4 are ever shown.",mobHint:"CDSL alerts will come to this number.",
+    sample:"✨ Fill sample details",verify:"Verify KYC (mock) →",kycOk:"✅ KYC verified (mock)",why:"Why KYC?",
+    s2t:"Choose a broker",s2p:"A broker places your orders on the stock exchange. Your broker is also a Depository Participant (DP): your doorway to the depository, CDSL.",
+    fict:"All brokers here are fictional.",flowT:"How your order travels",
+    flow:["You","Broker · trading account","Stock exchange (NSE / BSE)","Clearing corporation","Depository CDSL · your demat account"],
+    diff:"Trading vs demat: what's the difference?",cont:"Continue →",dpIs:"DP ID {id} · Depository: CDSL",
+    s3t:"Your demat account is open! 🎉",s3p:"Your shares will live here, in your name, at the depository.",
+    bo:"BO ID (Beneficial Owner ID)",dpid:"DP ID",cid:"Client ID",holder:"Account holder",
+    fourT:"4 words to remember",enter:"Enter my demat →",boWhy:"What is a BO ID?"
+  },
+  br:{saral:"Simple app with full Hindi support",sakhi:"Women-led helpdesk and video KYC",gaon:"Help centres in small towns, orders by phone too"},
+  c4:[
+    {t:"Broker",d:"The shop that places your buy and sell orders on the stock exchange. Must be registered with SEBI."},
+    {t:"Trading account",d:"Your order counter at the broker. You use it to buy and sell."},
+    {t:"Demat account",d:"Your digital locker for shares, in your own name. Like a bank account, but for shares."},
+    {t:"Depository (CDSL)",d:"The central vault that keeps the official record of who owns which shares. Your broker connects you to it as a DP."}
+  ],
+  home:{
+    hello:"Namaste, {name} 👋",toNext:"{n} XP to the next level",lastLv:"Finish all missions to become an Atmanirbhar Investor",maxLv:"All missions complete!",
+    nextT:"Your next step",money:"My money (virtual)",cash:"Cash",hv:"Holdings value",pend:"Pending trades",margin:"Pledge margin (mock)",total:"Total worth",pl:"Overall gain / loss",
+    toMarket:"Go to Market",toDemat:"Open My Demat",
+    tip:"Tip: “Next day ⏭” at the top moves the simulated market forward by one trading day.",
+    evT:"Coming up · simulated corporate actions",evIn:"in {n} trading day(s)",evToday:"happened today",
+    evBuy:"To get it, you need settled shares on the record date: buy by {date} (T+1).",evBuyToday:"Last chance: buy today so the shares settle by the record date (T+1).",
+    evLate:"Too late for this one: shares bought now settle after the record date.",evView:"View {s}",evNone:"No more events in this simulation.",
+    misT:"Missions",nomT:"No nominee yet",nomP:"You skipped adding a nominee. If something happens to you, your family may face months of paperwork.",nomBtn:"Add nominee",
+    certT:"You are an Atmanirbhar Investor! 🏆",certP:"You completed every mission. You now know what happens to your shares at the depository.",certBtn:"View my certificate",
+    endT:"End of the simulated calendar",endP:"You reached the last of the 60 simulated trading days. Reset the demo from Desk → My account to play again.",
+    recShort:"Record date"
+  },
+  lv:["First Step","Curious Learner","Careful Investor","Atmanirbhar Investor"],
+  ms:{open:"Open a demat account",buy:"Place your first buy order",settle:"See T+1 settlement",nominee:"Add a nominee",cas:"Read your monthly CAS",sell:"Sell shares with a CDSL OTP",corp:"Live through a corporate action",pledge:"Try pledging shares",vote:"Cast an e-vote",scam:"Clear the Scam Shield"},
+  mh:{open:"",buy:"Pick any company in the Market and buy a few shares.",settle:"Your shares are pending. Tap Next day to watch them arrive in your demat.",settle0:"Buy some shares first, then tap Next day.",nominee:"Choose who receives your shares if something happens to you.",cas:"Open your monthly statement from the depository.",sell:"Sell a few settled shares. CDSL will ask for your OTP.",corp:"Move the days forward until a dividend, bonus or split happens. See “Coming up” below.",pledge:"Pledge a few shares to see how margin works, and its risk.",vote:"Vote on an AGM resolution of a company you hold.",scam:"Spot the scams among 5 WhatsApp tips."},
+  ev:{div:"Dividend ₹{amt} per share",bonus:"Bonus issue 1:1 (1 free share for every 1 held)",split:"Stock split 1:5 (1 share becomes 5)"},
+  mk:{banner:"⚠ Prices are SIMULATED for learning. Not real market data. Not investment advice.",sub:"Tap a company to see its chart, then buy or sell.",own:"You own {n}",soon:"Event soon"},
+  sec:{energy:"Energy & retail",it:"IT services",bank:"Banking",fmcg:"Consumer goods",auto:"Automobiles",paint:"Paints",tel:"Telecom"},
+  st:{
+    buy:"Buy",sell:"Sell",qty:"Quantity (shares)",price:"Market price",amt:"Amount",cashAv:"Cash available",cashAfter:"Cash after order",freeAv:"Free shares you can sell",max:"Max",
+    placeBuy:"Buy now · market order",placeSell:"Sell · authorise with CDSL OTP",
+    youHave:"In your demat: {f} free · {pl} pledged · {pe} pending",note:"Market order: buys or sells right now at the current price.",
+    charges:"No charges in this sandbox. Real trades have brokerage, STT, stamp duty and exchange fees. Sales also have a small DP charge.",
+    lastDay:"This is the last simulated day, so a new trade could not settle. Reset the demo to trade again.",today:"today",
+    bought:"✅ Bought {q} {s}. Shares arrive in your demat on T+1.",sold:"✅ Sold {q} {s}. Money arrives on T+1. {r}",profit:"Profit: {a}",loss:"Loss: {a}",chartT:"Price so far (simulated)"
+  },
+  err:{qty:"Enter 1 or more shares.",cash:"Not enough cash for this order.",free:"You can sell only {n} free shares (settled and not pledged).",name:"Enter a name (at least 2 letters).",pan:"PAN must look like ABCPV1234K, with “P” as the 4th letter.",aad:"Aadhaar must be 12 digits and cannot start with 0 or 1.",mob:"Mobile must be 10 digits, starting with 6, 7, 8 or 9.",dob:"Choose a date of birth: you must be 18 or older.",nomName:"Enter each nominee's name (at least 2 letters).",nomPct:"Shares must add up to exactly 100%.",otp:"Wrong OTP. Check the SMS and try again.",pl:"You can pledge only free, settled shares (up to {n})."},
+  ch:{join:"You joined",div:"DIV",bonus:"BONUS",split:"SPLIT"},
+  dm:{
+    hold:"Holdings",pend:"Pending",cas:"CAS",bo:"BO ID",empty:"Your demat is empty. Buy shares in the Market. They arrive here after T+1 settlement.",
+    qty:"Qty",avg:"Avg price",ltp:"Price",val:"Value",inv:"Invested",pnl:"Gain / loss",plTag:"{n} pledged 🔒",buyMore:"Buy more",sell:"Sell",
+    pendT:"Waiting for settlement",pendRow:"{q} {s} @ {p}",pendWhen:"Arrives in your demat on {date}",pcashRow:"{a} from selling {s}",pcashWhen:"Arrives in your cash on {date}",
+    noPend:"Nothing pending. Settled trades move to Holdings.",actT:"All activity",noAct:"No activity yet.",sumT:"Demat summary",
+    pendHelp:"Pending = trade done, settlement not yet. Shares are not in your demat until T+1."
+  },
+  tx:{buy:"Bought {q} {s} @ {p}",sell:"Sold {q} {s} @ {p}",cr:"Demat credit: +{q} {s} ({w})",dr:"Demat debit: −{q} {s} ({w})",fund:"Sale money received: {a} ({s})",div:"Dividend received: {a} from {s}",pl:"Pledged {q} {s} 🔒",upl:"Pledge released: {q} {s}",nom:"Nominee registered",vote:"E-vote cast: {s} · {c}",w:{buy:"purchase",sell:"sale",bonus:"bonus",split:"split"}},
+  cas:{
+    title:"Consolidated Account Statement",sub:"SIMULATED · for learning only",pick:"Statement month",till:"till today",period:"Statement period",inv:"Investor",pan:"PAN",bo:"BO ID",dp:"Depository Participant",
+    nom:"Nominee",nomY:"Registered ✓",nomN:"Not registered ⚠",sumT:"Summary",val:"Portfolio value as on {date}",isins:"Number of securities",cash:"Practice cash (not part of a real CAS)",
+    holdT:"Holdings as on {date}",isin:"ISIN",sec:"Security",free:"Free",pl:"Pledged",px:"Price",val2:"Value",txT:"Demat transactions in this period",
+    noTx:"No demat transactions in this period.",noHold:"No holdings on this date.",date:"Date",desc:"Details",cr:"Credit",dr:"Debit",
+    foot:"Check every line. If you see a holding or transaction you do not recognise, contact your DP and the depository at once.",
+    note:"ISINs shown for illustration. A real CAS also includes your mutual fund units.",what:"What is a CAS?",plDesc:"Pledge created",uplDesc:"Pledge released"
+  },
+  dk:{title:"Depository Desk",sub:"What happens at the depository: things your broker app rarely shows.",pledge:"Pledge shares",nominee:"Nominee",evote:"E-voting",inbox:"SMS inbox",lessons:"Lessons",account:"My account",
+    pl:"{n} shares pledged",pl0:"Nothing pledged",unread:"{n} unread",read:"All read",les:"{n} of {m} read",voted:"{n} vote(s) cast",vote0:"No votes yet",acc:"BO ID, KYC, reset"},
+  pl:{
+    title:"Pledge shares",intro:"Pledging locks your shares as security so your broker gives you margin (a trading limit). The shares stay in your name.",
+    choose:"Choose shares to pledge",none:"You need settled shares to pledge. Buy in the Market and wait for T+1.",free:"Free: {n}",btn:"Pledge",
+    plT:"Your pledged shares 🔒",rel:"Release",hc:"Haircut {h}%",get:"Margin you get",formT:"Pledge {s}",
+    formNote:"Margin = value − haircut. The haircut protects the broker if the price falls.",req:"Send pledge request (CDSL OTP)",
+    riskT:"Risk check: what if prices fall?",drop:"If prices fall by {d}%",colNow:"Collateral value now",colAfter:"Collateral after the fall",mNow:"Margin now",mAfter:"Margin after the fall",
+    short:"If you had used all your margin, your broker would ask you to add {a}. If you can't, they can sell (invoke) your pledged shares.",
+    noRisk:"Pledge some shares to see the risk check.",total:"Total margin (mock): {a}",
+    mNote:"Margin is a mock trading limit for margin or F&O trades. It is not cash and cannot be withdrawn.",
+    released:"🔓 Released {q} {s}. They are free to sell again.",done:"🔒 Pledged {q} {s}. Still in your name.",value:"Value",stillYours:"Locked · still in your name · still earns dividends, bonus and votes"
+  },
+  nm:{
+    title:"Nominee",intro:"A nominee receives your shares if something happens to you. You can add more than one and choose each person's share.",
+    status:"Status",st:{none:"Not added",skipped:"Skipped",added:"Added ✓"},name:"Nominee name",rel:"Relationship",pct:"Share %",
+    add:"+ Add another nominee",del:"Remove",save:"Save nominee (mock e-sign)",skip:"Skip for now",total:"Total: {n}% (must be 100%)",
+    saved:"✅ Nominee registered with the depository (mock).",change:"Change nominees",n:"Nominee {n}",what:"What if I have no nominee?",why:"Why add a nominee?",
+    rels:{mother:"Mother",father:"Father",spouse:"Husband / wife",daughter:"Daughter",son:"Son",sister:"Sister",brother:"Brother",other:"Other"}
+  },
+  np:{t:"Your demat now holds shares 💜",p:"Who should receive them if something happens to you? Adding a nominee takes 2 minutes and saves your family months of paperwork.",add:"Add a nominee",skip:"Skip for now"},
+  vt:{
+    title:"E-voting",intro:"AGM season (mock). As a shareholder you can vote on company decisions, online, from home.",
+    none:"You need settled shares of a company to vote. Buy at least 1 share and wait for T+1.",pendOnly:"Your shares are still pending. Voting rights start only after they settle in your demat (T+1).",
+    agm:"AGM on {date} · remote e-voting open",hold:"You hold {n} shares = {n} votes",plain:"In 3 plain lines",c:{for:"For 👍",against:"Against 👎",abstain:"Abstain 🤐"},
+    voted:"You voted {c} with {n} votes ✓",tally:"Mock live tally",confT:"Confirm your vote",confP:"You are voting {c} on “{r}” with {n} votes. Once submitted, a vote cannot be changed.",
+    submit:"Submit vote",mock:"Mock resolution for learning. Not a real AGM or a real proposal.",special:"Special resolution: needs 75% “For” votes to pass.",ordinary:"Ordinary resolution: needs more than 50% “For” votes.",
+    toast:"🗳️ Vote recorded (mock).",how:"Why vote?"
+  },
+  res:{
+    div:{t:"Approve a final dividend of ₹{a} per share",l:["The board wants to pay ₹{a} per share from this year's profit.","Shareholders must approve it at the AGM before it is paid.","If passed, the money goes to the bank account linked to your demat."]},
+    dir:{t:"Re-appoint Ms. Kavita Rao as Independent Director",l:["She would serve 5 more years on the board (fictional person).","Independent directors keep a check on management for all shareholders.","Worth checking: her meeting attendance and how many other boards she sits on."]},
+    aud:{t:"Appoint Sharma & Iyer LLP as auditors for 5 years",l:["Auditors check that the company's accounts are true and fair (fictional firm).","A strong, independent auditor protects small shareholders like you.","Worth checking: their fees, and whether they also do other paid work for the company."]},
+    bor:{t:"Raise the borrowing limit by ₹{a} crore",l:["The company wants to borrow more to build {x}.","More loans can mean faster growth, but also more risk if business slows.","Worth checking: how much the company already owes, and what it plans to earn from this."]},
+    x:{energy:"new solar and battery plants",ev:"a new electric vehicle plant",net:"a bigger 5G network"}
+  },
+  ib:{title:"SMS inbox",empty:"No messages yet.",note:"Mock SMS. Real depository alerts come by SMS and email to the mobile and email registered on your account."},
+  ls:{title:"Lessons",read:"Read ✓",new:"New"},
+  ac:{title:"My account",kyc:"KYC details (sample)",broker:"Broker / DP",boSplit:"First 8 digits = DP ID · last 8 digits = your client ID",
+    resetT:"Reset demo",resetP:"Start over with ₹1,00,000. This clears all trades, XP and progress.",resetBtn:"Reset demo",
+    confT:"Reset everything?",confP:"All holdings, cash, XP and progress will be cleared. This cannot be undone.",confOk:"Yes, reset",
+    saved:"Progress is saved on this device.",nosave:"Progress cannot be saved on this device (storage unavailable).",lang:"Language"},
+  sc:{
+    title:"Scam Shield",intro:"5 WhatsApp “tips” just arrived. For each one, decide: Safe or Scam?",safe:"Safe ✅",scam:"Scam 🚩",right:"Correct! 🎉",wrong:"Not quite.",was:"This was: {a}",
+    next:"Next message →",fin:"See my score →",score:"You spotted {n} of 5 correctly",again:"Play again",prog:"Message {n} of 5",verT:"Before you trust any tip",
+    chat:"Investment Tips 💸 (group)",online:"{n} new message(s)",aSafe:"SAFE",aScam:"SCAM",bonus:"Scam Shield score",flags:"Red flags",lesson:"All red flags",
+    perfect:"Perfect score! Scammers will have a hard time with you.",good:"Good work. Read the red flags once more.",low:"Scammers are clever. Read the red flags, then play again.",
+    ver:["Check the person or firm on SEBI's website (sebi.gov.in). Investment advisers have registration numbers starting with “INA”, research analysts with “INH”.","Never share OTP, TPIN, passwords or screen access with anyone.","Report fraud: SEBI SCORES for complaints, and cybercrime.gov.in or helpline 1930 for cyber fraud."],
+    msgs:[
+      {f:"+91 98xxx x4x21 (unknown)",m:"🔥🔥 OPERATOR NEWS 🔥🔥 Buy CHAMAKDAR AGRO before 2 PM! GUARANTEED 300% returns in 30 days. Join our VIP group, only ₹4,999 👉 bit.ly/vip-300",w:["“Guaranteed” returns do not exist in shares. Nobody can promise 300%.","Urgency (“before 2 PM”) is used so you don't stop to think.","“Operator news” on a small unknown stock is a classic pump-and-dump: they sell to you at the top.","Paying to join a “VIP group” and short links are big red flags."]},
+      {f:"Rajesh Stock Expert 😎",m:"Namaste ji 🙏 15 years experience. Not SEBI registered, but my results are better than registered advisors! Send ₹10,000 to my UPI for daily sure-shot calls.",w:["Only SEBI-registered investment advisers (INA…) and research analysts (INH…) can give paid stock advice.","He admits he is not registered. Paying him is illegal advice and you have no protection.","“Sure-shot” calls and payment to a personal UPI ID are red flags."]},
+      {f:"Priya (sister) 💕",m:"Didi, I started a ₹500 monthly SIP in an index fund through my broker's app. It goes up and down, but I'm keeping it for 5+ years. Shall I show you how it works?",w:["Small amount, regular investing, a long time horizon.","No promise of returns: she even says it goes up and down.","Done in her own name through a regulated app, with no pressure and no money sent to anyone."]},
+      {f:"KYC Update Team ⚠️",m:"Dear customer, your demat account will be BLOCKED today due to KYC expiry. Share the OTP you just received to update KYC, or click: kyc-demat-update.co",w:["Fear and a deadline (“blocked today”) are pressure tactics.","No genuine broker, depository or SEBI ever asks for your OTP.","Unknown links can steal your login. Update KYC only in your broker's official app or website that you open yourself."]},
+      {f:"{br} ✓ (your broker)",m:"Your trade confirmation for today is in the app under Reports. Reminder: we will NEVER ask for your password, OTP or TPIN.",w:["It is information only: no link, no request for money, OTP or details.","It matches something you actually did (a trade).","Still a good habit: open the app yourself to check, instead of tapping links in messages."]}
+    ]
+  },
+  otp:{title:"CDSL authorisation (mock)",p:"An OTP has been sent by SMS to authorise: {w}",enter:"Enter the 6-digit OTP",fill:"Autofill from SMS",ok:"Authorise",warn:"CDSL, your broker or SEBI will never call you to ask for this OTP.",
+    w:{sell:"debit of {q} {s} shares from your demat (sale)",pledge:"pledge of {q} {s} shares in favour of {br}"}},
+  sms:{mock:"mock SMS",
+    welcome:"CDSL: Welcome! Demat a/c {bo} is open with DP {br}. You will get an alert for every credit and debit. Never share OTP/TPIN.",
+    cr:"CDSL: {q} shares of {co} CREDITED to demat a/c {bo} on {date}. Not you? Contact your DP.",
+    dr:"CDSL: {q} shares of {co} DEBITED from demat a/c {bo} on {date}. Not you? Contact your DP immediately.",
+    otp:"CDSL: OTP {code} to authorise {w}. Do NOT share it with anyone, not even your broker.",
+    pl:"CDSL: {q} shares of {co} PLEDGED from a/c {bo} in favour of {br}. They stay in your name.",
+    upl:"CDSL: Pledge RELEASED for {q} shares of {co} in a/c {bo}.",
+    bonus:"CDSL: {q} BONUS shares of {co} credited to a/c {bo} on {date}.",
+    split:"CDSL: {co} split credited. Your holding is now {q} shares in a/c {bo}.",
+    div:"BANK: {a} credited to your account. Dividend from {co}.",
+    cas:"CDSL: Your CAS for {m} has been generated and emailed to you. Check it every month.",
+    nom:"CDSL: Nomination registered for demat a/c {bo}."},
+  corp:{label:"Corporate action · simulated event",fake:"This event is simulated for learning. It is not a real announcement by {co}.",
+    divY:"You held {q} shares on the record date, so {amt} was credited to your cash.",divN:"You did not hold {co} on the record date. With 10 settled shares you would have received {amt}.",
+    bonusY:"Your {q0} shares became {q1}. The price moved from {p0} to {p1}.",bonusN:"You did not hold {co}. With 10 shares you would now have 20, each at about half the price.",
+    splitY:"Your {q0} shares became {q1}. The price fell from {p0} to {p1}.",splitN:"You did not hold {co}. With 10 shares you would now have 50, each at about one-fifth of the price.",
+    v:"Value before: {v0} · after: {v1}. The small difference is just the day's normal price move.",
+    divG:"Example: with 10 settled shares on the record date, you would receive {amt}.",bonusG:"Example: 10 shares at ₹1,400 become 20 shares at about ₹700. Value stays about ₹14,000.",splitG:"Example: 10 shares at ₹3,500 become 50 shares at about ₹700. Value stays about ₹35,000."},
+  cert:{t:"Certificate",h:"Atmanirbhar Investor",p:"This certifies that {name} completed every Pehla Kadam mission: demat account, T+1 settlement, CAS, corporate actions, pledge, nomination, e-voting and scam protection.",sim:"Practice certificate · simulated sandbox",on:"Awarded on {date}",xp:"{n} XP earned"},
+  lessons:{
+    accounts:{t:"Broker, trading, demat, depository: 4 words",b:["🏪 Broker: the shop that places your orders on the stock exchange (NSE/BSE). It must be registered with SEBI.","🧾 Trading account: your order counter at the broker. You use it to BUY and SELL.","🔐 Demat account: your digital locker. Shares you own are kept here in your name, like money in a bank account.","🏛️ Depository (CDSL): the central vault that keeps the official electronic record of who owns which shares. Your broker connects you to it as a Depository Participant (DP).","## Why this matters","Your shares sit in YOUR demat account at the depository, not in the broker's pocket. The depository alerts you directly whenever they move."]},
+    kyc:{t:"Why KYC?",b:["KYC means Know Your Customer. It proves you are really you, so nobody can open an account in your name.","PAN is required to invest. The 4th letter shows the holder type: “P” is for an individual person. The 5th letter is the first letter of your surname.","Aadhaar is used for quick e-KYC with an OTP. Enter that OTP only in an official app or website that you opened yourself.","KYC is recorded with a KYC Registration Agency (KRA), so your next broker can reuse it.","In this sandbox every detail is fake. Never type your real PAN or Aadhaar into a practice app."]},
+    boid:{t:"Your 16-digit BO ID",b:["BO means Beneficial Owner. That's you: the real owner of the shares.","In a CDSL BO ID, the first 8 digits are your DP's ID (your broker) and the last 8 digits are your own client ID.","Your BO ID appears on every CDSL SMS, email and CAS. Think of it as your locker number."]},
+    order:{t:"Order done! Now: settlement",b:["You placed a market order, so the shares were bought right away at the current price.","Your cash is already used, but the shares are PENDING. They are not in your demat yet.","## What happens overnight","The exchange's clearing corporation collects your money and the seller's shares. Then the depository moves the shares into your demat account.","Tap “Next day ⏭” to watch it happen."]},
+    settle:{t:"T+1 settlement: the shares are yours!",b:["T is the trade day. T+1 is the next trading day. India settles share trades on T+1, among the fastest in the world.","Overnight the depository credited the shares to YOUR demat account, in your name.","## Why the CDSL SMS protects you","The depository messages you directly, not through your broker, every time shares come in or go out.","If you ever get a debit SMS for a sale you did not make, call your DP and the depository right away.","Make sure the mobile number and email on your demat account are your own, not an agent's."]},
+    tpin:{t:"Selling needs YOUR permission",b:["Shares can leave your demat only when you allow it. Before the debit, CDSL asks for your TPIN and OTP. This is called e-DIS.","If you have signed a DDPI (Demat Debit and Pledge Instruction) with your broker, the broker can do this for sales without asking each time. Read what you sign.","Never share your TPIN or OTP with anyone, even someone who says they are from your broker or CDSL.","Your sale money also arrives on T+1."]},
+    cas:{t:"CAS: one statement for everything you own",b:["CAS means Consolidated Account Statement. The depository emails it for every month in which you have a transaction, and at least once every six months otherwise.","It lists all the shares in your demat accounts, across brokers, plus your mutual fund units, all linked to your PAN.","## Check it every month","Are all holdings yours? Any sale or pledge you did not make? Is your nominee registered?","Your broker app shows what the broker tells you. The CAS shows what the depository records. If they ever differ, ask questions at once."]},
+    div:{t:"Dividend: a share of the profit",b:["{co} paid a dividend of ₹{dps} per share (simulated).","{res}","## How did the company know whom to pay?","On the record date, the depository gives the company the list of owners (the “beneficiary position”). That is how money reaches the right people.","Under T+1, shares bought on the record date itself are too late: they settle the next day.","On the ex-date the price usually falls by about the dividend amount. Dividends are taxable income."]},
+    bonus:{t:"Bonus issue: more shares, same value",b:["{co} gave 1 extra share for every 1 share held (1:1, simulated).","{res}","The price roughly halves, so your total value stays about the same: more slices of the same cake.","The depository credits bonus shares straight to your demat. You don't need to do anything.","Pledged shares also get the bonus, because they still belong to you."]},
+    split:{t:"Stock split: same cake, smaller slices",b:["{co} split each share into 5 (simulated). The face value was divided by 5 too.","{res}","Companies split to make one share cheaper, so small investors can buy more easily.","Overnight, the depository replaced your old shares with the new ones in your demat."]},
+    pledge:{t:"Pledge: shares as security",b:["Pledging lets you use shares you own as collateral to get margin (a trading limit) from your broker.","Pledged shares are LOCKED: you cannot sell them until the pledge is released. But they stay in your name, and you still get dividends, bonus and votes.","You get less than the full value. This cut is called the “haircut”.","CDSL asks for YOUR OTP before any pledge is created. No OTP, no pledge: this stops misuse.","## The risk","If prices fall, your margin shrinks. If you can't add money, the broker can “invoke” the pledge and sell your shares, even at a loss.","Most first-time investors do not need margin. Pledge only if you fully understand it."]},
+    nominee:{t:"Nominee: who gets your shares",b:["A nominee is the person who will receive your shares if something happens to you.","You can add more than one nominee and choose each person's share in %.","It takes 2 minutes and can save your family months of paperwork.","You can change your nominee any time."]},
+    noNom:{t:"What if there is no nominee?",b:["Your shares do not disappear. They still belong to you and, later, to your legal heirs.","But your family must go through “transmission” with heavy paperwork: death certificate, legal heir or succession certificate (or probate), affidavits and an indemnity.","This can take months and cost money, at a very hard time for the family.","With a nominee, it is usually just the death certificate and a simple form.","SEBI asks every demat holder to either add a nominee or formally opt out. You can add one any time from the Desk."]},
+    evote:{t:"Your share = your vote",b:["Even 1 share makes you a part-owner. You can vote on big decisions: dividends, directors, auditors, borrowing, mergers.","One share = one vote. More shares, more votes.","You can vote online through the depository's e-voting system during the voting window. No need to travel to the AGM.","You must hold the shares on the cut-off date to vote. Once cast, a vote cannot be changed.","Small votes add up, and companies watch the results."]},
+    scam:{t:"Scam Shield: the red flags",b:["🚩 Guaranteed or very high returns","🚩 Hurry: “buy before 2 PM”, “account blocked today”","🚩 Asks for OTP, TPIN, password or screen sharing","🚩 Unknown links, APK apps, payment to a personal UPI ID","🚩 “Operator”, “insider” or “sure-shot” tips, paid VIP groups","## Verify before you trust","Check the person on SEBI's website (sebi.gov.in): investment advisers' numbers start with “INA”, research analysts' with “INH”.","Report fraud on SEBI SCORES, or on cybercrime.gov.in / helpline 1930."]}
+  }
+},
+hi:{
+  app:"पहला कदम",simChip:"सिम्युलेटेड",
+  storage:"स्टोरेज उपलब्ध नहीं है, इसलिए पेज बंद करने के बाद आपकी प्रगति सेव नहीं रहेगी।",
+  nav:{home:"होम",market:"बाज़ार",demat:"मेरा डीमैट",desk:"डेस्क",shield:"स्कैम शील्ड"},
+  next:"अगला दिन ⏭",day:"दिन {n}",close:"बंद करें",cancel:"रद्द करें",back:"← वापस",got:"समझ गए ✓",go:"चलें →",
+  dayToast:"📅 नया कारोबारी दिन: {date}",lastDayToast:"यह आख़िरी सिम्युलेटेड दिन है।",
+  xpToast:"✦ +{n} XP · {m}",lsLabel:"समझो · Samjho",
+  ob:{
+    s0t:"निवेश की ओर आपका पहला कदम",
+    s0p:"₹1,00,000 के वर्चुअल पैसे के साथ एक प्रैक्टिस डीमैट खाता पाएँ। हर टैप दिखाता है कि ब्रोकर ऐप के पीछे आपके शेयरों के साथ असल में क्या होता है।",
+    pts:["असली पैसा नहीं, कोई जोखिम नहीं","देखें कि डिपॉजिटरी (CDSL) आपके शेयर कैसे सुरक्षित रखती है","हिंदी या अंग्रेज़ी, कभी भी बदलें"],
+    lang:"अपनी भाषा चुनें",start:"मेरा प्रैक्टिस खाता खोलें →",
+    simNote:"यहाँ सब कुछ सीखने के लिए सिम्युलेटेड है: भाव, कंपनियों की घटनाएँ, ब्रोकर और खाते। यह निवेश सलाह नहीं है।",
+    step:"चरण {n} / 3",
+    s1t:"KYC: आप कौन हैं?",s1p:"सिर्फ़ नमूना जानकारी डालें। किसी प्रैक्टिस ऐप में अपना असली PAN या आधार कभी न डालें।",
+    name:"पूरा नाम",pan:"PAN",aad:"आधार नंबर",mob:"मोबाइल नंबर",dob:"जन्म तिथि",
+    panHint:"फ़ॉर्मेट ABCPV1234K। चौथा अक्षर “P” मतलब एक व्यक्ति।",
+    aadHint:"12 अंक। सिर्फ़ आख़िरी 4 अंक ही दिखाए जाते हैं।",mobHint:"CDSL के अलर्ट इसी नंबर पर आएँगे।",
+    sample:"✨ नमूना जानकारी भरें",verify:"KYC जाँचें (मॉक) →",kycOk:"✅ KYC जाँच हो गई (मॉक)",why:"KYC क्यों?",
+    s2t:"ब्रोकर चुनें",s2p:"ब्रोकर स्टॉक एक्सचेंज पर आपके ऑर्डर लगाता है। आपका ब्रोकर एक डिपॉजिटरी पार्टिसिपेंट (DP) भी है: डिपॉजिटरी CDSL तक पहुँचने का आपका दरवाज़ा।",
+    fict:"यहाँ सभी ब्रोकर काल्पनिक हैं।",flowT:"आपका ऑर्डर कैसे चलता है",
+    flow:["आप","ब्रोकर · ट्रेडिंग खाता","स्टॉक एक्सचेंज (NSE / BSE)","क्लियरिंग कॉर्पोरेशन","डिपॉजिटरी CDSL · आपका डीमैट खाता"],
+    diff:"ट्रेडिंग और डीमैट: फ़र्क क्या है?",cont:"आगे बढ़ें →",dpIs:"DP ID {id} · डिपॉजिटरी: CDSL",
+    s3t:"आपका डीमैट खाता खुल गया! 🎉",s3p:"आपके शेयर यहीं, आपके नाम पर, डिपॉजिटरी में रहेंगे।",
+    bo:"BO ID (बेनिफ़िशियल ओनर ID)",dpid:"DP ID",cid:"क्लाइंट ID",holder:"खाताधारक",
+    fourT:"याद रखने के 4 शब्द",enter:"मेरे डीमैट में चलें →",boWhy:"BO ID क्या है?"
+  },
+  br:{saral:"आसान ऐप, पूरी हिंदी सुविधा",sakhi:"महिलाओं द्वारा चलाया गया हेल्पडेस्क और वीडियो KYC",gaon:"छोटे शहरों में सहायता केंद्र, फ़ोन से भी ऑर्डर"},
+  c4:[
+    {t:"ब्रोकर",d:"वह दुकान जो स्टॉक एक्सचेंज पर आपके खरीदने-बेचने के ऑर्डर लगाती है। SEBI में रजिस्टर्ड होना ज़रूरी।"},
+    {t:"ट्रेडिंग खाता",d:"ब्रोकर के पास आपका ऑर्डर काउंटर। इससे आप खरीदते और बेचते हैं।"},
+    {t:"डीमैट खाता",d:"शेयरों के लिए आपका डिजिटल लॉकर, आपके अपने नाम पर। बैंक खाते जैसा, पर शेयरों के लिए।"},
+    {t:"डिपॉजिटरी (CDSL)",d:"वह केंद्रीय तिजोरी जो आधिकारिक रिकॉर्ड रखती है कि कौन से शेयर किसके हैं। आपका ब्रोकर DP बनकर आपको इससे जोड़ता है।"}
+  ],
+  home:{
+    hello:"नमस्ते, {name} 👋",toNext:"अगले लेवल तक {n} XP",lastLv:"आत्मनिर्भर निवेशक बनने के लिए सभी मिशन पूरे करें",maxLv:"सभी मिशन पूरे!",
+    nextT:"आपका अगला कदम",money:"मेरा पैसा (वर्चुअल)",cash:"नकद",hv:"होल्डिंग्स की कीमत",pend:"पेंडिंग सौदे",margin:"प्लेज मार्जिन (मॉक)",total:"कुल संपत्ति",pl:"कुल लाभ / हानि",
+    toMarket:"बाज़ार चलें",toDemat:"मेरा डीमैट खोलें",
+    tip:"सुझाव: ऊपर “अगला दिन ⏭” दबाने से सिम्युलेटेड बाज़ार एक कारोबारी दिन आगे बढ़ता है।",
+    evT:"आगे क्या है · सिम्युलेटेड कॉर्पोरेट एक्शन",evIn:"{n} कारोबारी दिन में",evToday:"आज हुआ",
+    evBuy:"इसका फ़ायदा पाने के लिए रिकॉर्ड डेट पर शेयर सेटल होने चाहिए: {date} तक खरीदें (T+1)।",evBuyToday:"आख़िरी मौका: आज खरीदें ताकि रिकॉर्ड डेट तक शेयर सेटल हो जाएँ (T+1)।",
+    evLate:"इसके लिए देर हो गई: अब खरीदे गए शेयर रिकॉर्ड डेट के बाद सेटल होंगे।",evView:"{s} देखें",evNone:"इस सिमुलेशन में अब कोई घटना नहीं बची।",
+    misT:"मिशन",nomT:"अभी कोई नॉमिनी नहीं",nomP:"आपने नॉमिनी जोड़ना छोड़ दिया। अगर आपके साथ कुछ हो जाए, तो परिवार को महीनों की कागज़ी कार्रवाई करनी पड़ सकती है।",nomBtn:"नॉमिनी जोड़ें",
+    certT:"आप आत्मनिर्भर निवेशक हैं! 🏆",certP:"आपने हर मिशन पूरा किया। अब आप जानते हैं कि डिपॉजिटरी में आपके शेयरों के साथ क्या होता है।",certBtn:"मेरा प्रमाणपत्र देखें",
+    endT:"सिम्युलेटेड कैलेंडर खत्म",endP:"आप 60 सिम्युलेटेड कारोबारी दिनों के आख़िरी दिन पर पहुँच गए। दोबारा खेलने के लिए डेस्क → मेरा खाता से डेमो रीसेट करें।",
+    recShort:"रिकॉर्ड डेट"
+  },
+  lv:["पहला कदम","जिज्ञासु","सजग निवेशक","आत्मनिर्भर निवेशक"],
+  ms:{open:"डीमैट खाता खोलें",buy:"अपना पहला खरीद ऑर्डर दें",settle:"T+1 सेटलमेंट देखें",nominee:"नॉमिनी जोड़ें",cas:"अपना मासिक CAS पढ़ें",sell:"CDSL OTP से शेयर बेचें",corp:"एक कॉर्पोरेट एक्शन देखें",pledge:"शेयर प्लेज करके देखें",vote:"ई-वोट डालें",scam:"स्कैम शील्ड पार करें"},
+  mh:{open:"",buy:"बाज़ार में कोई भी कंपनी चुनें और कुछ शेयर खरीदें।",settle:"आपके शेयर पेंडिंग हैं। उन्हें डीमैट में आते देखने के लिए अगला दिन दबाएँ।",settle0:"पहले कुछ शेयर खरीदें, फिर अगला दिन दबाएँ।",nominee:"चुनें कि आपके साथ कुछ होने पर आपके शेयर किसे मिलें।",cas:"डिपॉजिटरी से आया अपना मासिक स्टेटमेंट खोलें।",sell:"कुछ सेटल हो चुके शेयर बेचें। CDSL आपका OTP माँगेगा।",corp:"डिविडेंड, बोनस या स्प्लिट होने तक दिन आगे बढ़ाएँ। नीचे “आगे क्या है” देखें।",pledge:"मार्जिन और उसका जोखिम समझने के लिए कुछ शेयर प्लेज करें।",vote:"अपनी किसी कंपनी के AGM प्रस्ताव पर वोट करें।",scam:"5 व्हाट्सऐप टिप्स में से धोखे पहचानें।"},
+  ev:{div:"डिविडेंड ₹{amt} प्रति शेयर",bonus:"बोनस इश्यू 1:1 (हर 1 शेयर पर 1 मुफ़्त शेयर)",split:"स्टॉक स्प्लिट 1:5 (1 शेयर के 5 शेयर)"},
+  mk:{banner:"⚠ भाव सीखने के लिए सिम्युलेटेड हैं। असली बाज़ार का डेटा नहीं। निवेश सलाह नहीं।",sub:"चार्ट देखने के लिए कंपनी पर टैप करें, फिर खरीदें या बेचें।",own:"आपके पास {n}",soon:"जल्द घटना"},
+  sec:{energy:"ऊर्जा और रिटेल",it:"आईटी सेवाएँ",bank:"बैंकिंग",fmcg:"उपभोक्ता सामान",auto:"वाहन",paint:"पेंट",tel:"टेलीकॉम"},
+  st:{
+    buy:"खरीदें",sell:"बेचें",qty:"मात्रा (शेयर)",price:"बाज़ार भाव",amt:"रकम",cashAv:"उपलब्ध नकद",cashAfter:"ऑर्डर के बाद नकद",freeAv:"बेचने लायक फ़्री शेयर",max:"अधिकतम",
+    placeBuy:"अभी खरीदें · मार्केट ऑर्डर",placeSell:"बेचें · CDSL OTP से अनुमति दें",
+    youHave:"आपके डीमैट में: {f} फ़्री · {pl} गिरवी · {pe} पेंडिंग",note:"मार्केट ऑर्डर: अभी के भाव पर तुरंत खरीदता या बेचता है।",
+    charges:"इस सैंडबॉक्स में कोई शुल्क नहीं। असली सौदों में ब्रोकरेज, STT, स्टांप ड्यूटी और एक्सचेंज शुल्क लगते हैं। बिक्री पर थोड़ा DP शुल्क भी लगता है।",
+    lastDay:"यह आख़िरी सिम्युलेटेड दिन है, इसलिए नया सौदा सेटल नहीं हो पाएगा। दोबारा सौदा करने के लिए डेमो रीसेट करें।",today:"आज",
+    bought:"✅ {q} {s} खरीदे। शेयर T+1 पर आपके डीमैट में आएँगे।",sold:"✅ {q} {s} बेचे। पैसा T+1 पर आएगा। {r}",profit:"मुनाफ़ा: {a}",loss:"नुकसान: {a}",chartT:"अब तक का भाव (सिम्युलेटेड)"
+  },
+  err:{qty:"1 या उससे ज़्यादा शेयर डालें।",cash:"इस ऑर्डर के लिए नकद काफ़ी नहीं है।",free:"आप सिर्फ़ {n} फ़्री शेयर बेच सकते हैं (सेटल हुए और गिरवी नहीं)।",name:"नाम डालें (कम से कम 2 अक्षर)।",pan:"PAN ABCPV1234K जैसा होना चाहिए, चौथा अक्षर “P”।",aad:"आधार 12 अंकों का होता है और 0 या 1 से शुरू नहीं होता।",mob:"मोबाइल 10 अंकों का हो और 6, 7, 8 या 9 से शुरू हो।",dob:"जन्म तिथि चुनें: आपकी उम्र 18 या उससे ज़्यादा होनी चाहिए।",nomName:"हर नॉमिनी का नाम डालें (कम से कम 2 अक्षर)।",nomPct:"हिस्सों का जोड़ ठीक 100% होना चाहिए।",otp:"गलत OTP। SMS देखकर दोबारा डालें।",pl:"आप सिर्फ़ फ़्री, सेटल हुए शेयर प्लेज कर सकते हैं ({n} तक)।"},
+  ch:{join:"आप जुड़े",div:"DIV",bonus:"बोनस",split:"स्प्लिट"},
+  dm:{
+    hold:"होल्डिंग्स",pend:"पेंडिंग",cas:"CAS",bo:"BO ID",empty:"आपका डीमैट खाली है। बाज़ार से शेयर खरीदें। T+1 सेटलमेंट के बाद वे यहाँ आएँगे।",
+    qty:"मात्रा",avg:"औसत भाव",ltp:"भाव",val:"कीमत",inv:"लगाया",pnl:"लाभ / हानि",plTag:"{n} गिरवी 🔒",buyMore:"और खरीदें",sell:"बेचें",
+    pendT:"सेटलमेंट का इंतज़ार",pendRow:"{q} {s} @ {p}",pendWhen:"{date} को आपके डीमैट में आएँगे",pcashRow:"{s} बेचने से {a}",pcashWhen:"{date} को आपके नकद में आएगा",
+    noPend:"कुछ भी पेंडिंग नहीं। सेटल हुए सौदे होल्डिंग्स में चले जाते हैं।",actT:"सारी गतिविधि",noAct:"अभी कोई गतिविधि नहीं।",sumT:"डीमैट सारांश",
+    pendHelp:"पेंडिंग = सौदा हो गया, सेटलमेंट अभी नहीं। T+1 तक शेयर आपके डीमैट में नहीं आते।"
+  },
+  tx:{buy:"{q} {s} खरीदे @ {p}",sell:"{q} {s} बेचे @ {p}",cr:"डीमैट क्रेडिट: +{q} {s} ({w})",dr:"डीमैट डेबिट: −{q} {s} ({w})",fund:"बिक्री का पैसा मिला: {a} ({s})",div:"डिविडेंड मिला: {s} से {a}",pl:"{q} {s} गिरवी रखे 🔒",upl:"गिरवी छूटी: {q} {s}",nom:"नॉमिनी दर्ज हुआ",vote:"ई-वोट डाला: {s} · {c}",w:{buy:"खरीद",sell:"बिक्री",bonus:"बोनस",split:"स्प्लिट"}},
+  cas:{
+    title:"कंसोलिडेटेड अकाउंट स्टेटमेंट",sub:"सिम्युलेटेड · सिर्फ़ सीखने के लिए",pick:"स्टेटमेंट का महीना",till:"आज तक",period:"स्टेटमेंट अवधि",inv:"निवेशक",pan:"PAN",bo:"BO ID",dp:"डिपॉजिटरी पार्टिसिपेंट",
+    nom:"नॉमिनी",nomY:"दर्ज ✓",nomN:"दर्ज नहीं ⚠",sumT:"सारांश",val:"{date} को पोर्टफ़ोलियो की कीमत",isins:"सिक्योरिटीज़ की संख्या",cash:"प्रैक्टिस नकद (असली CAS में नहीं होता)",
+    holdT:"{date} को होल्डिंग्स",isin:"ISIN",sec:"सिक्योरिटी",free:"फ़्री",pl:"गिरवी",px:"भाव",val2:"कीमत",txT:"इस अवधि के डीमैट लेन-देन",
+    noTx:"इस अवधि में कोई डीमैट लेन-देन नहीं।",noHold:"इस तारीख को कोई होल्डिंग नहीं।",date:"तारीख",desc:"विवरण",cr:"क्रेडिट",dr:"डेबिट",
+    foot:"हर लाइन जाँचें। अगर कोई होल्डिंग या लेन-देन अनजान लगे, तो तुरंत अपने DP और डिपॉजिटरी से संपर्क करें।",
+    note:"ISIN उदाहरण के लिए दिखाए गए हैं। असली CAS में आपके म्यूचुअल फ़ंड यूनिट भी होते हैं।",what:"CAS क्या है?",plDesc:"गिरवी बनी",uplDesc:"गिरवी छूटी"
+  },
+  dk:{title:"डिपॉजिटरी डेस्क",sub:"डिपॉजिटरी में क्या होता है: वो बातें जो ब्रोकर ऐप शायद ही दिखाते हैं।",pledge:"शेयर प्लेज करें",nominee:"नॉमिनी",evote:"ई-वोटिंग",inbox:"SMS इनबॉक्स",lessons:"पाठ",account:"मेरा खाता",
+    pl:"{n} शेयर गिरवी",pl0:"कुछ गिरवी नहीं",unread:"{n} नहीं पढ़े",read:"सब पढ़ लिए",les:"{m} में से {n} पढ़े",voted:"{n} वोट डाले",vote0:"अभी कोई वोट नहीं",acc:"BO ID, KYC, रीसेट"},
+  pl:{
+    title:"शेयर प्लेज करें",intro:"प्लेज करने से आपके शेयर ज़मानत के तौर पर लॉक हो जाते हैं और ब्रोकर आपको मार्जिन (ट्रेडिंग लिमिट) देता है। शेयर आपके नाम पर ही रहते हैं।",
+    choose:"प्लेज के लिए शेयर चुनें",none:"प्लेज के लिए सेटल हुए शेयर चाहिए। बाज़ार से खरीदें और T+1 का इंतज़ार करें।",free:"फ़्री: {n}",btn:"प्लेज",
+    plT:"आपके गिरवी शेयर 🔒",rel:"छुड़ाएँ",hc:"हेयरकट {h}%",get:"आपको मिलने वाला मार्जिन",formT:"{s} प्लेज करें",
+    formNote:"मार्जिन = कीमत − हेयरकट। भाव गिरने पर हेयरकट ब्रोकर को बचाता है।",req:"प्लेज अनुरोध भेजें (CDSL OTP)",
+    riskT:"जोखिम जाँच: भाव गिरे तो?",drop:"अगर भाव {d}% गिरें",colNow:"अभी ज़मानत की कीमत",colAfter:"गिरावट के बाद ज़मानत",mNow:"अभी मार्जिन",mAfter:"गिरावट के बाद मार्जिन",
+    short:"अगर आपने पूरा मार्जिन इस्तेमाल किया होता, तो ब्रोकर आपसे {a} और डालने को कहता। न डाल पाने पर वह आपके गिरवी शेयर बेच (इनवोक कर) सकता है।",
+    noRisk:"जोखिम जाँच देखने के लिए कुछ शेयर प्लेज करें।",total:"कुल मार्जिन (मॉक): {a}",
+    mNote:"मार्जिन मार्जिन या F&O सौदों के लिए एक मॉक ट्रेडिंग लिमिट है। यह नकद नहीं है और निकाला नहीं जा सकता।",
+    released:"🔓 {q} {s} छूट गए। अब इन्हें फिर से बेच सकते हैं।",done:"🔒 {q} {s} गिरवी रखे। अब भी आपके नाम पर।",value:"कीमत",stillYours:"लॉक · अब भी आपके नाम पर · डिविडेंड, बोनस और वोट अब भी आपके"
+  },
+  nm:{
+    title:"नॉमिनी",intro:"आपके साथ कुछ होने पर नॉमिनी को आपके शेयर मिलते हैं। आप एक से ज़्यादा नॉमिनी जोड़कर हर व्यक्ति का हिस्सा तय कर सकते हैं।",
+    status:"स्थिति",st:{none:"नहीं जोड़ा",skipped:"छोड़ा",added:"जोड़ा ✓"},name:"नॉमिनी का नाम",rel:"रिश्ता",pct:"हिस्सा %",
+    add:"+ एक और नॉमिनी जोड़ें",del:"हटाएँ",save:"नॉमिनी सेव करें (मॉक ई-साइन)",skip:"अभी छोड़ें",total:"कुल: {n}% (100% होना चाहिए)",
+    saved:"✅ नॉमिनी डिपॉजिटरी में दर्ज हो गया (मॉक)।",change:"नॉमिनी बदलें",n:"नॉमिनी {n}",what:"अगर कोई नॉमिनी न हो तो?",why:"नॉमिनी क्यों जोड़ें?",
+    rels:{mother:"माँ",father:"पिता",spouse:"पति / पत्नी",daughter:"बेटी",son:"बेटा",sister:"बहन",brother:"भाई",other:"अन्य"}
+  },
+  np:{t:"अब आपके डीमैट में शेयर हैं 💜",p:"आपके साथ कुछ हो जाए तो ये शेयर किसे मिलें? नॉमिनी जोड़ने में 2 मिनट लगते हैं और परिवार महीनों की कागज़ी कार्रवाई से बचता है।",add:"नॉमिनी जोड़ें",skip:"अभी छोड़ें"},
+  vt:{
+    title:"ई-वोटिंग",intro:"AGM का मौसम (मॉक)। शेयरधारक के रूप में आप घर बैठे, ऑनलाइन कंपनी के फ़ैसलों पर वोट कर सकते हैं।",
+    none:"वोट करने के लिए किसी कंपनी के सेटल हुए शेयर चाहिए। कम से कम 1 शेयर खरीदें और T+1 का इंतज़ार करें।",pendOnly:"आपके शेयर अभी पेंडिंग हैं। वोट का अधिकार डीमैट में सेटल होने (T+1) के बाद ही मिलता है।",
+    agm:"AGM {date} को · रिमोट ई-वोटिंग खुली है",hold:"आपके पास {n} शेयर = {n} वोट",plain:"3 आसान लाइनों में",c:{for:"पक्ष में 👍",against:"विरोध में 👎",abstain:"तटस्थ 🤐"},
+    voted:"आपने {n} वोट के साथ {c} वोट दिया ✓",tally:"मॉक लाइव गिनती",confT:"अपना वोट पक्का करें",confP:"आप “{r}” पर {n} वोट के साथ {c} वोट दे रहे हैं। जमा करने के बाद वोट बदला नहीं जा सकता।",
+    submit:"वोट जमा करें",mock:"सीखने के लिए मॉक प्रस्ताव। असली AGM या असली प्रस्ताव नहीं।",special:"विशेष प्रस्ताव: पास होने के लिए 75% “पक्ष” वोट चाहिए।",ordinary:"साधारण प्रस्ताव: 50% से ज़्यादा “पक्ष” वोट चाहिए।",
+    toast:"🗳️ वोट दर्ज हुआ (मॉक)।",how:"वोट क्यों करें?"
+  },
+  res:{
+    div:{t:"₹{a} प्रति शेयर के फ़ाइनल डिविडेंड को मंज़ूरी",l:["बोर्ड इस साल के मुनाफ़े से ₹{a} प्रति शेयर देना चाहता है।","देने से पहले AGM में शेयरधारकों की मंज़ूरी ज़रूरी है।","पास होने पर पैसा आपके डीमैट से जुड़े बैंक खाते में जाएगा।"]},
+    dir:{t:"सुश्री कविता राव को स्वतंत्र निदेशक के रूप में फिर से नियुक्त करना",l:["वे 5 और साल बोर्ड में रहेंगी (काल्पनिक व्यक्ति)।","स्वतंत्र निदेशक सभी शेयरधारकों की ओर से प्रबंधन पर नज़र रखते हैं।","जाँचने लायक: बैठकों में उनकी हाज़िरी और वे कितने दूसरे बोर्ड में हैं।"]},
+    aud:{t:"शर्मा एंड अय्यर LLP को 5 साल के लिए ऑडिटर नियुक्त करना",l:["ऑडिटर जाँचते हैं कि कंपनी का हिसाब सच्चा और सही है (काल्पनिक फ़र्म)।","मज़बूत, स्वतंत्र ऑडिटर आप जैसे छोटे शेयरधारकों की रक्षा करता है।","जाँचने लायक: उनकी फ़ीस, और क्या वे कंपनी के लिए दूसरा पैसे वाला काम भी करते हैं।"]},
+    bor:{t:"कर्ज़ लेने की सीमा ₹{a} करोड़ बढ़ाना",l:["कंपनी {x} बनाने के लिए और कर्ज़ लेना चाहती है।","ज़्यादा कर्ज़ से तेज़ी से बढ़त हो सकती है, पर कारोबार धीमा हुआ तो जोखिम भी ज़्यादा।","जाँचने लायक: कंपनी पर पहले से कितना कर्ज़ है, और इससे वह कितना कमाना चाहती है।"]},
+    x:{energy:"नए सोलर और बैटरी प्लांट",ev:"इलेक्ट्रिक गाड़ियों का नया प्लांट",net:"बड़ा 5G नेटवर्क"}
+  },
+  ib:{title:"SMS इनबॉक्स",empty:"अभी कोई संदेश नहीं।",note:"मॉक SMS। असली डिपॉजिटरी अलर्ट आपके खाते में दर्ज मोबाइल और ईमेल पर SMS और ईमेल से आते हैं।"},
+  ls:{title:"पाठ",read:"पढ़ा ✓",new:"नया"},
+  ac:{title:"मेरा खाता",kyc:"KYC जानकारी (नमूना)",broker:"ब्रोकर / DP",boSplit:"पहले 8 अंक = DP ID · आख़िरी 8 अंक = आपकी क्लाइंट ID",
+    resetT:"डेमो रीसेट",resetP:"₹1,00,000 के साथ फिर से शुरू करें। इससे सारे सौदे, XP और प्रगति मिट जाएँगे।",resetBtn:"डेमो रीसेट करें",
+    confT:"सब कुछ रीसेट करें?",confP:"सारी होल्डिंग्स, नकद, XP और प्रगति मिट जाएगी। इसे वापस नहीं किया जा सकता।",confOk:"हाँ, रीसेट करें",
+    saved:"प्रगति इस डिवाइस पर सेव है।",nosave:"इस डिवाइस पर प्रगति सेव नहीं हो सकती (स्टोरेज उपलब्ध नहीं)।",lang:"भाषा"},
+  sc:{
+    title:"स्कैम शील्ड",intro:"व्हाट्सऐप पर 5 “टिप्स” आई हैं। हर एक के लिए तय करें: सुरक्षित या धोखा?",safe:"सुरक्षित ✅",scam:"धोखा 🚩",right:"सही! 🎉",wrong:"सही नहीं।",was:"यह था: {a}",
+    next:"अगला संदेश →",fin:"मेरा स्कोर देखें →",score:"आपने 5 में से {n} सही पहचाने",again:"फिर से खेलें",prog:"संदेश {n} / 5",verT:"किसी भी टिप पर भरोसा करने से पहले",
+    chat:"निवेश टिप्स 💸 (ग्रुप)",online:"{n} नए संदेश",aSafe:"सुरक्षित",aScam:"धोखा",bonus:"स्कैम शील्ड स्कोर",flags:"खतरे के निशान",lesson:"सारे खतरे के निशान",
+    perfect:"पूरे नंबर! धोखेबाज़ों के लिए आप मुश्किल हैं।",good:"बढ़िया। खतरे के निशान एक बार और पढ़ लें।",low:"धोखेबाज़ चालाक होते हैं। खतरे के निशान पढ़ें, फिर दोबारा खेलें।",
+    ver:["SEBI की वेबसाइट (sebi.gov.in) पर व्यक्ति या फ़र्म को जाँचें। इन्वेस्टमेंट एडवाइज़र का रजिस्ट्रेशन नंबर “INA” से और रिसर्च एनालिस्ट का “INH” से शुरू होता है।","OTP, TPIN, पासवर्ड या स्क्रीन का एक्सेस कभी किसी को न दें।","धोखे की शिकायत: SEBI SCORES पर, और साइबर धोखे के लिए cybercrime.gov.in या हेल्पलाइन 1930 पर।"],
+    msgs:[
+      {f:"+91 98xxx x4x21 (अनजान)",m:"🔥🔥 ऑपरेटर न्यूज़ 🔥🔥 2 बजे से पहले चमकदार एग्रो खरीदें! 30 दिन में 300% रिटर्न की गारंटी। हमारे VIP ग्रुप से जुड़ें, सिर्फ़ ₹4,999 👉 bit.ly/vip-300",w:["शेयरों में “गारंटीड” रिटर्न होता ही नहीं। कोई 300% का वादा नहीं कर सकता।","जल्दबाज़ी (“2 बजे से पहले”) इसलिए कि आप रुककर सोचें नहीं।","किसी छोटे अनजान शेयर पर “ऑपरेटर न्यूज़” पंप-एंड-डंप की पुरानी चाल है: वे ऊँचे भाव पर आपको बेच देते हैं।","“VIP ग्रुप” में जुड़ने के लिए पैसे और छोटे लिंक बड़े खतरे के निशान हैं।"]},
+      {f:"राजेश स्टॉक एक्सपर्ट 😎",m:"नमस्ते जी 🙏 15 साल का अनुभव। SEBI रजिस्टर्ड नहीं हूँ, पर मेरे नतीजे रजिस्टर्ड सलाहकारों से बेहतर हैं! रोज़ पक्के कॉल के लिए मेरे UPI पर ₹10,000 भेजें।",w:["सिर्फ़ SEBI रजिस्टर्ड इन्वेस्टमेंट एडवाइज़र (INA…) और रिसर्च एनालिस्ट (INH…) ही पैसे लेकर शेयर सलाह दे सकते हैं।","वह खुद मान रहा है कि रजिस्टर्ड नहीं है। उसे पैसे देना गैर-कानूनी सलाह है और आपकी कोई सुरक्षा नहीं।","“पक्के” कॉल और किसी के निजी UPI ID पर पैसा, दोनों खतरे के निशान हैं।"]},
+      {f:"प्रिया (बहन) 💕",m:"दीदी, मैंने अपने ब्रोकर के ऐप से इंडेक्स फ़ंड में हर महीने ₹500 की SIP शुरू की है। यह ऊपर-नीचे होता है, पर मैं इसे 5+ साल रखूँगी। आपको भी दिखाऊँ कैसे काम करता है?",w:["छोटी रकम, नियमित निवेश, लंबा समय।","रिटर्न का कोई वादा नहीं: वह खुद कहती है कि यह ऊपर-नीचे होता है।","उसके अपने नाम पर, एक नियमित (रेगुलेटेड) ऐप से, बिना दबाव और बिना किसी को पैसा भेजे।"]},
+      {f:"KYC अपडेट टीम ⚠️",m:"प्रिय ग्राहक, KYC की अवधि खत्म होने से आपका डीमैट खाता आज ब्लॉक हो जाएगा। KYC अपडेट के लिए अभी आया OTP शेयर करें, या क्लिक करें: kyc-demat-update.co",w:["डर और समय-सीमा (“आज ब्लॉक”) दबाव डालने की चाल है।","कोई असली ब्रोकर, डिपॉजिटरी या SEBI कभी आपका OTP नहीं माँगता।","अनजान लिंक आपका लॉगिन चुरा सकते हैं। KYC सिर्फ़ ब्रोकर के आधिकारिक ऐप या वेबसाइट पर अपडेट करें, जिसे आपने खुद खोला हो।"]},
+      {f:"{br} ✓ (आपका ब्रोकर)",m:"आज के सौदे की पुष्टि ऐप में रिपोर्ट्स में है। याद रखें: हम कभी आपका पासवर्ड, OTP या TPIN नहीं माँगेंगे।",w:["यह सिर्फ़ जानकारी है: कोई लिंक नहीं, पैसे, OTP या जानकारी की कोई माँग नहीं।","यह उस काम से मेल खाता है जो आपने सच में किया (एक सौदा)।","फिर भी अच्छी आदत: संदेश के लिंक की बजाय खुद ऐप खोलकर जाँचें।"]}
+    ]
+  },
+  otp:{title:"CDSL अनुमति (मॉक)",p:"इसकी अनुमति के लिए SMS से OTP भेजा गया है: {w}",enter:"6 अंकों का OTP डालें",fill:"SMS से भरें",ok:"अनुमति दें",warn:"CDSL, आपका ब्रोकर या SEBI कभी फ़ोन करके यह OTP नहीं माँगेंगे।",
+    w:{sell:"आपके डीमैट से {q} {s} शेयरों का डेबिट (बिक्री)",pledge:"{br} के पक्ष में {q} {s} शेयरों की गिरवी"}},
+  sms:{mock:"मॉक SMS",
+    welcome:"CDSL: स्वागत है! डीमैट खाता {bo} DP {br} के साथ खुल गया है। हर क्रेडिट और डेबिट पर आपको अलर्ट मिलेगा। OTP/TPIN कभी न बताएँ।",
+    cr:"CDSL: {co} के {q} शेयर {date} को डीमैट खाता {bo} में जमा (क्रेडिट) हुए। आपने नहीं किया? अपने DP से संपर्क करें।",
+    dr:"CDSL: {co} के {q} शेयर {date} को डीमैट खाता {bo} से निकले (डेबिट)। आपने नहीं किया? तुरंत अपने DP से संपर्क करें।",
+    otp:"CDSL: {w} की अनुमति के लिए OTP {code}। इसे किसी को न बताएँ, अपने ब्रोकर को भी नहीं।",
+    pl:"CDSL: खाता {bo} से {co} के {q} शेयर {br} के पक्ष में गिरवी रखे गए। वे आपके नाम पर ही रहेंगे।",
+    upl:"CDSL: खाता {bo} में {co} के {q} शेयरों की गिरवी छूट गई।",
+    bonus:"CDSL: {co} के {q} बोनस शेयर {date} को खाता {bo} में जमा हुए।",
+    split:"CDSL: {co} का स्प्लिट जमा हुआ। खाता {bo} में अब आपके {q} शेयर हैं।",
+    div:"बैंक: आपके खाते में {a} जमा हुए। {co} से डिविडेंड।",
+    cas:"CDSL: {m} का आपका CAS बन गया है और ईमेल कर दिया गया है। इसे हर महीने जाँचें।",
+    nom:"CDSL: डीमैट खाता {bo} के लिए नॉमिनेशन दर्ज हो गया।"},
+  corp:{label:"कॉर्पोरेट एक्शन · सिम्युलेटेड घटना",fake:"यह घटना सीखने के लिए सिम्युलेटेड है। यह {co} की असली घोषणा नहीं है।",
+    divY:"रिकॉर्ड डेट पर आपके पास {q} शेयर थे, इसलिए आपके नकद में {amt} जमा हुए।",divN:"रिकॉर्ड डेट पर आपके पास {co} नहीं था। 10 सेटल शेयर होते तो आपको {amt} मिलते।",
+    bonusY:"आपके {q0} शेयर अब {q1} हो गए। भाव {p0} से {p1} हुआ।",bonusN:"आपके पास {co} नहीं था। 10 शेयर होते तो अब 20 होते, हर एक लगभग आधे भाव पर।",
+    splitY:"आपके {q0} शेयर अब {q1} हो गए। भाव {p0} से घटकर {p1} हुआ।",splitN:"आपके पास {co} नहीं था। 10 शेयर होते तो अब 50 होते, हर एक लगभग पाँचवें हिस्से के भाव पर।",
+    v:"पहले कीमत: {v0} · बाद में: {v1}। छोटा सा फ़र्क बस उस दिन के सामान्य भाव बदलाव का है।",
+    divG:"उदाहरण: रिकॉर्ड डेट पर 10 सेटल शेयर होने पर आपको {amt} मिलते।",bonusG:"उदाहरण: ₹1,400 के 10 शेयर, लगभग ₹700 के 20 शेयर बन जाते हैं। कीमत लगभग ₹14,000 ही रहती है।",splitG:"उदाहरण: ₹3,500 के 10 शेयर, लगभग ₹700 के 50 शेयर बन जाते हैं। कीमत लगभग ₹35,000 ही रहती है।"},
+  cert:{t:"प्रमाणपत्र",h:"आत्मनिर्भर निवेशक",p:"यह प्रमाणित किया जाता है कि {name} ने पहला कदम के सभी मिशन पूरे किए: डीमैट खाता, T+1 सेटलमेंट, CAS, कॉर्पोरेट एक्शन, प्लेज, नॉमिनेशन, ई-वोटिंग और धोखे से बचाव।",sim:"प्रैक्टिस प्रमाणपत्र · सिम्युलेटेड सैंडबॉक्स",on:"{date} को दिया गया",xp:"{n} XP कमाए"},
+  lessons:{
+    accounts:{t:"ब्रोकर, ट्रेडिंग, डीमैट, डिपॉजिटरी: 4 ज़रूरी शब्द",b:["🏪 ब्रोकर: वह दुकान जो स्टॉक एक्सचेंज (NSE/BSE) पर आपके ऑर्डर लगाती है। ब्रोकर का SEBI में रजिस्टर्ड होना ज़रूरी है।","🧾 ट्रेडिंग खाता: ब्रोकर के पास आपका ऑर्डर काउंटर। इससे आप शेयर खरीदते और बेचते हैं।","🔐 डीमैट खाता: आपका डिजिटल लॉकर। आपके शेयर यहाँ आपके नाम पर रखे जाते हैं, जैसे बैंक खाते में पैसे।","🏛️ डिपॉजिटरी (CDSL): वह केंद्रीय तिजोरी जो इलेक्ट्रॉनिक रिकॉर्ड रखती है कि कौन से शेयर किसके हैं। आपका ब्रोकर डिपॉजिटरी पार्टिसिपेंट (DP) बनकर आपको इससे जोड़ता है।","## यह क्यों ज़रूरी है","आपके शेयर डिपॉजिटरी में आपके अपने डीमैट खाते में रहते हैं, ब्रोकर की जेब में नहीं। जब भी शेयर हिलते हैं, डिपॉजिटरी सीधे आपको सूचना देती है।"]},
+    kyc:{t:"KYC क्यों?",b:["KYC यानी “अपने ग्राहक को जानें”। इससे साबित होता है कि आप सच में आप हैं, ताकि कोई और आपके नाम पर खाता न खोल सके।","निवेश के लिए PAN ज़रूरी है। चौथा अक्षर बताता है कि PAN किसका है: “P” मतलब एक व्यक्ति। पाँचवाँ अक्षर आपके उपनाम (सरनेम) का पहला अक्षर होता है।","आधार से OTP द्वारा जल्दी e-KYC होता है। यह OTP सिर्फ़ उसी आधिकारिक ऐप या वेबसाइट पर डालें जो आपने खुद खोली हो।","KYC एक KYC रजिस्ट्रेशन एजेंसी (KRA) में दर्ज होता है, इसलिए आपका अगला ब्रोकर इसे दोबारा इस्तेमाल कर सकता है।","इस सैंडबॉक्स में हर जानकारी नकली है। किसी प्रैक्टिस ऐप में अपना असली PAN या आधार कभी न डालें।"]},
+    boid:{t:"आपकी 16 अंकों की BO ID",b:["BO यानी बेनिफ़िशियल ओनर, यानी शेयरों के असली मालिक: आप।","CDSL की BO ID में पहले 8 अंक आपके DP (ब्रोकर) की ID होते हैं और आख़िरी 8 अंक आपकी अपनी क्लाइंट ID।","आपकी BO ID हर CDSL SMS, ईमेल और CAS पर दिखती है। इसे अपने लॉकर का नंबर समझें।"]},
+    order:{t:"ऑर्डर हो गया! अब: सेटलमेंट",b:["आपने मार्केट ऑर्डर दिया, इसलिए शेयर तुरंत मौजूदा भाव पर खरीदे गए।","आपका पैसा कट चुका है, लेकिन शेयर अभी “पेंडिंग” हैं। वे अभी आपके डीमैट खाते में नहीं आए हैं।","## रात में क्या होता है","एक्सचेंज का क्लियरिंग कॉर्पोरेशन आपका पैसा और बेचने वाले के शेयर इकट्ठा करता है। फिर डिपॉजिटरी शेयरों को आपके डीमैट खाते में डाल देती है।","यह होते हुए देखने के लिए “अगला दिन ⏭” दबाएँ।"]},
+    settle:{t:"T+1 सेटलमेंट: शेयर अब आपके हैं!",b:["T यानी सौदे का दिन। T+1 यानी अगला कारोबारी दिन। भारत में शेयर सौदे T+1 पर सेटल होते हैं, जो दुनिया में सबसे तेज़ में से एक है।","रात में डिपॉजिटरी ने शेयर आपके अपने डीमैट खाते में, आपके नाम पर जमा कर दिए।","## CDSL का SMS आपकी रक्षा कैसे करता है","जब भी शेयर आते या जाते हैं, डिपॉजिटरी सीधे आपको संदेश भेजती है, ब्रोकर के ज़रिए नहीं।","अगर कभी ऐसी बिक्री का डेबिट SMS आए जो आपने नहीं की, तो तुरंत अपने DP और डिपॉजिटरी को फ़ोन करें।","पक्का करें कि डीमैट खाते में मोबाइल नंबर और ईमेल आपके अपने हों, किसी एजेंट के नहीं।"]},
+    tpin:{t:"बेचने के लिए आपकी अनुमति ज़रूरी है",b:["शेयर आपके डीमैट से तभी निकल सकते हैं जब आप अनुमति दें। डेबिट से पहले CDSL आपका TPIN और OTP माँगता है। इसे e-DIS कहते हैं।","अगर आपने ब्रोकर के साथ DDPI (डीमैट डेबिट और प्लेज निर्देश) पर साइन किया है, तो ब्रोकर बिक्री के लिए हर बार पूछे बिना यह कर सकता है। साइन करने से पहले पढ़ें।","अपना TPIN या OTP किसी को न बताएँ, उसे भी नहीं जो खुद को ब्रोकर या CDSL से बताए।","बिक्री का पैसा भी T+1 पर आता है।"]},
+    cas:{t:"CAS: आपकी हर चीज़ का एक स्टेटमेंट",b:["CAS यानी कंसोलिडेटेड अकाउंट स्टेटमेंट। जिस महीने आपका कोई लेन-देन हो, डिपॉजिटरी इसे ईमेल से भेजती है, वरना कम से कम हर छह महीने में एक बार।","इसमें आपके PAN से जुड़े सभी डीमैट खातों के शेयर, अलग-अलग ब्रोकरों के भी, और आपके म्यूचुअल फ़ंड यूनिट दिखते हैं।","## हर महीने जाँचें","क्या सारी होल्डिंग्स आपकी हैं? कोई बिक्री या गिरवी जो आपने नहीं की? क्या आपका नॉमिनी दर्ज है?","ब्रोकर ऐप वह दिखाता है जो ब्रोकर बताता है। CAS वह दिखाता है जो डिपॉजिटरी के रिकॉर्ड में है। अगर दोनों में फ़र्क हो, तो तुरंत सवाल पूछें।"]},
+    div:{t:"डिविडेंड: मुनाफ़े में हिस्सा",b:["{co} ने ₹{dps} प्रति शेयर डिविडेंड दिया (सिम्युलेटेड)।","{res}","## कंपनी को कैसे पता चला कि किसे पैसा देना है?","रिकॉर्ड डेट पर डिपॉजिटरी कंपनी को मालिकों की सूची (“बेनिफ़िशियरी पोज़िशन”) देती है। इसी से पैसा सही लोगों तक पहुँचता है।","T+1 में रिकॉर्ड डेट के दिन ही खरीदे गए शेयर देर से हैं: वे अगले दिन सेटल होते हैं।","एक्स-डेट पर भाव आमतौर पर लगभग डिविडेंड जितना गिरता है। डिविडेंड पर टैक्स लगता है।"]},
+    bonus:{t:"बोनस इश्यू: शेयर ज़्यादा, कीमत वही",b:["{co} ने हर 1 शेयर पर 1 अतिरिक्त शेयर दिया (1:1, सिम्युलेटेड)।","{res}","भाव लगभग आधा हो जाता है, इसलिए कुल कीमत लगभग वही रहती है: उसी केक के ज़्यादा टुकड़े।","डिपॉजिटरी बोनस शेयर सीधे आपके डीमैट में डालती है। आपको कुछ नहीं करना पड़ता।","गिरवी रखे शेयरों पर भी बोनस मिलता है, क्योंकि वे अब भी आपके ही हैं।"]},
+    split:{t:"स्टॉक स्प्लिट: वही केक, छोटे टुकड़े",b:["{co} ने हर शेयर को 5 में बाँटा (सिम्युलेटेड)। फ़ेस वैल्यू भी 5 से भाग हुई।","{res}","कंपनियाँ स्प्लिट इसलिए करती हैं ताकि एक शेयर सस्ता हो और छोटे निवेशक आसानी से खरीद सकें।","रात में डिपॉजिटरी ने आपके डीमैट में पुराने शेयरों को नए शेयरों से बदल दिया।"]},
+    pledge:{t:"प्लेज (गिरवी): शेयरों को ज़मानत बनाना",b:["प्लेज से आप अपने शेयरों को ज़मानत (कोलैटरल) बनाकर ब्रोकर से मार्जिन (ट्रेडिंग लिमिट) ले सकते हैं।","गिरवी रखे शेयर लॉक हो जाते हैं: गिरवी छूटने तक आप उन्हें बेच नहीं सकते। लेकिन वे आपके नाम पर ही रहते हैं, और डिविडेंड, बोनस और वोट आपको ही मिलते हैं।","आपको पूरी कीमत नहीं मिलती। इस कटौती को “हेयरकट” कहते हैं।","कोई भी प्लेज बनने से पहले CDSL आपका OTP माँगता है। OTP नहीं, तो प्लेज नहीं: इससे दुरुपयोग रुकता है।","## जोखिम","अगर भाव गिरे, तो आपका मार्जिन घटता है। अगर आप पैसा नहीं डाल पाए, तो ब्रोकर प्लेज “इनवोक” करके आपके शेयर बेच सकता है, नुकसान में भी।","ज़्यादातर नए निवेशकों को मार्जिन की ज़रूरत नहीं होती। पूरी तरह समझकर ही प्लेज करें।"]},
+    nominee:{t:"नॉमिनी: आपके शेयर किसे मिलेंगे",b:["नॉमिनी वह व्यक्ति है जिसे आपके साथ कुछ होने पर आपके शेयर मिलेंगे।","आप एक से ज़्यादा नॉमिनी जोड़ सकते हैं और हर व्यक्ति का हिस्सा % में तय कर सकते हैं।","इसमें 2 मिनट लगते हैं और यह आपके परिवार को महीनों की कागज़ी कार्रवाई से बचा सकता है।","आप जब चाहें नॉमिनी बदल सकते हैं।"]},
+    noNom:{t:"अगर कोई नॉमिनी न हो तो?",b:["आपके शेयर गायब नहीं होते। वे आपके ही रहते हैं, और बाद में आपके कानूनी वारिसों के।","लेकिन परिवार को भारी कागज़ी कार्रवाई के साथ “ट्रांसमिशन” करवाना पड़ता है: मृत्यु प्रमाणपत्र, उत्तराधिकार या कानूनी वारिस प्रमाणपत्र (या प्रोबेट), हलफ़नामे और क्षतिपूर्ति पत्र।","इसमें महीनों लग सकते हैं और पैसा भी, वो भी परिवार के सबसे मुश्किल समय में।","नॉमिनी होने पर आमतौर पर सिर्फ़ मृत्यु प्रमाणपत्र और एक आसान फ़ॉर्म लगता है।","SEBI हर डीमैट खाताधारक से कहता है कि या तो नॉमिनी जोड़ें या औपचारिक रूप से ऑप्ट-आउट करें। आप डेस्क से कभी भी नॉमिनी जोड़ सकते हैं।"]},
+    evote:{t:"आपका शेयर = आपका वोट",b:["1 शेयर से भी आप कंपनी के हिस्सेदार बन जाते हैं। आप बड़े फ़ैसलों पर वोट कर सकते हैं: डिविडेंड, निदेशक, ऑडिटर, कर्ज़, विलय।","एक शेयर = एक वोट। ज़्यादा शेयर, ज़्यादा वोट।","वोटिंग के समय में आप डिपॉजिटरी के ई-वोटिंग सिस्टम से ऑनलाइन वोट कर सकते हैं। AGM तक जाने की ज़रूरत नहीं।","वोट करने के लिए कट-ऑफ़ डेट पर शेयर आपके पास होने चाहिए। एक बार डाला गया वोट बदला नहीं जा सकता।","छोटे-छोटे वोट मिलकर बड़े होते हैं, और कंपनियाँ नतीजों पर नज़र रखती हैं।"]},
+    scam:{t:"स्कैम शील्ड: खतरे के निशान",b:["🚩 गारंटीड या बहुत ज़्यादा रिटर्न का वादा","🚩 जल्दबाज़ी: “2 बजे से पहले खरीदें”, “आज खाता ब्लॉक हो जाएगा”","🚩 OTP, TPIN, पासवर्ड या स्क्रीन शेयर माँगना","🚩 अनजान लिंक, APK ऐप, किसी के निजी UPI ID पर पैसा","🚩 “ऑपरेटर”, “अंदर की खबर” या “पक्के” टिप, पैसे वाले VIP ग्रुप","## भरोसा करने से पहले जाँचें","SEBI की वेबसाइट (sebi.gov.in) पर व्यक्ति को जाँचें: इन्वेस्टमेंट एडवाइज़र का नंबर “INA” से और रिसर्च एनालिस्ट का “INH” से शुरू होता है।","धोखे की शिकायत SEBI SCORES पर, या cybercrime.gov.in / हेल्पलाइन 1930 पर करें।"]}
+  }
+}
+};
+
+/* ---------- 2. Simulated market data (seeded random walk) ---------- */
+const KEY='pehlaKadam.v1',START=20,NDAYS=60,LAST=NDAYS-1,CASH0=100000;
+const STOCKS=[
+  {s:'RELIANCE',n:{en:'Reliance Industries',hi:'रिलायंस इंडस्ट्रीज़'},isin:'INE002A01018',p0:1385,vol:.013,dr:.0005,hc:15,sec:'energy',c:'#ff9ccd'},
+  {s:'TCS',n:{en:'Tata Consultancy Services',hi:'टाटा कंसल्टेंसी सर्विसेज़'},isin:'INE467B01029',p0:3450,vol:.012,dr:.0002,hc:13,sec:'it',c:'#c3b3ff'},
+  {s:'HDFCBANK',n:{en:'HDFC Bank',hi:'एचडीएफ़सी बैंक'},isin:'INE040A01034',p0:965,vol:.011,dr:.0004,hc:12,sec:'bank',c:'#7be9fa'},
+  {s:'INFY',n:{en:'Infosys',hi:'इंफ़ोसिस'},isin:'INE009A01021',p0:1520,vol:.014,dr:.0001,hc:13,sec:'it',c:'#b8ff66'},
+  {s:'ITC',n:{en:'ITC',hi:'आईटीसी'},isin:'INE154A01025',p0:412,vol:.010,dr:.0003,hc:12,sec:'fmcg',c:'#ffe58a'},
+  {s:'SBIN',n:{en:'State Bank of India',hi:'भारतीय स्टेट बैंक'},isin:'INE062A01020',p0:805,vol:.014,dr:.0006,hc:14,sec:'bank',c:'#a8c5ff'},
+  {s:'TATAMOTORS',n:{en:'Tata Motors',hi:'टाटा मोटर्स'},isin:'INE155A01022',p0:690,vol:.019,dr:-.0002,hc:20,sec:'auto',c:'#ffb38a'},
+  {s:'HINDUNILVR',n:{en:'Hindustan Unilever',hi:'हिंदुस्तान यूनिलीवर'},isin:'INE030A01027',p0:2420,vol:.010,dr:.0001,hc:12,sec:'fmcg',c:'#9ff0d2'},
+  {s:'ASIANPAINT',n:{en:'Asian Paints',hi:'एशियन पेंट्स'},isin:'INE021A01026',p0:2380,vol:.012,dr:-.0003,hc:14,sec:'paint',c:'#ffc6f0'},
+  {s:'BHARTIARTL',n:{en:'Bharti Airtel',hi:'भारती एयरटेल'},isin:'INE397D01024',p0:1890,vol:.012,dr:.0007,hc:13,sec:'tel',c:'#ff9f9f'}
+];
+const SK={};STOCKS.forEach(x=>SK[x.s]=x);
+// Corporate actions at fixed simulated days (all fictional, for learning).
+const EVENTS=[
+  {i:START+3,k:'div',s:'ITC',dps:6.5},
+  {i:START+7,k:'bonus',s:'RELIANCE',r:1},
+  {i:START+12,k:'split',s:'TCS',r:5},
+  {i:START+21,k:'div',s:'INFY',dps:21}
+];
+const RES={RELIANCE:{k:'bor',a:'25,000',x:'energy'},TCS:{k:'div',a:'24'},HDFCBANK:{k:'dir'},INFY:{k:'aud'},ITC:{k:'div',a:'7.85'},SBIN:{k:'dir'},TATAMOTORS:{k:'bor',a:'10,000',x:'ev'},HINDUNILVR:{k:'div',a:'24'},ASIANPAINT:{k:'aud'},BHARTIARTL:{k:'bor',a:'15,000',x:'net'}};
+const SPECIAL={bor:1,dir:1};
+const BROKERS=[{id:'saral',n:'Saral Broking',dp:'12081600',e:'🌼'},{id:'sakhi',n:'Sakhi Securities',dp:'12033500',e:'💜'},{id:'gaon',n:'Gaon Invest',dp:'12019700',e:'🌾'}];
+const MIS=[['open',50],['buy',30],['settle',30],['nominee',40],['cas',20],['sell',30],['corp',40],['pledge',40],['vote',30],['scam',50]];
+const LV=[0,100,220];
+const LESSONS=['accounts','kyc','boid','order','settle','tpin','cas','div','bonus','split','pledge','nominee','noNom','evote','scam'];
+const LESSON_IC={accounts:'🏛️',kyc:'🪪',boid:'🔢',order:'🛒',settle:'📬',tpin:'🔑',cas:'📄',div:'💰',bonus:'🎁',split:'✂️',pledge:'🔒',nominee:'💜',noNom:'📚',evote:'🗳️',scam:'🛡️'};
+const SCAM_ANS=['scam','scam','safe','scam','safe'];
+const RELS=['mother','father','spouse','daughter','son','sister','brother','other'];
+
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+const PX={};
+STOCKS.forEach(st=>{
+  const r=rng(hash(st.s)^20260601);let p=st.p0;const a=[];
+  for(let i=0;i<NDAYS;i++){
+    if(i>0){const u=Math.max(1e-9,r()),v=r();const z=Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);p=p*Math.exp(st.dr+st.vol*z)}
+    a.push(p);
+  }
+  EVENTS.filter(e=>e.s===st.s).forEach(e=>{for(let i=e.i;i<NDAYS;i++){if(e.k==='div')a[i]-=e.dps;else if(e.k==='bonus')a[i]/=(1+e.r);else a[i]/=e.r}});
+  PX[st.s]=a.map(x=>Math.round(x*20)/20); // NSE tick size ₹0.05
+});
+// Trading calendar: weekdays from Mon 1 Jun 2026
+const DATES=[];{const d=new Date(2026,5,1);while(DATES.length<NDAYS){const w=d.getDay();if(w>0&&w<6)DATES.push(new Date(d));d.setDate(d.getDate()+1)}}
+
+/* ---------- 3. State + persistence ---------- */
+function fresh(lang){return{v:1,lang:lang||'en',ob:0,onb:false,kyc:null,broker:null,bo:'',day:START,cash:CASH0,hold:{},pend:[],pcash:[],tx:[],sms:[],snap:{},xp:0,m:{},seen:{},nom:{st:'none',list:[]},votes:{},scam:{ans:[],done:false,score:0},cert:false,seq:1}}
+let storageOK=true;
+function load(){
+  try{const k='__pk_test';localStorage.setItem(k,'1');localStorage.removeItem(k)}catch(e){storageOK=false;return fresh()}
+  try{const raw=localStorage.getItem(KEY);if(raw){const s=JSON.parse(raw);if(s&&s.v===1&&typeof s.day==='number')return Object.assign(fresh(),s)}}catch(e){}
+  return fresh();
+}
+function save(){if(!storageOK)return;try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){storageOK=false}}
+let state=load();
+const ui={tab:'home',sub:null,seg:'hold',casM:null,modals:[],ob:{f:{name:'',pan:'',aad:'',mob:'',dob:''},e:{}},nomForm:null,nomErr:'',drop:20,scamFb:false};
+
+/* ---------- 4. Helpers ---------- */
+const $=s=>document.querySelector(s);
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function get(o,k){return k.split('.').reduce((a,x)=>a!=null&&a[x]!=null?a[x]:undefined,o)}
+function fill(s,p){return p?String(s).replace(/\{(\w+)\}/g,(m,x)=>p[x]!=null?p[x]:m):s}
+function t(k,p){let v=get(T[state.lang],k);if(v==null)v=get(T.en,k);if(v==null)return k;return typeof v==='string'?fill(v,p):v}
+function r2(n){return Math.round(n*100)/100}
+function inr(n,d){d=d==null?2:d;const v=Number(n)||0;try{return(v<0?'−':'')+'₹'+Math.abs(v).toLocaleString('en-IN',{minimumFractionDigits:d,maximumFractionDigits:d})}catch(e){return(v<0?'−':'')+'₹'+Math.abs(v).toFixed(d)}}
+function loc(){return state.lang==='hi'?'hi-IN':'en-IN'}
+function fdate(i,o){const d=DATES[Math.max(0,Math.min(LAST,i))];try{return d.toLocaleDateString(loc(),o||{day:'numeric',month:'short',year:'numeric'})}catch(e){return d.toDateString()}}
+function fshort(i){return fdate(i,{day:'numeric',month:'short'})}
+function mkey(i){const d=DATES[i];return d.getFullYear()+'-'+d.getMonth()}
+function fmonth(k){const a=k.split('-');const d=new Date(+a[0],+a[1],1);try{return d.toLocaleDateString(loc(),{month:'long',year:'numeric'})}catch(e){return k}}
+function co(s){return SK[s]?(SK[s].n[state.lang]||SK[s].n.en):s}
+function P(s,i){return PX[s][i==null?state.day:i]}
+function chgPct(s){const p=P(s),q=P(s,Math.max(0,state.day-1));return(p-q)/q*100}
+function maskBo(){return'****'+String(state.bo).slice(-4)}
+function brName(){const b=BROKERS.find(b=>b.id===state.broker);return b?b.n:''}
+function boFmt(b){return String(b).replace(/(\d{4})(?=\d)/g,'$1 ')}
+function pendQ(s){return state.pend.filter(o=>o.s===s).reduce((a,o)=>a+o.q,0)}
+function freeQ(s){const h=state.hold[s];return h?h.q-h.pl:0}
+function pf(){let val=0,inv=0,mar=0,pq=0;for(const s in state.hold){const h=state.hold[s];val+=h.q*P(s);inv+=h.q*h.avg;mar+=h.pl*P(s)*(1-SK[s].hc/100);pq+=h.pl}let pv=0;state.pend.forEach(o=>pv+=o.q*o.p);let pc=0;state.pcash.forEach(o=>pc+=o.a);return{val,inv,mar,pv,pc,pq,total:state.cash+val+pv+pc}}
+function allDone(){return MIS.every(m=>state.m[m[0]]!=null)}
+function level(){if(allDone())return 3;return state.xp>=LV[2]?2:state.xp>=LV[1]?1:0}
+function win(title,body,cls){return`<section class="win ${cls||''}"><div class="tb"><span class="tt">${title}</span><span class="spk" aria-hidden="true">✦✧✦</span></div><div class="wb">${body}</div></section>`}
+function sheet(title,body){return`<div class="tb"><span class="tt">${title}</span><button class="x" data-a="close" aria-label="${esc(t('close'))}">×</button></div><div class="wb">${body}</div>`}
+function body(arr){return'<div class="lb">'+arr.map(x=>x.indexOf('## ')===0?`<h4>${x.slice(3)}</h4>`:x.indexOf('!! ')===0?`<div class="hl">${x.slice(3)}</div>`:`<p>${x}</p>`).join('')+'</div>'}
+function addTx(type,o){state.tx.unshift(Object.assign({id:state.seq++,d:state.day,t:type},o||{}));if(state.tx.length>400)state.tx.length=400}
+
+/* ---------- 5. Toasts + mock SMS ---------- */
+const toasts=[];
+function toast(fn,cls,onclick,ms){
+  const box=$('#toasts');const el=document.createElement(onclick?'button':'div');el.className='toast '+cls;
+  const o={el,fn};o.rm=()=>{el.remove();const k=toasts.indexOf(o);if(k>=0)toasts.splice(k,1)};
+  if(onclick){el.type='button';el.onclick=()=>{o.rm();onclick()}}
+  el.innerHTML=fn();toasts.push(o);box.appendChild(el);
+  while(toasts.length>3)toasts[0].rm();
+  setTimeout(o.rm,ms||5200);
+}
+function info(fn){toast(fn,'xpt info',null,3800)}
+function smsParams(m){
+  const p=Object.assign({},m.p);
+  if(p.s)p.co=co(p.s);
+  p.bo=maskBo();p.br=brName();p.date=fshort(m.d);
+  if(p.a!=null)p.a=inr(p.a);
+  if(p.m)p.m=fmonth(p.m);
+  if(m.k==='otp')p.w=t('otp.w.'+p.pu,{q:p.q,s:co(p.s),br:brName()});
+  return p;
+}
+function smsBody(m){return esc(t('sms.'+m.k,smsParams(m)))}
+function smsHTML(m){return`<div class="lcd"><div class="hd"><span>✉ ${esc(m.f)} · ${fshort(m.d)}</span><span>${t('sms.mock')}</span></div>${smsBody(m)}</div>`}
+function sms(k,p,from){
+  const m={id:state.seq++,d:state.day,k,p:p||{},f:from||'CDSL',r:false};
+  state.sms.unshift(m);if(state.sms.length>80)state.sms.length=80;
+  toast(()=>smsHTML(m),'nokia',()=>{m.r=true;save();go('desk','inbox')},m.k==='otp'?9000:5600);
+}
+
+/* ---------- 6. Missions + XP ---------- */
+function complete(id){
+  if(state.m[id]!=null)return;
+  state.m[id]=state.day;const pts=MIS.find(x=>x[0]===id)[1];state.xp+=pts;
+  toast(()=>t('xpToast',{n:pts,m:t('ms.'+id)}),'xpt');
+  if(allDone()&&!state.cert){state.cert=true;openModal({k:'cert'})}
+}
+
+/* ---------- 7. Core actions ---------- */
+function go(tab,sub){ui.tab=tab;ui.sub=sub||null;if(sub==='inbox')state.sms.forEach(m=>m.r=true);if(sub==='nominee')ui.nomForm=null;save();render();window.scrollTo(0,0)}
+function openModal(m,front){if(m.k==='lesson')state.seen[m.id]=1;if(m.k==='corp')state.seen[EVENTS[m.e].k]=1;front?ui.modals.unshift(m):ui.modals.push(m);save();renderModal()}
+function closeModal(){ui.modals.shift();renderModal()}
+function dropModals(kinds){ui.modals=ui.modals.filter(m=>kinds.indexOf(m.k)<0)}
+
+function snapHold(){const o={};for(const s in state.hold){o[s]={q:state.hold[s].q,pl:state.hold[s].pl}}return o}
+function advance(){
+  if(state.day>=LAST){info(()=>t('lastDayToast'));return}
+  const mPrev=mkey(state.day),snapPrev=snapHold();
+  state.day++;
+  if(mkey(state.day)!==mPrev){state.snap[mPrev]=snapPrev;sms('cas',{m:mPrev})}
+  let settled=0;
+  state.pend=state.pend.filter(o=>{
+    if(o.st>state.day)return true;
+    const h=state.hold[o.s]||(state.hold[o.s]={q:0,pl:0,avg:0});
+    h.avg=(h.avg*h.q+o.p*o.q)/(h.q+o.q);h.q+=o.q;
+    addTx('cr',{s:o.s,q:o.q,w:'buy'});sms('cr',{s:o.s,q:o.q});settled++;return false;
+  });
+  state.pcash=state.pcash.filter(o=>{if(o.st>state.day)return true;state.cash=r2(state.cash+o.a);addTx('fund',{s:o.s,a:o.a});return false});
+  info(()=>t('dayToast',{date:fdate(state.day)}));
+  const firstSettle=settled>0&&state.m.settle==null;
+  if(firstSettle){openModal({k:'lesson',id:'settle'});if(state.nom.st==='none')openModal({k:'nomPrompt'})}
+  const evs=EVENTS.filter(e=>e.i===state.day);
+  evs.forEach(e=>openModal({k:'corp',e:EVENTS.indexOf(e),res:applyEvent(e)}));
+  if(firstSettle)complete('settle');
+  if(evs.length)complete('corp');
+  save();render();
+}
+function applyEvent(e){
+  const h=state.hold[e.s];const res={held:!!(h&&h.q>0),p0:P(e.s,e.i-1),p1:P(e.s,e.i)};
+  if(!res.held)return res;
+  if(e.k==='div'){res.q=h.q;res.amt=r2(h.q*e.dps);state.cash=r2(state.cash+res.amt);addTx('div',{s:e.s,q:h.q,a:res.amt});sms('div',{s:e.s,a:res.amt},'BANK')}
+  else if(e.k==='bonus'){res.q0=h.q;const add=h.q*e.r;h.q+=add;h.avg=h.avg/(1+e.r);res.q1=h.q;addTx('cr',{s:e.s,q:add,w:'bonus'});sms('bonus',{s:e.s,q:add})}
+  else{res.q0=h.q;const add=h.q*(e.r-1);h.q*=e.r;h.pl*=e.r;h.avg=h.avg/e.r;res.q1=h.q;addTx('cr',{s:e.s,q:add,w:'split'});sms('split',{s:e.s,q:h.q})}
+  if(res.q0!=null){res.v0=res.q0*res.p0;res.v1=res.q1*res.p1}
+  return res;
+}
+function ordCalc(m){
+  const p=P(m.s),q=m.q;let err='';
+  if(state.day>=LAST)err=t('st.lastDay');
+  else if(!(q>=1)||Math.floor(q)!==q)err=t('err.qty');
+  else if(m.side==='buy'&&q*p>state.cash+1e-6)err=t('err.cash');
+  else if(m.side==='sell'&&q>freeQ(m.s))err=t('err.free',{n:freeQ(m.s)});
+  return{p,q,amt:(q>0?q:0)*p,err};
+}
+function doBuy(s,q){
+  const c=ordCalc({s,q,side:'buy'});if(c.err)return;
+  state.cash=r2(state.cash-c.amt);state.pend.push({s,q,p:c.p,d:state.day,st:state.day+1});
+  addTx('buy',{s,q,p:c.p,a:r2(c.amt)});
+  dropModals(['stock']);
+  toast(()=>t('st.bought',{q,s:co(s)}),'xpt info');
+  const first=state.m.buy==null;if(first)openModal({k:'lesson',id:'order'});
+  complete('buy');save();render();
+}
+function doSell(s,q){
+  const c=ordCalc({s,q,side:'sell'});if(c.err)return;
+  const h=state.hold[s];const real=r2((c.p-h.avg)*q);
+  h.q-=q;if(h.q<=0)delete state.hold[s];
+  state.pcash.push({s,q,a:r2(c.amt),st:state.day+1});
+  addTx('sell',{s,q,p:c.p,a:r2(c.amt),r:real});addTx('dr',{s,q,w:'sell'});sms('dr',{s,q});
+  dropModals(['otp','stock']);
+  toast(()=>t('st.sold',{q,s:co(s),r:real>=0?t('st.profit',{a:inr(real)}):t('st.loss',{a:inr(-real)})}),'xpt info');
+  if(state.m.sell==null)openModal({k:'lesson',id:'tpin'});
+  complete('sell');save();render();
+}
+function doPledge(s,q){
+  const h=state.hold[s];if(!h||q<1||q>h.q-h.pl)return;
+  h.pl+=q;addTx('pl',{s,q});sms('pl',{s,q});
+  dropModals(['otp','pledge']);
+  toast(()=>t('pl.done',{q,s:co(s)}),'xpt info');
+  if(state.m.pledge==null)openModal({k:'lesson',id:'pledge'});
+  complete('pledge');save();render();
+}
+function unpledge(s){const h=state.hold[s];if(!h||!h.pl)return;const q=h.pl;h.pl=0;addTx('upl',{s,q});sms('upl',{s,q});toast(()=>t('pl.released',{q,s:co(s)}),'xpt info');save();render()}
+function startOtp(pu,data){const code=String(100000+Math.floor(Math.random()*900000));sms('otp',{code,pu,s:data.s,q:data.q});openModal(Object.assign({k:'otp',pu,code,val:'',err:''},data),true)}
+function viewCas(){if(state.m.cas==null){openModal({k:'lesson',id:'cas'});complete('cas');save()}}
+
+/* ---------- 8. Rendering: header, ticker, nav ---------- */
+let tickKey='';
+function renderHdr(){
+  const on=state.onb;
+  $('#hdrIn').innerHTML=`<div class="hrow"><div class="logo">${t('app')}<span class="spark" aria-hidden="true">✦</span></div><span class="simchip">${t('simChip')}</span>
+  <div class="lang" role="group" aria-label="Language / भाषा"><button data-a="lang" data-l="en" class="${state.lang==='en'?'on':''}" aria-pressed="${state.lang==='en'}">EN</button><button data-a="lang" data-l="hi" class="${state.lang==='hi'?'on':''}" aria-pressed="${state.lang==='hi'}" lang="hi">हिं</button></div></div>
+  ${on?`<div class="hrow r2"><div class="datechip"><b>${t('day',{n:state.day-START+1})}</b> · ${fdate(state.day)}</div><button class="btn lime next" data-a="next" ${state.day>=LAST?'disabled':''}>${t('next')}</button></div>`:''}`;
+  const k=state.onb+'|'+state.day+'|'+state.lang;
+  if(k!==tickKey){tickKey=k;
+    if(!state.onb){$('#tick').innerHTML='';return}
+    const one='<span>'+STOCKS.map(st=>{const c=chgPct(st.s);return`${st.s} <i>${inr(P(st.s))}</i> <span class="${c>=0?'u':'d'}">${c>=0?'▲':'▼'}${Math.abs(c).toFixed(2)}%</span>`}).join(' ✦ ')+` ✦ ${t('simChip')} ✦</span>`;
+    $('#tick').innerHTML=`<div class="tk">${one}${one}</div>`;
+  }
+}
+function renderNav(){
+  if(!state.onb){$('#nav').innerHTML='';return}
+  const unread=state.sms.filter(m=>!m.r).length;
+  const tabs=[['home','🏠'],['market','📈'],['demat','🔐'],['desk','🏛️'],['shield','🛡️']];
+  $('#nav').innerHTML='<div class="navin">'+tabs.map(([k,ic])=>`<button class="nb ${ui.tab===k?'on':''}" data-a="tab" data-t="${k}" ${ui.tab===k?'aria-current="page"':''}><span class="ic" aria-hidden="true">${ic}</span>${t('nav.'+k)}${k==='desk'&&unread?`<span class="cnt">${unread}</span>`:''}</button>`).join('')+'</div>';
+}
+function render(){
+  document.documentElement.lang=state.lang==='hi'?'hi':'en';
+  document.title=t('app')+' · '+(state.lang==='hi'?'निवेश सैंडबॉक्स':'Investing Sandbox');
+  renderHdr();
+  $('#main').innerHTML=state.onb?(SCREENS[ui.tab]||SCREENS.home)():onboard();
+  renderNav();renderModal();
+}
+
+/* ---------- 9. Onboarding ---------- */
+function dots(n){return`<div class="dots" aria-label="${esc(t('ob.step',{n}))}">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div><p class="small" style="text-align:center;margin-top:4px">${t('ob.step',{n})}</p>`}
+function onboard(){
+  const s=state.ob;
+  if(s===0){
+    return win('✦ '+t('app')+' ✦',`<div class="hero"><div class="logo">${t('app')}</div><p class="tagl">${t('ob.s0t')}</p><p>${t('ob.s0p')}</p></div>
+    <ul class="chk">${t('ob.pts').map(x=>`<li>${x}</li>`).join('')}</ul>
+    <h3 style="font-size:17px;margin-top:6px">${t('ob.lang')}</h3>
+    <div class="langpick"><button class="pick ${state.lang==='en'?'on':''}" data-a="lang" data-l="en" aria-pressed="${state.lang==='en'}"><span class="em">🔤</span><b>English</b></button><button class="pick ${state.lang==='hi'?'on':''}" data-a="lang" data-l="hi" aria-pressed="${state.lang==='hi'}" lang="hi"><span class="em">🪔</span><b>हिंदी</b></button></div>
+    <button class="btn pri block mt" data-a="obGo" data-n="1">${t('ob.start')}</button>
+    <p class="note">⚠ ${t('ob.simNote')}</p>`,'holo');
+  }
+  if(s===1){
+    const f=ui.ob.f,e=ui.ob.e;
+    const fld=(k,type,extra,hint)=>`<label class="fld"><span>${t('ob.'+k)}</span><input class="inp" data-in="obf" data-f="${k}" type="${type}" value="${esc(f[k])}" ${extra||''}>${hint?`<small>${hint}</small>`:''}${e[k]?`<div class="err">${e[k]}</div>`:''}</label>`;
+    const maxD=new Date(DATES[START]);maxD.setFullYear(maxD.getFullYear()-18);
+    return dots(1)+win('🪪 '+t('ob.s1t'),`<p>${t('ob.s1p')}</p>
+      <button class="btn cy block" data-a="obSample">${t('ob.sample')}</button>
+      ${fld('name','text','autocomplete="off" maxlength="40"')}
+      ${fld('pan','text','autocomplete="off" maxlength="10" autocapitalize="characters" spellcheck="false"',t('ob.panHint'))}
+      ${fld('aad','text','inputmode="numeric" autocomplete="off" maxlength="14"',t('ob.aadHint'))}
+      ${fld('mob','tel','inputmode="numeric" autocomplete="off" maxlength="10"',t('ob.mobHint'))}
+      ${fld('dob','date','max="'+isoDate(maxD)+'" min="1930-01-01"')}
+      <button class="link" data-a="lesson" data-id="kyc">💡 ${t('ob.why')}</button>
+      <div class="btns"><button class="btn ghost" data-a="obGo" data-n="0">${t('back')}</button><button class="btn pri" data-a="obVerify">${t('ob.verify')}</button></div>`);
+  }
+  if(s===2){
+    return dots(2)+win('🏪 '+t('ob.s2t'),`<p>${t('ob.s2p')}</p>
+      ${BROKERS.map(b=>`<button class="pick ${state.broker===b.id?'on':''}" data-a="pickBroker" data-b="${b.id}" aria-pressed="${state.broker===b.id}" style="margin:10px 0"><span class="em">${b.e}</span><b>${b.n}</b><small>${t('br.'+b.id)}</small><small>${t('ob.dpIs',{id:b.dp})}</small></button>`).join('')}
+      <p class="note">${t('ob.fict')}</p>
+      <h3 style="font-size:16px;margin:14px 0 4px">${t('ob.flowT')}</h3>
+      <div class="flow">${t('ob.flow').map((x,i)=>(i?'<em aria-hidden="true">⬇</em>':'')+`<span>${x}</span>`).join('')}</div>
+      <button class="link" data-a="lesson" data-id="accounts">💡 ${t('ob.diff')}</button>
+      <div class="btns"><button class="btn ghost" data-a="obGo" data-n="1">${t('back')}</button><button class="btn pri" data-a="obBroker" ${state.broker?'':'disabled'}>${t('ob.cont')}</button></div>`);
+  }
+  const ic=['🏪','🧾','🔐','🏛️'];
+  return dots(3)+win('🎉 '+t('ob.s3t'),`<p>${t('ob.s3p')}</p>${boCard()}
+    <button class="link" data-a="lesson" data-id="boid">💡 ${t('ob.boWhy')}</button>
+    <h3 style="font-size:16px;margin:10px 0 0">${t('ob.fourT')}</h3>
+    <div class="c4">${t('c4').map((c,i)=>`<div><span class="em" aria-hidden="true">${ic[i]}</span><b>${c.t}</b>${c.d}</div>`).join('')}</div>
+    <button class="btn pri block mt" data-a="obEnter">${t('ob.enter')}</button>`,'holo');
+}
+function boCard(){const b=state.bo;return`<div class="bocard"><div class="chipi" aria-hidden="true"></div><small>${t('ob.bo')}</small><div class="boid">${boFmt(b)}</div><div class="r"><div><small>${t('ob.dpid')}</small><span class="px">${b.slice(0,8)}</span></div><div><small>${t('ob.cid')}</small><span class="px">${b.slice(8)}</span></div><div><small>${t('ob.holder')}</small><b>${esc(state.kyc?state.kyc.name:'')}</b></div></div><small style="margin-top:8px">CDSL · ${esc(brName())} · ${t('simChip')}</small></div>`}
+function isoDate(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function validateKyc(){
+  const f=ui.ob.f,e={};
+  if(f.name.trim().length<2)e.name=t('err.name');
+  if(!/^[A-Z]{3}P[A-Z][0-9]{4}[A-Z]$/.test(f.pan.trim()))e.pan=t('err.pan');
+  if(!/^[2-9][0-9]{11}$/.test(f.aad.replace(/\s/g,'')))e.aad=t('err.aad');
+  if(!/^[6-9][0-9]{9}$/.test(f.mob.trim()))e.mob=t('err.mob');
+  const d=f.dob?new Date(f.dob+'T00:00:00'):null;const lim=new Date(DATES[START]);lim.setFullYear(lim.getFullYear()-18);
+  if(!d||isNaN(d)||d>lim||d.getFullYear()<1930)e.dob=t('err.dob');
+  return e;
+}
+
+/* ---------- 10. Screens ---------- */
+const SCREENS={};
+SCREENS.home=function(){
+  const f=pf(),lv=level(),first=esc((state.kyc&&state.kyc.name||'').trim().split(/\s+/)[0]);
+  let h='';
+  if(!storageOK)h+=`<div class="warn">⚠ ${t('storage')}</div>`;
+  const nextT=lv<2?LV[lv+1]:null;const pct=lv>=3?100:lv===2?100:Math.min(100,Math.round((state.xp-LV[lv])/(LV[lv+1]-LV[lv])*100));
+  h+=win(t('home.hello',{name:first}),`<div class="row"><div class="burst lvb" aria-hidden="true">${lv+1}</div><div class="grow"><div class="lvname">${t('lv')[lv]}</div><div class="bar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div><small class="small">${lv>=3?t('home.maxLv'):nextT?t('home.toNext',{n:nextT-state.xp}):t('home.lastLv')}</small></div><div class="xpbig"><span class="px">${state.xp}</span><small>XP</small></div></div>`,'holo');
+  const nx=MIS.find(x=>state.m[x[0]]==null);
+  if(nx){const id=nx[0];h+=win('➜ '+t('home.nextT'),`<h3>${t('ms.'+id)}</h3><p>${id==='settle'&&!state.pend.length?t('mh.settle0'):t('mh.'+id)}</p>${goBtn(id,'pri block')}`,'nextcard')}
+  else h+=win('🏆 '+t('home.certT'),`<p>${t('home.certP')}</p><button class="btn pri block" data-a="cert">${t('home.certBtn')}</button>`,'holo');
+  if(state.day>=LAST)h+=win('🏁 '+t('home.endT'),`<p>${t('home.endP')}</p><button class="btn block" data-a="sub" data-s="account">${t('dk.account')} →</button>`,'warm');
+  if(state.nom.st==='skipped')h+=win('💜 '+t('home.nomT'),`<p>${t('home.nomP')}</p><div class="btns"><button class="btn pri" data-a="sub" data-s="nominee">${t('home.nomBtn')}</button><button class="btn ghost" data-a="lesson" data-id="noNom">${t('nm.what')}</button></div>`,'warm');
+  const pl=f.total-CASH0;
+  h+=win('💰 '+t('home.money'),`<div class="grid2">
+    <div class="stat"><small>${t('home.cash')}</small><span class="px">${inr(state.cash)}</span></div>
+    <div class="stat"><small>${t('home.hv')}</small><span class="px">${inr(f.val)}</span></div>
+    <div class="stat"><small>${t('home.pend')}</small><span class="px">${inr(f.pv+f.pc)}</span></div>
+    <div class="stat"><small>${t('home.margin')}</small><span class="px">${inr(f.mar)}</span></div>
+    <div class="stat wide"><small>${t('home.total')} · ${t('home.pl')}</small><span class="px">${inr(f.total)} <span class="${pl>=0?'up':'dn'}">(${pl>=0?'+':''}${inr(pl)})</span></span></div></div>
+    <div class="btns"><button class="btn cy" data-a="tab" data-t="market">${t('home.toMarket')}</button><button class="btn" data-a="tab" data-t="demat">${t('home.toDemat')}</button></div>
+    ${state.day===START?`<p class="note">💡 ${t('home.tip')}</p>`:''}`);
+  h+=win('📅 '+t('home.evT'),eventsHTML(),'cyan');
+  h+=win('⭐ '+t('home.misT')+` · ${MIS.filter(m=>state.m[m[0]]!=null).length}/${MIS.length}`,MIS.map(([id,xp])=>{const d=state.m[id]!=null;return`<div class="mi ${d?'done':''}"><span class="ck" aria-hidden="true">${d?'✓':''}</span><span class="mn">${t('ms.'+id)}${d?`<span class="sr"> (${t('ls.read')})</span>`:''}</span><span class="xp">+${xp}</span>${d?'':goBtn(id,'sm')}</div>`}).join(''));
+  return h;
+};
+function goBtn(id,cls){const nextLike=(id==='settle'&&state.pend.length)||id==='corp';return`<button class="btn ${cls}" data-a="mgo" data-m="${id}" ${nextLike&&state.day>=LAST?'disabled':''}>${nextLike?t('next'):t('go')}</button>`}
+function eventsHTML(){
+  const list=EVENTS.filter(e=>e.i>=state.day);
+  if(!list.length)return`<p>${t('home.evNone')}</p>`;
+  return list.map(e=>{
+    const n=e.i-state.day;const label=t('ev.'+e.k,{amt:e.dps});
+    let adv;
+    if(n===0)adv=`<span class="tag ok">${t('home.evToday')}</span>`;
+    else if(n>=2)adv=t('home.evBuy',{date:fshort(e.i-1)});
+    else adv=t('home.evBuyToday');
+    return`<div class="evr"><div class="evd"><small>${t('home.recShort')}</small><span class="px">${DATES[e.i].getDate()}</span><small>${fdate(e.i,{month:'short'})}</small></div><div class="grow"><b>${co(e.s)}</b> · ${label}<div class="small">${n?t('home.evIn',{n}):''}</div><div class="small">${adv}</div><button class="link" data-a="stock" data-s="${e.s}">${t('home.evView',{s:co(e.s)})} →</button></div></div>`;
+  }).join('');
+}
+function spark(s){
+  const a=PX[s].slice(Math.max(0,state.day-19),state.day+1);const W=96,H=24;const mn=Math.min(...a),mx=Math.max(...a),rg=mx-mn||1;
+  const pts=a.map((v,i)=>(i*(W-2)/(a.length-1||1)+1).toFixed(1)+','+(H-2-(v-mn)/rg*(H-4)).toFixed(1)).join(' ');
+  const up=a[a.length-1]>=a[0];
+  return`<svg class="spl" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="${up?'#067a41':'#c8174f'}" stroke-width="2" stroke-linejoin="round"/></svg>`;
+}
+SCREENS.market=function(){
+  let h=`<div class="banner">${t('mk.banner')}</div><p class="sub">${t('mk.sub')}</p>`;
+  STOCKS.forEach(st=>{
+    const p=P(st.s),c=chgPct(st.s);const own=state.hold[st.s]?state.hold[st.s].q:0;const pe=pendQ(st.s);
+    const soon=EVENTS.find(e=>e.s===st.s&&e.i>state.day&&e.i-state.day<=5);
+    h+=`<button class="stk" data-a="stock" data-s="${st.s}"><span class="av" style="background:${st.c}" aria-hidden="true">${st.s[0]}</span><span class="nm"><b>${co(st.s)}</b><small>${st.s} · ${t('sec.'+st.sec)}</small>${spark(st.s)}${own?`<span class="tag">${t('mk.own',{n:own})}</span>`:''}${pe?`<span class="tag lock">⏳ ${pe}</span>`:''}${soon?`<span class="tag hot">★ ${t('mk.soon')}</span>`:''}</span><span class="pc"><span class="px">${inr(p)}</span><span class="chg ${c>=0?'up':'dn'}">${c>=0?'▲':'▼'} ${Math.abs(c).toFixed(2)}%</span></span></button>`;
+  });
+  return h;
+};
+function chart(s){
+  const a=PX[s].slice(0,state.day+1);const W=320,H=160,pl=8,pr=8,pt=18,pb=22;
+  const mn=Math.min(...a),mx=Math.max(...a),rg=mx-mn||1;
+  const x=i=>pl+(W-pl-pr)*i/Math.max(1,a.length-1),y=v=>pt+(H-pt-pb)*(1-(v-mn)/rg);
+  const pts=a.map((v,i)=>x(i).toFixed(1)+','+y(v).toFixed(1));
+  const area=`M${x(0).toFixed(1)},${H-pb} L${pts.join(' L')} L${x(a.length-1).toFixed(1)},${H-pb} Z`;
+  const up=a[a.length-1]>=a[0];const col=up?'#067a41':'#c8174f';
+  let marks=`<line x1="${x(START)}" y1="${pt-6}" x2="${x(START)}" y2="${H-pb}" stroke="#6d4dff" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${Math.min(x(START)+3,W-70)}" y="${pt-7}" font-size="10" font-weight="700" fill="#6d4dff">${esc(t('ch.join'))}</text>`;
+  EVENTS.filter(e=>e.s===s&&e.i<=state.day).forEach(e=>{marks+=`<line x1="${x(e.i)}" y1="${pt}" x2="${x(e.i)}" y2="${H-pb}" stroke="#ff3d9a" stroke-width="2"/><rect x="${x(e.i)-22}" y="${H-pb+3}" width="44" height="15" rx="4" fill="#ff3d9a" stroke="#1d1147"/><text x="${x(e.i)}" y="${H-pb+14}" font-size="10" font-weight="800" fill="#fff" text-anchor="middle">${esc(t('ch.'+e.k))}</text>`});
+  return`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(t('st.chartT'))}: ${inr(a[0])} → ${inr(a[a.length-1])}">
+  <defs><linearGradient id="g${s}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${up?'#9dff2f':'#ff9ccd'}" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+  ${[0,.5,1].map(f=>`<line x1="${pl}" x2="${W-pr}" y1="${pt+(H-pt-pb)*f}" y2="${pt+(H-pt-pb)*f}" stroke="#e6deff" stroke-dasharray="3 3"/>`).join('')}
+  <path d="${area}" fill="url(#g${s})"/><polyline points="${pts.join(' ')}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round"/>
+  ${marks}<circle cx="${x(a.length-1)}" cy="${y(a[a.length-1])}" r="4.5" fill="${col}" stroke="#1d1147" stroke-width="2"/>
+  <text x="${pl}" y="12" font-size="10" fill="#54487f">${esc(inr(mx,0))}</text><text x="${pl}" y="${H-pb-3}" font-size="10" fill="#54487f">${esc(inr(mn,0))}</text>
+  ${s?`<text x="${W-pr}" y="12" font-size="10" fill="#54487f" text-anchor="end">${esc(fshort(0))} – ${esc(fshort(state.day))}</text>`:''}</svg>`;
+}
+SCREENS.demat=function(){
+  const pc=state.pend.length+state.pcash.length;
+  let h=`<div class="seg" role="tablist">${[['hold',t('dm.hold')],['pend',t('dm.pend')+(pc?`<span class="c">${pc}</span>`:'')],['cas',t('dm.cas')]].map(([k,l])=>`<button role="tab" aria-selected="${ui.seg===k}" class="${ui.seg===k?'on':''}" data-a="seg" data-s="${k}">${l}</button>`).join('')}</div>`;
+  if(ui.seg==='pend')return h+pendingHTML();
+  if(ui.seg==='cas')return h+casHTML();
+  const f=pf();const pnl=f.val-f.inv;
+  h+=win('🔐 '+t('dm.sumT'),`<div class="grid2"><div class="stat"><small>${t('dm.val')}</small><span class="px">${inr(f.val)}</span></div><div class="stat"><small>${t('dm.inv')}</small><span class="px">${inr(f.inv)}</span></div><div class="stat"><small>${t('dm.pnl')}</small><span class="px ${pnl>=0?'up':'dn'}">${pnl>=0?'+':''}${inr(pnl)}</span></div><div class="stat"><small>${t('home.cash')}</small><span class="px">${inr(state.cash)}</span></div><div class="stat wide"><small>${t('dm.bo')} · ${esc(brName())}</small><span class="px">${boFmt(state.bo)}</span></div></div>`);
+  const ks=Object.keys(state.hold);
+  if(!ks.length)return h+`<div class="empty"><span class="em">📭</span><p>${t('dm.empty')}</p><button class="btn cy" data-a="tab" data-t="market">${t('home.toMarket')}</button></div>`;
+  ks.forEach(s=>{const x=state.hold[s],p=P(s),v=x.q*p,iv=x.q*x.avg,g=v-iv,gp=iv?g/iv*100:0;
+    h+=`<div class="hcard"><div class="hd"><span class="av" style="background:${SK[s].c}" aria-hidden="true">${s[0]}</span><div class="grow"><b>${co(s)}</b><small class="small">${s}</small>${x.pl?`<span class="tag lock">${t('dm.plTag',{n:x.pl})}</span>`:''}</div><span class="chg ${g>=0?'up':'dn'}">${g>=0?'+':''}${gp.toFixed(2)}%</span></div>
+    <div class="kv"><div><small>${t('dm.qty')}</small><span>${x.q}</span></div><div><small>${t('dm.avg')}</small><span>${inr(x.avg)}</span></div><div><small>${t('dm.ltp')}</small><span>${inr(p)}</span></div><div><small>${t('dm.val')}</small><span>${inr(v)}</span></div><div><small>${t('dm.inv')}</small><span>${inr(iv)}</span></div><div><small>${t('dm.pnl')}</small><span class="${g>=0?'up':'dn'}">${g>=0?'+':''}${inr(g)}</span></div></div>
+    <div class="btns"><button class="btn sm cy" data-a="stock" data-s="${s}" data-side="buy">${t('dm.buyMore')}</button><button class="btn sm vio" data-a="stock" data-s="${s}" data-side="sell" ${x.q-x.pl>0?'':'disabled'}>${t('dm.sell')}</button></div></div>`});
+  return h;
+};
+function txText(x){
+  const p={q:x.q,s:x.s?co(x.s):'',p:x.p!=null?inr(x.p):'',a:x.a!=null?inr(x.a):'',w:x.w?t('tx.w.'+x.w):'',c:x.c?t('vt.c.'+x.c):''};
+  return t('tx.'+x.t,p);
+}
+function pendingHTML(){
+  let h=`<p class="sub">${t('dm.pendHelp')}</p>`;
+  let rows='';
+  state.pend.forEach(o=>rows+=`<div class="prow"><b>⏳ ${t('dm.pendRow',{q:o.q,s:co(o.s),p:inr(o.p)})}</b><span class="small">${t('dm.pendWhen',{date:fdate(o.st)})}</span></div>`);
+  state.pcash.forEach(o=>rows+=`<div class="prow"><b>💸 ${t('dm.pcashRow',{a:inr(o.a),s:co(o.s)})}</b><span class="small">${t('dm.pcashWhen',{date:fdate(o.st)})}</span></div>`);
+  if(rows)rows+=`<button class="btn lime block mt" data-a="next" ${state.day>=LAST?'disabled':''}>${t('next')}</button>`;
+  h+=win('⏳ '+t('dm.pendT'),rows||`<p>${t('dm.noPend')}</p>`);
+  h+=win('🧾 '+t('dm.actT'),state.tx.length?state.tx.slice(0,40).map(x=>`<div class="act"><span class="d">${fshort(x.d)}</span><span>${esc(txText(x))}</span></div>`).join(''):`<p>${t('dm.noAct')}</p>`);
+  return h;
+}
+function casMonths(){const out=[];for(let i=START;i<=state.day;i++){const k=mkey(i);if(out.indexOf(k)<0)out.push(k)}return out}
+function casHTML(){
+  const months=casMonths();if(!ui.casM||months.indexOf(ui.casM)<0)ui.casM=months[months.length-1];
+  const k=ui.casM,cur=k===mkey(state.day);
+  let end=state.day;if(!cur){for(let i=LAST;i>=0;i--){if(mkey(i)===k){end=i;break}}}
+  const hold=cur?snapHold():(state.snap[k]||snapHold());
+  const a=k.split('-');const first=new Date(+a[0],+a[1],1);
+  let fd;try{fd=first.toLocaleDateString(loc(),{day:'numeric',month:'short',year:'numeric'})}catch(e){fd=first.toDateString()}
+  const syms=Object.keys(hold).filter(s=>hold[s].q>0);let tot=0;
+  const rows=syms.map(s=>{const x=hold[s],p=P(s,end),v=x.q*p;tot+=v;return`<tr><td class="mono">${SK[s].isin}</td><td>${co(s)}</td><td class="n">${x.q-x.pl}</td><td class="n">${x.pl}</td><td class="n">${inr(p)}</td><td class="n">${inr(v)}</td></tr>`}).join('');
+  const txs=state.tx.filter(x=>mkey(x.d)===k&&['cr','dr','pl','upl'].indexOf(x.t)>=0).slice().reverse();
+  const trows=txs.map(x=>{const d=x.t==='pl'?t('cas.plDesc'):x.t==='upl'?t('cas.uplDesc'):t('tx.w.'+x.w);return`<tr><td class="mono">${fshort(x.d)}</td><td>${co(x.s)}<br><small>${d}</small></td><td class="n">${x.t==='cr'?'+'+x.q:''}</td><td class="n">${x.t==='dr'?'−'+x.q:''}</td></tr>`}).join('');
+  const kyc=state.kyc||{};const pan=String(kyc.pan||'');
+  let h=`<div class="chips" role="group" aria-label="${esc(t('cas.pick'))}">${months.map(m=>`<button class="chipb ${m===k?'on':''}" data-a="casM" data-m="${m}" aria-pressed="${m===k}">${fmonth(m)}${m===mkey(state.day)?' · '+t('cas.till'):''}</button>`).join('')}</div>`;
+  h+=`<article class="cas"><h3>${t('cas.title')}</h3><span class="stamp">${t('cas.sub')}</span>
+  <dl><dt>${t('cas.period')}</dt><dd>${fd} – ${fdate(end)}</dd><dt>${t('cas.inv')}</dt><dd>${esc(kyc.name)}</dd><dt>${t('cas.pan')}</dt><dd class="mono">${esc(pan.slice(0,3)+'XXXX'+pan.slice(7))}</dd><dt>${t('cas.bo')}</dt><dd class="mono">${boFmt(state.bo)}</dd><dt>${t('cas.dp')}</dt><dd>${esc(brName())}</dd><dt>${t('cas.nom')}</dt><dd>${state.nom.st==='added'?t('cas.nomY'):`<b class="dn">${t('cas.nomN')}</b>`}</dd></dl>
+  <h4>${t('cas.sumT')}</h4><dl><dt>${t('cas.val',{date:fdate(end)})}</dt><dd class="mono">${inr(tot)}</dd><dt>${t('cas.isins')}</dt><dd class="mono">${syms.length}</dd></dl>
+  <h4>${t('cas.holdT',{date:fdate(end)})}</h4>${rows?`<div class="tw"><table><thead><tr><th>${t('cas.isin')}</th><th>${t('cas.sec')}</th><th>${t('cas.free')}</th><th>${t('cas.pl')}</th><th>${t('cas.px')}</th><th>${t('cas.val2')}</th></tr></thead><tbody>${rows}</tbody></table></div>`:`<p>${t('cas.noHold')}</p>`}
+  <h4>${t('cas.txT')}</h4>${trows?`<div class="tw"><table><thead><tr><th>${t('cas.date')}</th><th>${t('cas.desc')}</th><th>${t('cas.cr')}</th><th>${t('cas.dr')}</th></tr></thead><tbody>${trows}</tbody></table></div>`:`<p>${t('cas.noTx')}</p>`}
+  <p class="ft">⚠ ${t('cas.foot')}<br><small>${t('cas.note')}</small></p></article>
+  <button class="link" data-a="lesson" data-id="cas">💡 ${t('cas.what')}</button>`;
+  return h;
+}
+
+/* Desk */
+SCREENS.desk=function(){
+  if(ui.sub&&SUBS[ui.sub])return SUBS[ui.sub]()+`<button class="btn ghost block backb" data-a="back">${t('back')}</button>`;
+  const f=pf(),unread=state.sms.filter(m=>!m.r).length,seen=LESSONS.filter(l=>state.seen[l]).length,votes=Object.keys(state.votes).length;
+  const tiles=[['pledge','🔒',f.pq?t('dk.pl',{n:f.pq}):t('dk.pl0')],['nominee','💜',t('nm.st.'+state.nom.st)],['evote','🗳️',votes?t('dk.voted',{n:votes}):t('dk.vote0')],['inbox','📟',unread?t('dk.unread',{n:unread}):t('dk.read')],['lessons','📚',t('dk.les',{n:seen,m:LESSONS.length})],['account','🪪',t('dk.acc')]];
+  return win('🏛️ '+t('dk.title'),`<p>${t('dk.sub')}</p>`,'holo')+`<div class="tiles">${tiles.map(([k,ic,st])=>`<button class="tile" data-a="sub" data-s="${k}"><span class="ic" aria-hidden="true">${ic}</span><b>${t('dk.'+k)}</b><small>${st}</small></button>`).join('')}</div>`;
+};
+const SUBS={};
+SUBS.pledge=function(){
+  const f=pf();let h=win('🔒 '+t('pl.title'),`<p>${t('pl.intro')}</p><div class="hl">${t('pl.total',{a:inr(f.mar)})}</div><p class="small">${t('pl.mNote')}</p><button class="link" data-a="lesson" data-id="pledge">💡 ${t('lessons.pledge.t')}</button>`,'holo');
+  const ks=Object.keys(state.hold);
+  const freeRows=ks.filter(s=>freeQ(s)>0).map(s=>`<div class="hcard"><div class="hd"><span class="av" style="background:${SK[s].c}" aria-hidden="true">${s[0]}</span><div class="grow"><b>${co(s)}</b><small class="small">${t('pl.free',{n:freeQ(s)})} · ${t('pl.hc',{h:SK[s].hc})}</small></div><button class="btn sm vio" data-a="plOpen" data-s="${s}">${t('pl.btn')}</button></div></div>`).join('');
+  h+=win(t('pl.choose'),freeRows||`<p>${t('pl.none')}</p>${ks.length?'':`<button class="btn cy" data-a="tab" data-t="market">${t('home.toMarket')}</button>`}`);
+  const plRows=ks.filter(s=>state.hold[s].pl>0).map(s=>{const x=state.hold[s];const v=x.pl*P(s);return`<div class="hcard"><div class="hd"><span class="av" style="background:${SK[s].c}" aria-hidden="true">🔒</span><div class="grow"><b>${co(s)} · ${x.pl}</b><small class="small">${t('pl.value')}: ${inr(v)} · ${t('pl.get')}: ${inr(v*(1-SK[s].hc/100))}</small><small class="small">${t('pl.stillYours')}</small></div><button class="btn sm" data-a="unpl" data-s="${s}">${t('pl.rel')}</button></div></div>`}).join('');
+  if(plRows)h+=win(t('pl.plT'),plRows);
+  h+=win('⚠ '+t('pl.riskT'),f.pq?`<label class="fld"><span id="dropL">${t('pl.drop',{d:ui.drop})}</span><input type="range" min="5" max="60" step="5" value="${ui.drop}" data-in="drop" style="width:100%;accent-color:#ff3d9a;min-height:44px" aria-labelledby="dropL"></label><div id="riskOut">${riskOut()}</div>`:`<p>${t('pl.noRisk')}</p>`,'warm');
+  return h;
+};
+function riskOut(){
+  let col=0,mar=0;for(const s in state.hold){const x=state.hold[s];col+=x.pl*P(s);mar+=x.pl*P(s)*(1-SK[s].hc/100)}
+  const k=1-ui.drop/100,col2=col*k,mar2=mar*k;
+  return`<table class="sumt"><tr><td>${t('pl.colNow')}</td><td>${inr(col)}</td></tr><tr><td>${t('pl.mNow')}</td><td>${inr(mar)}</td></tr><tr><td>${t('pl.colAfter')}</td><td class="dn">${inr(col2)}</td></tr><tr><td>${t('pl.mAfter')}</td><td class="dn">${inr(mar2)}</td></tr></table><div class="warn">${t('pl.short',{a:inr(mar-mar2)})}</div>`;
+}
+SUBS.nominee=function(){
+  const n=state.nom;
+  let h=win('💜 '+t('nm.title'),`<p>${t('nm.intro')}</p><p><b>${t('nm.status')}:</b> <span class="tag ${n.st==='added'?'ok':n.st==='skipped'?'hot':''}">${t('nm.st.'+n.st)}</span></p><div class="btns"><button class="btn sm ghost" data-a="lesson" data-id="nominee">💡 ${t('nm.why')}</button><button class="btn sm ghost" data-a="lesson" data-id="noNom">📚 ${t('nm.what')}</button></div>`,'holo');
+  if(n.st==='added'&&!ui.nomForm){
+    return h+win('✅ '+t('nm.st.added'),n.list.map((x,i)=>`<div class="prow"><b>${t('nm.n',{n:i+1})}: ${esc(x.n)}</b><span class="small">${t('nm.rels.'+x.r)} · ${x.p}%</span></div>`).join('')+`<button class="btn block mt" data-a="nomEdit">${t('nm.change')}</button>`);
+  }
+  if(!ui.nomForm)ui.nomForm=n.list.length?n.list.map(x=>Object.assign({},x)):[{n:'',r:'mother',p:100}];
+  const fm=ui.nomForm;
+  const rows=fm.map((x,i)=>`<div class="prow"><b>${t('nm.n',{n:i+1})}</b>
+    <label class="fld"><span>${t('nm.name')}</span><input class="inp" data-in="nom" data-i="${i}" data-f="n" value="${esc(x.n)}" maxlength="40" autocomplete="off"></label>
+    <div class="grid2"><label class="fld" style="margin:0"><span>${t('nm.rel')}</span><select class="inp" data-in="nom" data-i="${i}" data-f="r">${RELS.map(r=>`<option value="${r}" ${x.r===r?'selected':''}>${t('nm.rels.'+r)}</option>`).join('')}</select></label>
+    <label class="fld" style="margin:0"><span>${t('nm.pct')}</span><input class="inp" data-in="nom" data-i="${i}" data-f="p" value="${x.p}" inputmode="numeric" maxlength="3"></label></div>
+    ${fm.length>1?`<button class="link" data-a="nomDel" data-i="${i}">✕ ${t('nm.del')}</button>`:''}</div>`).join('');
+  h+=win('📝 '+t('nm.title'),rows+`${fm.length<3?`<button class="btn sm ghost block" data-a="nomAdd">${t('nm.add')}</button>`:''}<p id="nomTot" class="small"><b>${t('nm.total',{n:nomTotal()})}</b></p>${ui.nomErr?`<div class="err">${ui.nomErr}</div>`:''}
+    <div class="btns"><button class="btn pri" data-a="nomSave">${t('nm.save')}</button>${n.st!=='added'?`<button class="btn ghost" data-a="nomSkip">${t('nm.skip')}</button>`:`<button class="btn ghost" data-a="nomCancel">${t('cancel')}</button>`}</div>`);
+  return h;
+};
+function nomTotal(){return(ui.nomForm||[]).reduce((a,x)=>a+(parseInt(x.p,10)||0),0)}
+SUBS.evote=function(){
+  let h=win('🗳️ '+t('vt.title'),`<p>${t('vt.intro')}</p><button class="link" data-a="lesson" data-id="evote">💡 ${t('vt.how')}</button>`,'holo');
+  const ks=Object.keys(state.hold).filter(s=>state.hold[s].q>0);
+  if(!ks.length)return h+win('ℹ️',`<p>${state.pend.length?t('vt.pendOnly'):t('vt.none')}</p>${state.pend.length?`<button class="btn lime block" data-a="next" ${state.day>=LAST?'disabled':''}>${t('next')}</button>`:`<button class="btn cy block" data-a="tab" data-t="market">${t('home.toMarket')}</button>`}`);
+  ks.forEach(s=>{
+    const R=RES[s],r=t('res.'+R.k),x=R.x?t('res.x.'+R.x):'';const q=state.hold[s].q;const v=state.votes[s];
+    const title=fill(r.t,{a:R.a,x}),lines=r.l.map(l=>fill(l,{a:R.a,x}));
+    let foot;
+    if(v){
+      const base=60+hash(s)%33,ag=Math.round((100-base)*.65),ab=100-base-ag;
+      foot=`<div class="hl">${t('vt.voted',{c:t('vt.c.'+v.c),n:v.q})}</div><p class="small"><b>${t('vt.tally')}</b></p><div class="tally">${[['for',base,'#9dff2f'],['against',ag,'#ff3d9a'],['abstain',ab,'#c3b3ff']].map(([c,p,col])=>`<div><span class="l">${t('vt.c.'+c)}</span><span class="b"><i style="width:${p}%;background:${col}"></i></span><span class="p">${p}%</span></div>`).join('')}</div>`;
+    }else foot=`<p><b>${t('vt.hold',{n:q})}</b></p><div class="vbtns">${['for','against','abstain'].map(c=>`<button class="btn ${c==='for'?'lime':c==='against'?'pri':'ghost'}" data-a="vote" data-s="${s}" data-c="${c}">${t('vt.c.'+c)}</button>`).join('')}</div>`;
+    h+=`<div class="vcard"><div class="row"><span class="av" style="background:${SK[s].c}" aria-hidden="true">${s[0]}</span><div class="grow"><b>${co(s)}</b><div class="small">${t('vt.agm',{date:fdate(LAST)})}</div></div></div>
+    <h4>${title}</h4><span class="tag ${SPECIAL[R.k]?'hot':''}">${SPECIAL[R.k]?t('vt.special'):t('vt.ordinary')}</span>
+    <div class="plain"><b>${t('vt.plain')}</b><ol>${lines.map(l=>`<li>${l}</li>`).join('')}</ol></div>${foot}<p class="note">${t('vt.mock')}</p></div>`;
+  });
+  return h;
+};
+SUBS.inbox=function(){return win('📟 '+t('ib.title'),`<p class="small">${t('ib.note')}</p><div class="inbox">${state.sms.length?state.sms.map(m=>`<div class="nokia">${smsHTML(m)}</div>`).join(''):`<p>${t('ib.empty')}</p>`}</div>`)};
+SUBS.lessons=function(){return win('📚 '+t('ls.title'),LESSONS.map(id=>{const L=lessonData(id);return`<button class="stk" data-a="lesson" data-id="${id}"><span class="av" style="background:#fff" aria-hidden="true">${LESSON_IC[id]}</span><span class="nm"><b>${L.t}</b></span><span class="tag ${state.seen[id]?'ok':'hot'}">${state.seen[id]?t('ls.read'):t('ls.new')}</span></button>`}).join(''))};
+SUBS.account=function(){
+  const k=state.kyc||{};const aad=String(k.aad||'').replace(/\s/g,''),pan=String(k.pan||''),mob=String(k.mob||'');
+  return win('🪪 '+t('ac.title'),boCard()+`<p class="small">${t('ac.boSplit')}</p><button class="link" data-a="lesson" data-id="boid">💡 ${t('ob.boWhy')}</button>
+    <table class="sumt"><tr><td>${t('ob.name')}</td><td style="font-family:inherit;font-size:15px">${esc(k.name)}</td></tr><tr><td>${t('ob.pan')}</td><td>${esc(pan.slice(0,3)+'XXXX'+pan.slice(7))}</td></tr><tr><td>${t('ob.aad')}</td><td>XXXX XXXX ${esc(aad.slice(-4))}</td></tr><tr><td>${t('ob.mob')}</td><td>XXXXXX${esc(mob.slice(-4))}</td></tr><tr><td>${t('ac.broker')}</td><td style="font-family:inherit;font-size:15px">${esc(brName())}</td></tr><tr><td>${t('nm.title')}</td><td style="font-family:inherit;font-size:15px">${t('nm.st.'+state.nom.st)}</td></tr></table>
+    <p class="small">${storageOK?'💾 '+t('ac.saved'):'⚠ '+t('ac.nosave')}</p>`)+
+  win('♻️ '+t('ac.resetT'),`<p>${t('ac.resetP')}</p><button class="btn pri block" data-a="reset">${t('ac.resetBtn')}</button>`,'warm');
+};
+
+/* Scam Shield */
+SCREENS.shield=function(){
+  const sc=state.scam,n=sc.ans.length,msgs=t('sc.msgs');
+  let h=win('🛡️ '+t('sc.title'),`<p>${t('sc.intro')}</p>`,'holo');
+  const msgText=m=>fill(m.m,{br:esc(brName())}),fromText=m=>fill(m.f,{br:esc(brName())});
+  if(n>=5&&!ui.scamFb){
+    const score=sc.ans.filter((a,i)=>a===SCAM_ANS[i]).length;
+    return h+win('🏅 '+t('sc.score',{n:score}),`<div class="burst scorebig" aria-hidden="true">${score}/5</div><p style="text-align:center"><b>${score===5?t('sc.perfect'):score>=3?t('sc.good'):t('sc.low')}</b></p>
+      <h4 style="margin-top:12px">✅ ${t('sc.verT')}</h4><ul>${t('sc.ver').map(v=>`<li>${v}</li>`).join('')}</ul>
+      <div class="btns"><button class="btn cy" data-a="lesson" data-id="scam">🚩 ${t('sc.lesson')}</button><button class="btn pri" data-a="scamAgain">${t('sc.again')}</button></div>`);
+  }
+  const cur=ui.scamFb?n-1:n;
+  let chat='';
+  for(let i=0;i<cur;i++){const ok=sc.ans[i]===SCAM_ANS[i];chat+=`<div class="bub old"><span class="stampv ${SCAM_ANS[i]==='scam'?'s':''}">${SCAM_ANS[i]==='scam'?t('sc.aScam'):t('sc.aSafe')} ${ok?'✓':'✗'}</span><span class="fr">${fromText(msgs[i])}</span>${msgText(msgs[i])}</div>`}
+  const m=msgs[cur];
+  chat+=`<div class="bub"><span class="fr">${fromText(m)}</span>${msgText(m)}<span class="tm">${10+cur}:${['04','17','32','48','59'][cur]} ✓✓</span></div>`;
+  if(ui.scamFb){
+    const ans=sc.ans[cur],ok=ans===SCAM_ANS[cur];
+    chat+=`<div class="fb ${ok?'good':'bad'}" role="status"><b>${ok?t('sc.right'):t('sc.wrong')}</b> ${t('sc.was',{a:SCAM_ANS[cur]==='scam'?t('sc.aScam'):t('sc.aSafe')})}<p class="small" style="margin-bottom:0"><b>${SCAM_ANS[cur]==='scam'?'🚩 '+t('sc.flags'):'✅'}</b></p><ul>${m.w.map(w=>`<li>${w}</li>`).join('')}</ul><button class="btn pri block" data-a="scamNext">${cur>=4?t('sc.fin'):t('sc.next')}</button></div>`;
+  }else chat+=`<div class="vbtns" style="grid-template-columns:1fr 1fr"><button class="btn lime" data-a="scamAns" data-v="safe">${t('sc.safe')}</button><button class="btn pri" data-a="scamAns" data-v="scam">${t('sc.scam')}</button></div>`;
+  h+=`<div class="wa"><div class="wah"><span class="av" aria-hidden="true">💬</span><div><b>${t('sc.chat')}</b><small>${t('sc.prog',{n:cur+1})} · ${t('sc.online',{n:5-cur})}</small></div></div><div class="wab">${chat}</div></div>`;
+  return h;
+};
+
+/* ---------- 11. Modals ---------- */
+function lessonData(id,p){
+  const L=t('lessons.'+id);
+  if(!p&&(id==='div'||id==='bonus'||id==='split')){const e=EVENTS.find(x=>x.k===id);p={co:co(e.s),dps:e.dps,res:'!! '+t('corp.'+id+'G',{amt:inr(10*e.dps)})}}
+  return{t:fill(L.t,p),b:L.b.map(x=>fill(x,p))};
+}
+const MB={};
+MB.lesson=m=>{const L=lessonData(m.id);return sheet('💡 '+t('lsLabel'),`<h3 class="lt">${LESSON_IC[m.id]} ${L.t}</h3>${body(L.b)}<button class="btn pri block mt" data-a="close">${t('got')}</button>`)};
+MB.corp=m=>{
+  const e=EVENTS[m.e],r=m.res,c=co(e.s);let res;
+  if(e.k==='div')res=r.held?t('corp.divY',{q:r.q,amt:inr(r.amt)}):t('corp.divN',{co:c,amt:inr(10*e.dps)});
+  else if(e.k==='bonus')res=r.held?t('corp.bonusY',{q0:r.q0,q1:r.q1,p0:inr(r.p0),p1:inr(r.p1)})+' '+t('corp.v',{v0:inr(r.v0),v1:inr(r.v1)}):t('corp.bonusN',{co:c});
+  else res=r.held?t('corp.splitY',{q0:r.q0,q1:r.q1,p0:inr(r.p0),p1:inr(r.p1)})+' '+t('corp.v',{v0:inr(r.v0),v1:inr(r.v1)}):t('corp.splitN',{co:c});
+  const L=lessonData(e.k,{co:c,dps:e.dps,res:'!! '+(r.held?'🎉 ':'')+res});
+  return sheet('📣 '+t('corp.label'),`<span class="tag hot">${fdate(e.i)}</span><h3 class="lt mt">${LESSON_IC[e.k]} ${L.t}</h3>${body(L.b)}<p class="note">⚠ ${t('corp.fake',{co:c})}</p><button class="btn pri block mt" data-a="close">${t('got')}</button>`);
+};
+MB.stock=m=>{
+  const s=m.s,p=P(s),c=chgPct(s),h=state.hold[s]||{q:0,pl:0};const calc=ordCalc(m);
+  return sheet(`${co(s)} · ${s}`,`<div class="row"><div class="grow"><span class="px big">${inr(p)}</span><br><span class="chg ${c>=0?'up':'dn'}">${c>=0?'▲':'▼'} ${Math.abs(c).toFixed(2)}%</span> <small class="small">${t('st.today')} · ${t('sec.'+SK[s].sec)}</small></div><span class="simchip">${t('simChip')}</span></div>
+  ${chart(s)}<p class="small">${t('st.youHave',{f:h.q-h.pl,pl:h.pl,pe:pendQ(s)})}</p>
+  <div class="seg" role="tablist"><button role="tab" aria-selected="${m.side==='buy'}" class="${m.side==='buy'?'on':''}" data-a="side" data-v="buy">${t('st.buy')}</button><button role="tab" aria-selected="${m.side==='sell'}" class="${m.side==='sell'?'on':''}" data-a="side" data-v="sell">${t('st.sell')}</button></div>
+  <div class="fld"><span id="qL">${t('st.qty')}</span><div class="step"><button class="btn sq" data-a="qty" data-n="-1" aria-label="−1">−</button><input class="inp" inputmode="numeric" data-in="qty" value="${m.q}" aria-labelledby="qL" maxlength="5"><button class="btn sq" data-a="qty" data-n="1" aria-label="+1">+</button><button class="btn sm" data-a="qmax">${t('st.max')}</button></div></div>
+  <div id="ordSum">${ordSum(m,calc)}</div>
+  <button class="btn block ${m.side==='buy'?'pri':'vio'}" id="ordBtn" data-a="order" ${calc.err?'disabled':''}>${m.side==='buy'?t('st.placeBuy'):t('st.placeSell')}</button>
+  <p class="note">${t('st.note')}</p><p class="note">${t('st.charges')}</p>`);
+};
+function ordSum(m,c){
+  c=c||ordCalc(m);
+  const rows=m.side==='buy'?`<tr><td>${t('st.cashAv')}</td><td>${inr(state.cash)}</td></tr><tr><td>${t('st.cashAfter')}</td><td>${inr(state.cash-c.amt)}</td></tr>`:`<tr><td>${t('st.freeAv')}</td><td>${freeQ(m.s)}</td></tr>`;
+  return`<table class="sumt"><tr><td>${t('st.price')}</td><td>${inr(c.p)}</td></tr><tr class="tot"><td>${t('st.amt')} (${c.q>0?c.q:0} × ${inr(c.p)})</td><td>${inr(c.amt)}</td></tr>${rows}</table>${c.err?`<div class="err" role="alert">${c.err}</div>`:''}`;
+}
+MB.otp=m=>sheet('🔑 '+t('otp.title'),`<p>${t('otp.p',{w:'<b>'+esc(t('otp.w.'+m.pu,{q:m.q,s:co(m.s),br:brName()}))+'</b>'})}</p>
+  <label class="fld"><span>${t('otp.enter')}</span><input class="inp" data-in="otp" value="${esc(m.val)}" inputmode="numeric" maxlength="6" autocomplete="one-time-code" style="font-family:var(--px);font-size:30px;letter-spacing:8px;text-align:center"></label>
+  ${m.err?`<div class="err" role="alert">${m.err}</div>`:''}
+  <div class="btns"><button class="btn cy" data-a="otpFill">${t('otp.fill')}</button><button class="btn pri" data-a="otpOk">${t('otp.ok')}</button></div>
+  <div class="warn mt">🚫 ${t('otp.warn')}</div><button class="btn ghost block mt" data-a="close">${t('cancel')}</button>`);
+MB.pledge=m=>{
+  const s=m.s,fq=freeQ(s),p=P(s),q=m.q,ok=q>=1&&q<=fq&&Math.floor(q)===q;
+  return sheet('🔒 '+t('pl.formT',{s:co(s)}),`<p class="small">${t('pl.free',{n:fq})} · ${t('pl.hc',{h:SK[s].hc})}</p>
+  <div class="fld"><span id="pqL">${t('st.qty')}</span><div class="step"><button class="btn sq" data-a="pq" data-n="-1" aria-label="−1">−</button><input class="inp" inputmode="numeric" data-in="pq" value="${q}" aria-labelledby="pqL" maxlength="5"><button class="btn sq" data-a="pq" data-n="1" aria-label="+1">+</button><button class="btn sm" data-a="pqmax">${t('st.max')}</button></div></div>
+  <div id="plSum">${plSum(m)}</div><p class="note">${t('pl.formNote')}</p>
+  <button class="btn vio block mt" id="plBtn" data-a="plReq" ${ok?'':'disabled'}>${t('pl.req')}</button>`);
+};
+function plSum(m){const s=m.s,p=P(s),q=m.q>0?m.q:0,v=q*p,fq=freeQ(s);const ok=m.q>=1&&m.q<=fq&&Math.floor(m.q)===m.q;return`<table class="sumt"><tr><td>${t('pl.value')}</td><td>${inr(v)}</td></tr><tr><td>${t('pl.hc',{h:SK[s].hc})}</td><td>−${inr(v*SK[s].hc/100)}</td></tr><tr class="tot"><td>${t('pl.get')}</td><td>${inr(v*(1-SK[s].hc/100))}</td></tr></table>${ok?'':`<div class="err" role="alert">${t('err.pl',{n:fq})}</div>`}`}
+MB.nomPrompt=()=>sheet('💜 '+t('nm.title'),`<h3 class="lt">${t('np.t')}</h3><p>${t('np.p')}</p><div class="btns"><button class="btn pri" data-a="npAdd">${t('np.add')}</button><button class="btn ghost" data-a="npSkip">${t('np.skip')}</button></div>`);
+MB.vote=m=>{const R=RES[m.s],x=R.x?t('res.x.'+R.x):'';const title=fill(t('res.'+R.k).t,{a:R.a,x});const q=state.hold[m.s]?state.hold[m.s].q:0;
+  return sheet('🗳️ '+t('vt.confT'),`<p><b>${co(m.s)}</b></p><p>${t('vt.confP',{c:'<b>'+t('vt.c.'+m.c)+'</b>',r:title,n:q})}</p><div class="btns"><button class="btn ghost" data-a="close">${t('cancel')}</button><button class="btn pri" data-a="voteOk">${t('vt.submit')}</button></div>`)};
+MB.reset=()=>sheet('♻️ '+t('ac.confT'),`<p>${t('ac.confP')}</p><div class="btns"><button class="btn ghost" data-a="close">${t('cancel')}</button><button class="btn pri" data-a="resetOk">${t('ac.confOk')}</button></div>`);
+MB.cert=()=>{const d=Math.max(START,...MIS.map(x=>state.m[x[0]]||0));return sheet('🏆 '+t('cert.t'),`<div class="cert"><div class="burst seal" aria-hidden="true">🏆</div><p class="small">${t('cert.t')}</p><h3>${t('cert.h')}</h3><div class="nm">${esc(state.kyc?state.kyc.name:'')}</div><p>${t('cert.p',{name:esc(state.kyc?state.kyc.name:'')})}</p><p><span class="tag ok">${t('cert.xp',{n:state.xp})}</span> <span class="tag">${t('cert.on',{date:fdate(d)})}</span></p><p class="small">${t('cert.sim')}</p></div><button class="btn pri block mt" data-a="close">${t('close')}</button>`)};
+
+let lastM=null;
+function renderModal(){
+  const box=$('#modal'),m=ui.modals[0];
+  if(!m){box.innerHTML='';document.body.classList.remove('lock');lastM=null;return}
+  const same=m===lastM,old=box.querySelector('.sheet'),st=same&&old?old.scrollTop:0;
+  box.innerHTML=`<div class="ov" data-a="ovl"><div class="sheet ${same?'still':''}" role="dialog" aria-modal="true" tabindex="-1">${MB[m.k](m)}</div></div>`;
+  const sh=box.querySelector('.sheet');sh.scrollTop=st;if(!same)sh.focus({preventScroll:true});
+  lastM=m;document.body.classList.add('lock');
+}
+
+/* ---------- 12. Event wiring ---------- */
+const A={
+  lang:d=>{state.lang=d.l;save();toasts.forEach(o=>o.el.innerHTML=o.fn());tickKey='';render()},
+  tab:d=>{dropModals(['stock','lesson']);go(d.t)},
+  sub:d=>go('desk',d.s),
+  back:()=>{ui.sub=null;ui.nomForm=null;ui.nomErr='';render();window.scrollTo(0,0)},
+  next:()=>advance(),
+  close:()=>closeModal(),
+  ovl:(d,el,ev)=>{if(ev.target===el&&ui.modals[0]&&ui.modals[0].k!=='otp')closeModal()},
+  lesson:d=>openModal({k:'lesson',id:d.id},true),
+  cert:()=>openModal({k:'cert'},true),
+  mgo:d=>{const id=d.m;const G={buy:()=>go('market'),settle:()=>state.pend.length?advance():go('market'),nominee:()=>go('desk','nominee'),cas:()=>{ui.seg='cas';go('demat');viewCas()},sell:()=>{ui.seg='hold';go('demat')},corp:()=>advance(),pledge:()=>go('desk','pledge'),vote:()=>go('desk','evote'),scam:()=>go('shield')};(G[id]||(()=>go('home')))()},
+  // onboarding
+  obGo:d=>{state.ob=+d.n;save();render();window.scrollTo(0,0)},
+  obSample:()=>{ui.ob.f={name:state.lang==='hi'?'आशा वर्मा':'Asha Verma',pan:'ABCPV1234K',aad:'9876 5432 1098',mob:'9876543210',dob:'1995-08-15'};ui.ob.e={};render()},
+  obVerify:()=>{const e=validateKyc();ui.ob.e=e;if(Object.keys(e).length){render();const f=$('.err');if(f)f.scrollIntoView({block:'center'});return}
+    const f=ui.ob.f;state.kyc={name:f.name.trim(),pan:f.pan.trim(),aad:f.aad.replace(/\s/g,''),mob:f.mob.trim(),dob:f.dob};state.ob=2;toast(()=>t('ob.kycOk'),'xpt info');save();render();window.scrollTo(0,0)},
+  pickBroker:d=>{state.broker=d.b;save();render()},
+  obBroker:()=>{if(!state.broker)return;const b=BROKERS.find(x=>x.id===state.broker);let c='';for(let i=0;i<8;i++)c+=Math.floor(Math.random()*10);state.bo=b.dp+c;state.ob=3;save();render();window.scrollTo(0,0)},
+  obEnter:()=>{state.onb=true;ui.tab='home';sms('welcome');complete('open');save();render();window.scrollTo(0,0)},
+  // market
+  stock:d=>{dropModals(['stock']);const side=d.side||'buy';openModal({k:'stock',s:d.s,side,q:1},true)},
+  side:d=>{const m=ui.modals[0];m.side=d.v;m.q=1;renderModal()},
+  qty:d=>{const m=ui.modals[0];m.q=Math.max(1,(parseInt(m.q,10)||0)+(+d.n));renderModal()},
+  qmax:()=>{const m=ui.modals[0];m.q=Math.max(1,m.side==='buy'?Math.floor(state.cash/P(m.s)):freeQ(m.s));renderModal()},
+  order:()=>{const m=ui.modals[0];const c=ordCalc(m);if(c.err)return;if(m.side==='buy')doBuy(m.s,m.q);else startOtp('sell',{s:m.s,q:m.q})},
+  otpFill:()=>{const m=ui.modals[0];m.val=m.code;m.err='';renderModal()},
+  otpOk:()=>{const m=ui.modals[0];if(String(m.val).trim()!==m.code){m.err=t('err.otp');renderModal();return}if(m.pu==='sell')doSell(m.s,m.q);else doPledge(m.s,m.q)},
+  seg:d=>{ui.seg=d.s;render();if(d.s==='cas')viewCas()},
+  casM:d=>{ui.casM=d.m;render()},
+  // pledge
+  plOpen:d=>openModal({k:'pledge',s:d.s,q:freeQ(d.s)},true),
+  pq:d=>{const m=ui.modals[0];m.q=Math.max(1,Math.min(freeQ(m.s),(parseInt(m.q,10)||0)+(+d.n)));renderModal()},
+  pqmax:()=>{const m=ui.modals[0];m.q=freeQ(m.s);renderModal()},
+  plReq:()=>{const m=ui.modals[0];if(!(m.q>=1&&m.q<=freeQ(m.s)))return;startOtp('pledge',{s:m.s,q:m.q})},
+  unpl:d=>unpledge(d.s),
+  // nominee
+  nomAdd:()=>{ui.nomForm.push({n:'',r:'daughter',p:0});ui.nomErr='';render()},
+  nomDel:d=>{ui.nomForm.splice(+d.i,1);ui.nomErr='';render()},
+  nomEdit:()=>{ui.nomForm=state.nom.list.map(x=>Object.assign({},x));render()},
+  nomCancel:()=>{ui.nomForm=null;ui.nomErr='';render()},
+  nomSave:()=>{const fm=ui.nomForm;if(fm.some(x=>String(x.n).trim().length<2)){ui.nomErr=t('err.nomName');render();return}
+    if(nomTotal()!==100||fm.some(x=>!(parseInt(x.p,10)>0))){ui.nomErr=t('err.nomPct');render();return}
+    state.nom={st:'added',list:fm.map(x=>({n:String(x.n).trim(),r:x.r,p:parseInt(x.p,10)}))};ui.nomForm=null;ui.nomErr='';
+    addTx('nom');sms('nom');toast(()=>t('nm.saved'),'xpt info');if(state.m.nominee==null)openModal({k:'lesson',id:'nominee'});complete('nominee');save();render()},
+  nomSkip:()=>{if(state.nom.st!=='added')state.nom.st='skipped';ui.nomForm=null;ui.nomErr='';openModal({k:'lesson',id:'noNom'},true);save();render()},
+  npAdd:()=>{closeModal();go('desk','nominee')},
+  npSkip:()=>{closeModal();if(state.nom.st!=='added')state.nom.st='skipped';openModal({k:'lesson',id:'noNom'},true);save();render()},
+  // voting
+  vote:d=>openModal({k:'vote',s:d.s,c:d.c},true),
+  voteOk:()=>{const m=ui.modals[0];const h=state.hold[m.s];if(!h||state.votes[m.s])return closeModal();
+    state.votes[m.s]={c:m.c,q:h.q,d:state.day};addTx('vote',{s:m.s,c:m.c});dropModals(['vote']);toast(()=>t('vt.toast'),'xpt info');
+    if(state.m.vote==null)openModal({k:'lesson',id:'evote'});complete('vote');save();render()},
+  // scam
+  scamAns:d=>{if(state.scam.ans.length>=5)return;state.scam.ans.push(d.v);ui.scamFb=true;save();render();const fb=$('.fb');if(fb)fb.scrollIntoView({block:'center'})},
+  scamNext:()=>{ui.scamFb=false;const sc=state.scam;
+    if(sc.ans.length>=5){const score=sc.ans.filter((a,i)=>a===SCAM_ANS[i]).length;
+      if(!sc.done){sc.done=true;sc.score=score;openModal({k:'lesson',id:'scam'});if(score){state.xp+=score*5;toast(()=>t('xpToast',{n:score*5,m:t('sc.bonus')}),'xpt')}complete('scam')}
+      else sc.score=Math.max(sc.score,score)}
+    save();render();window.scrollTo(0,0)},
+  scamAgain:()=>{state.scam.ans=[];ui.scamFb=false;save();render();window.scrollTo(0,0)},
+  // reset
+  reset:()=>openModal({k:'reset'},true),
+  resetOk:()=>{const lang=state.lang;try{localStorage.removeItem(KEY)}catch(e){}state=fresh(lang);ui.tab='home';ui.sub=null;ui.seg='hold';ui.casM=null;ui.modals=[];ui.nomForm=null;ui.nomErr='';ui.scamFb=false;ui.ob={f:{name:'',pan:'',aad:'',mob:'',dob:''},e:{}};toasts.slice().forEach(o=>o.rm());tickKey='';save();render();window.scrollTo(0,0)}
+};
+const IN={
+  obf:el=>{let v=el.value;if(el.dataset.f==='pan'){v=v.toUpperCase();if(v!==el.value)el.value=v}ui.ob.f[el.dataset.f]=v},
+  qty:el=>{const m=ui.modals[0];if(!m)return;m.q=parseInt(el.value,10)||0;const c=ordCalc(m);$('#ordSum').innerHTML=ordSum(m,c);$('#ordBtn').disabled=!!c.err},
+  pq:el=>{const m=ui.modals[0];if(!m)return;m.q=parseInt(el.value,10)||0;$('#plSum').innerHTML=plSum(m);$('#plBtn').disabled=!(m.q>=1&&m.q<=freeQ(m.s))},
+  otp:el=>{const m=ui.modals[0];if(m)m.val=el.value.replace(/\D/g,'')},
+  nom:el=>{const x=ui.nomForm[+el.dataset.i];if(!x)return;x[el.dataset.f]=el.value;if(el.dataset.f==='p'){const n=$('#nomTot');if(n)n.innerHTML='<b>'+t('nm.total',{n:nomTotal()})+'</b>'}},
+  drop:el=>{ui.drop=+el.value;$('#dropL').textContent=t('pl.drop',{d:ui.drop});$('#riskOut').innerHTML=riskOut()}
+};
+document.addEventListener('click',ev=>{const el=ev.target.closest('[data-a]');if(!el||el.disabled)return;const fn=A[el.dataset.a];if(fn){fn(el.dataset,el,ev)}});
+document.addEventListener('input',ev=>{const el=ev.target;const k=el.dataset&&el.dataset.in;if(k&&IN[k])IN[k](el)});
+document.addEventListener('keydown',ev=>{
+  if(ev.key==='Escape'&&ui.modals.length){closeModal();return}
+  if(ev.key==='Enter'&&ev.target.dataset){const k=ev.target.dataset.in;if(k==='otp')A.otpOk();else if(k==='qty'&&!$('#ordBtn').disabled)A.order()}
+});
+
+render();
+</script>
+</body>
+</html>
